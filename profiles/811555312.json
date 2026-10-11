@@ -1,0 +1,151 @@
+{
+  "organization_number": "811555312",
+  "company_name": "HALDEN JEGER- OG VILLMARKSKLUBB",
+  "legal_form": "Forening/lag/innretning (FLI)",
+  "status": "Active",
+  "registered_date": "2013-02-14",
+  "address": "Ingerfjellveien 43, 1788, HALDEN, Norge",
+  "postal_address": null,
+  "municipality": "HALDEN",
+  "website": null,
+  "email": "stein.wilhelmsen@halden.kommune.no",
+  "phone": null,
+  "industry_code": "94.992",
+  "industry_description": "Aktiviteter i andre medlemsorganisasjoner ellers",
+  "employees": null,
+  "sector": "Ideelle organisasjoner",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": "Stein Aake Wilhelmsen",
+  "board_members": [
+    "Stein Aake Wilhelmsen (Styre)",
+    "Petter Sørsdahl (Styre)",
+    "Pål Haugland (Styre)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:18:02.600072",
+  "profile_updated_at": "2026-10-11T17:18:02.600080",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "HALDEN JEGER- OG VILLMARKSKLUBB",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Forening/lag/innretning (FLI)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-02-14",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Ingerfjellveien 43, 1788, HALDEN, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "HALDEN",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "stein.wilhelmsen@halden.kommune.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "94.992",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i andre medlemsorganisasjoner ellers",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Ideelle organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Stein Aake Wilhelmsen",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811555312/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Stein Aake Wilhelmsen (Styre)",
+        "Petter Sørsdahl (Styre)",
+        "Pål Haugland (Styre)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811555312/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.733,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

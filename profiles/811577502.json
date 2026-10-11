@@ -1,0 +1,153 @@
+{
+  "organization_number": "811577502",
+  "company_name": "BRØNNØY BARNETEATER",
+  "legal_form": "Forening/lag/innretning (FLI)",
+  "status": "Active",
+  "registered_date": "2013-03-04",
+  "address": "c/o Randi Einarsen, Engveien 4, 8900, BRØNNØYSUND, Norge",
+  "postal_address": null,
+  "municipality": "BRØNNØY",
+  "website": null,
+  "email": "raneinar@online.no",
+  "phone": null,
+  "industry_code": "90.202",
+  "industry_description": "Utøvende kunstnerisk virksomhet og underholdningsvirksomhet innenfor scenekunst",
+  "employees": null,
+  "sector": "Ideelle organisasjoner",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": "Randi Einarsen",
+  "board_members": [
+    "Randi Einarsen (Styre)",
+    "Kristine Elisabeth Johansen (Styre)",
+    "Rachel Elisabeth Aune (Styre)",
+    "Torgeir Lillehorn (Styre)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:20:18.974415",
+  "profile_updated_at": "2026-10-11T17:20:18.974426",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "BRØNNØY BARNETEATER",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Forening/lag/innretning (FLI)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-03-04",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "c/o Randi Einarsen, Engveien 4, 8900, BRØNNØYSUND, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "BRØNNØY",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "raneinar@online.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "90.202",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Utøvende kunstnerisk virksomhet og underholdningsvirksomhet innenfor scenekunst",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Ideelle organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Randi Einarsen",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811577502/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Randi Einarsen (Styre)",
+        "Kristine Elisabeth Johansen (Styre)",
+        "Rachel Elisabeth Aune (Styre)",
+        "Torgeir Lillehorn (Styre)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811577502/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.733,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

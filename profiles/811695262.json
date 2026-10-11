@@ -1,0 +1,218 @@
+{
+  "organization_number": "811695262",
+  "company_name": "STIFTELSEN ISLAMSK OPPLÆRING OG KULTURHUS",
+  "legal_form": "Stiftelse (STI)",
+  "status": "Active",
+  "registered_date": "2013-04-06",
+  "address": "Bergsagelveien 9, 4016, STAVANGER, Norge",
+  "postal_address": "Postboks 123, 4001, STAVANGER, Norge",
+  "municipality": "STAVANGER",
+  "website": null,
+  "email": "nur.ali@vegvesen.no",
+  "phone": "51 63 10 63",
+  "industry_code": "68.320",
+  "industry_description": "Eiendomsforvaltning på oppdrag",
+  "employees": null,
+  "sector": "Ideelle organisasjoner",
+  "revenue": null,
+  "operating_profit": -17271.0,
+  "net_income": -17271.0,
+  "total_assets": 7139867.0,
+  "equity": 7139867.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": "Mohamed Nur Ali",
+  "board_members": [
+    "Mohamed Ali Mubarak (Styre)",
+    "Mohamoud Hersi (Styre)",
+    "Mammar Tammaoui (Styre)",
+    "Abdulqadir Mohammad Alasoow (Styre)",
+    "Salhadin Ali (Styre)",
+    "Kassem Ayoub (Styre)",
+    "Nur Ali Ibrahim (Styre)",
+    "Ahmed Hassan Ahmed (Styre)",
+    "INTER REVISOR AS (Revisor)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:28:45.953478",
+  "profile_updated_at": "2026-10-11T17:28:45.953487",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "STIFTELSEN ISLAMSK OPPLÆRING OG KULTURHUS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Stiftelse (STI)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-06",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Bergsagelveien 9, 4016, STAVANGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "STAVANGER",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "Postboks 123, 4001, STAVANGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "nur.ali@vegvesen.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "51 63 10 63",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "68.320",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Eiendomsforvaltning på oppdrag",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Ideelle organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Mohamed Nur Ali",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811695262/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Mohamed Ali Mubarak (Styre)",
+        "Mohamoud Hersi (Styre)",
+        "Mammar Tammaoui (Styre)",
+        "Abdulqadir Mohammad Alasoow (Styre)",
+        "Salhadin Ali (Styre)",
+        "Kassem Ayoub (Styre)",
+        "Nur Ali Ibrahim (Styre)",
+        "Ahmed Hassan Ahmed (Styre)",
+        "INTER REVISOR AS (Revisor)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811695262/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": -17271.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811695262",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": -17271.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811695262",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 7139867.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811695262",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 7139867.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811695262",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    }
+  ],
+  "confidence_score": 0.729,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)"
+  ]
+}

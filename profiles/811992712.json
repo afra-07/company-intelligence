@@ -1,0 +1,208 @@
+{
+  "organization_number": "811992712",
+  "company_name": "VILLANGER TRAFIKKSKOLE AS",
+  "legal_form": "Aksjeselskap (AS)",
+  "status": "Active",
+  "registered_date": "2013-05-29",
+  "address": "Kvernhushaugane 12, 5914, ISDALSTØ, Norge",
+  "postal_address": null,
+  "municipality": "ALVER",
+  "website": null,
+  "email": "villanger@hotmail.no",
+  "phone": null,
+  "industry_code": "85.531",
+  "industry_description": "Undervisning ved godkjente trafikkskoler",
+  "employees": 17,
+  "sector": "Private aksjeselskaper mv.",
+  "revenue": 21635759.0,
+  "operating_profit": 1302059.0,
+  "net_income": 642022.0,
+  "total_assets": 17690831.0,
+  "equity": 5462432.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": "Håvard Villanger",
+  "board_members": [
+    "Håvard Villanger (Styre)",
+    "Jarle Villanger (Styre)",
+    "Else Villanger (Styre)",
+    "CEDRA NORGE AS (Revisor)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:58:43.074004",
+  "profile_updated_at": "2026-10-11T17:58:43.074012",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "VILLANGER TRAFIKKSKOLE AS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Aksjeselskap (AS)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-05-29",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Kvernhushaugane 12, 5914, ISDALSTØ, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "ALVER",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "villanger@hotmail.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "85.531",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Undervisning ved godkjente trafikkskoler",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "employees",
+      "fact_value": 17,
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Private aksjeselskaper mv.",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Håvard Villanger",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811992712/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Håvard Villanger (Styre)",
+        "Jarle Villanger (Styre)",
+        "Else Villanger (Styre)",
+        "CEDRA NORGE AS (Revisor)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811992712/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "revenue",
+      "fact_value": 21635759.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811992712",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": 1302059.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811992712",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": 642022.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811992712",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 17690831.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811992712",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 5462432.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811992712",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    }
+  ],
+  "confidence_score": 0.861,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)"
+  ]
+}

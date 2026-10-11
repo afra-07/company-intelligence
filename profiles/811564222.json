@@ -1,0 +1,205 @@
+{
+  "organization_number": "811564222",
+  "company_name": "TORGHALLEN BODØ AS",
+  "legal_form": "Aksjeselskap (AS)",
+  "status": "Active",
+  "registered_date": "2013-02-13",
+  "address": "Storgata 8, 8006, BODØ, Norge",
+  "postal_address": "Postboks 710, 8001, BODØ, Norge",
+  "municipality": "BODØ",
+  "website": "https://www.tkeiendom.no",
+  "email": null,
+  "phone": "75 54 01 20",
+  "industry_code": "68.320",
+  "industry_description": "Eiendomsforvaltning på oppdrag",
+  "employees": null,
+  "sector": "Private aksjeselskaper mv.",
+  "revenue": null,
+  "operating_profit": -52366.0,
+  "net_income": 1203270.0,
+  "total_assets": 12163682.0,
+  "equity": 624044.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": null,
+  "board_members": [
+    "Line Olsen (Styre)",
+    "CEDRA NORGE AS (Revisor)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:18:57.312956",
+  "profile_updated_at": "2026-10-11T17:18:57.312966",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "TORGHALLEN BODØ AS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Aksjeselskap (AS)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-02-13",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Storgata 8, 8006, BODØ, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "BODØ",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "Postboks 710, 8001, BODØ, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.tkeiendom.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "75 54 01 20",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "68.320",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Eiendomsforvaltning på oppdrag",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Private aksjeselskaper mv.",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Line Olsen (Styre)",
+        "CEDRA NORGE AS (Revisor)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811564222/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": -52366.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811564222",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": 1203270.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811564222",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 12163682.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811564222",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 624044.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811564222",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.tkeiendom.no",
+      "source_name": "Web search",
+      "source_url": "https://www.tkeiendom.no",
+      "date_checked": "2026-10-11",
+      "confidence": 0.6,
+      "method": "serp_search"
+    }
+  ],
+  "confidence_score": 0.72,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)",
+    "Company website (https://www.tkeiendom.no)"
+  ]
+}

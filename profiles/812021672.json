@@ -1,0 +1,234 @@
+{
+  "organization_number": "812021672",
+  "company_name": "THAMSGATENS PARKERINGSHUS AS",
+  "legal_form": "Aksjeselskap (AS)",
+  "status": "Active",
+  "registered_date": "2013-06-22",
+  "address": "c/o Drammen Eiendom KF, Hans Kiærs gate 1E, 3041, DRAMMEN, Norge",
+  "postal_address": "c/o Drammen Eiendom KF, Postboks 450 Brakerøya, 3002, DRAMMEN, Norge",
+  "municipality": "DRAMMEN",
+  "website": "https://www.dekf.no",
+  "email": "dekf@drammen.kommune.no",
+  "phone": "32 04 30 00",
+  "industry_code": "52.212",
+  "industry_description": "Drift av parkeringsplasser og parkeringshus",
+  "employees": null,
+  "sector": "Kommunalt eide aksjeselskaper mv.",
+  "revenue": 16532420.0,
+  "operating_profit": 11093990.0,
+  "net_income": 7644156.0,
+  "total_assets": 109922624.0,
+  "equity": 59830691.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": "Gjermund Brekke",
+  "board_members": [
+    "George Harold Fulford (Styre)",
+    "Gjermund Brekke (Styre)",
+    "CEDRA NORGE AS (Revisor)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T18:01:09.542777",
+  "profile_updated_at": "2026-10-11T18:01:09.542789",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "THAMSGATENS PARKERINGSHUS AS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Aksjeselskap (AS)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-06-22",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "c/o Drammen Eiendom KF, Hans Kiærs gate 1E, 3041, DRAMMEN, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "DRAMMEN",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "c/o Drammen Eiendom KF, Postboks 450 Brakerøya, 3002, DRAMMEN, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.dekf.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "dekf@drammen.kommune.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "32 04 30 00",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "52.212",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Drift av parkeringsplasser og parkeringshus",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Kommunalt eide aksjeselskaper mv.",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Gjermund Brekke",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/812021672/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "George Harold Fulford (Styre)",
+        "Gjermund Brekke (Styre)",
+        "CEDRA NORGE AS (Revisor)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/812021672/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "revenue",
+      "fact_value": 16532420.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/812021672",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": 11093990.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/812021672",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": 7644156.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/812021672",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 109922624.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/812021672",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 59830691.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/812021672",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.dekf.no",
+      "source_name": "Web search",
+      "source_url": "https://www.dekf.no",
+      "date_checked": "2026-10-11",
+      "confidence": 0.6,
+      "method": "serp_search"
+    }
+  ],
+  "confidence_score": 0.854,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)",
+    "Company website (https://www.dekf.no)"
+  ]
+}

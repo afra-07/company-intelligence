@@ -1,0 +1,210 @@
+{
+  "organization_number": "811836982",
+  "company_name": "EXSTO OFFSHOREUTDANNING AS",
+  "legal_form": "Aksjeselskap (AS)",
+  "status": "Active",
+  "registered_date": "2013-04-18",
+  "address": "Stiklestadveien 1, 7041, TRONDHEIM, Norge",
+  "postal_address": "c/o Exsto Holding AS, Stiklestadveien 1, 7041, TRONDHEIM, Norge",
+  "municipality": "TRONDHEIM",
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "85.597",
+  "industry_description": "Annen undervisning ellers",
+  "employees": 11,
+  "sector": "Private aksjeselskaper mv.",
+  "revenue": 34226977.0,
+  "operating_profit": -65343.0,
+  "net_income": -50585.0,
+  "total_assets": 6942300.0,
+  "equity": 1028042.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": "Espen Svebak",
+  "board_members": [
+    "Geir Hatling (Styre)",
+    "Espen Svebak (Styre)",
+    "Per Svebak (Styre)",
+    "BORG REVISJON AS (Revisor)",
+    "VALUE FREDRIKSTAD AS (Regnskapsfører)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:42:11.301783",
+  "profile_updated_at": "2026-10-11T17:42:11.301800",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "EXSTO OFFSHOREUTDANNING AS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Aksjeselskap (AS)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-18",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Stiklestadveien 1, 7041, TRONDHEIM, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "TRONDHEIM",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "c/o Exsto Holding AS, Stiklestadveien 1, 7041, TRONDHEIM, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "85.597",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Annen undervisning ellers",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "employees",
+      "fact_value": 11,
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Private aksjeselskaper mv.",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Espen Svebak",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811836982/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Geir Hatling (Styre)",
+        "Espen Svebak (Styre)",
+        "Per Svebak (Styre)",
+        "BORG REVISJON AS (Revisor)",
+        "VALUE FREDRIKSTAD AS (Regnskapsfører)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811836982/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "revenue",
+      "fact_value": 34226977.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811836982",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": -65343.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811836982",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": -50585.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811836982",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 6942300.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811836982",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 1028042.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811836982",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    }
+  ],
+  "confidence_score": 0.861,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)"
+  ]
+}

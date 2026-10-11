@@ -1,0 +1,138 @@
+{
+  "organization_number": "811594512",
+  "company_name": "FOTOGRAF ØYVIND BLOMSTERENG",
+  "legal_form": "Enkeltpersonforetak (ENK)",
+  "status": "Active",
+  "registered_date": "2013-03-09",
+  "address": "Smedstuveien 13A, 7040, TRONDHEIM, Norge",
+  "postal_address": null,
+  "municipality": "TRONDHEIM",
+  "website": null,
+  "email": null,
+  "phone": "73 92 01 85",
+  "industry_code": "74.200",
+  "industry_description": "Fotografvirksomhet",
+  "employees": null,
+  "sector": "Personlig næringsdrivende",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Øyvind Blomstereng (Innehaver)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:21:42.182419",
+  "profile_updated_at": "2026-10-11T17:21:42.182427",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "FOTOGRAF ØYVIND BLOMSTERENG",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Enkeltpersonforetak (ENK)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-03-09",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Smedstuveien 13A, 7040, TRONDHEIM, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "TRONDHEIM",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "73 92 01 85",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "74.200",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Fotografvirksomhet",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Personlig næringsdrivende",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Øyvind Blomstereng (Innehaver)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811594512/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

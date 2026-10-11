@@ -1,0 +1,174 @@
+{
+  "organization_number": "811800872",
+  "company_name": "HYGGEVEIEN 5 A-G SAMEIE",
+  "legal_form": "Eierseksjonssameie (ESEK)",
+  "status": "Active",
+  "registered_date": "2013-05-04",
+  "address": "OBOS Eiendomsforvaltning AS, Hammersborg torg 1, 0179, OSLO, Norge",
+  "postal_address": "v/OBOS Eiendomsforvaltning AS, Postboks 6666 St Olavs Plass, 0129, OSLO, Norge",
+  "municipality": "OSLO",
+  "website": "https://www.obos.no",
+  "email": "obos@obos.no",
+  "phone": "02333",
+  "industry_code": "97.001",
+  "industry_description": "Aktiviteter i borettslag og boligsameier",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "OBOS EIENDOMSFORVALTNING AS (Forretningsfører)",
+    "Lennart Lie-Havstein (Styre)",
+    "Joakim Francis Johansson-Merrick (Styre)",
+    "Thomas Alexander Høiby (Styre)",
+    "OBOS EIENDOMSFORVALTNING AS (Regnskapsfører)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:38:46.499802",
+  "profile_updated_at": "2026-10-11T17:38:46.499813",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "HYGGEVEIEN 5 A-G SAMEIE",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Eierseksjonssameie (ESEK)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-05-04",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "OBOS Eiendomsforvaltning AS, Hammersborg torg 1, 0179, OSLO, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "OSLO",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "v/OBOS Eiendomsforvaltning AS, Postboks 6666 St Olavs Plass, 0129, OSLO, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.obos.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "obos@obos.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "02333",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "97.001",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i borettslag og boligsameier",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "OBOS EIENDOMSFORVALTNING AS (Forretningsfører)",
+        "Lennart Lie-Havstein (Styre)",
+        "Joakim Francis Johansson-Merrick (Styre)",
+        "Thomas Alexander Høiby (Styre)",
+        "OBOS EIENDOMSFORVALTNING AS (Regnskapsfører)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811800872/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.obos.no",
+      "source_name": "Web search",
+      "source_url": "https://www.obos.no",
+      "date_checked": "2026-10-11",
+      "confidence": 0.6,
+      "method": "serp_search"
+    }
+  ],
+  "confidence_score": 0.722,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Company website (https://www.obos.no)"
+  ]
+}

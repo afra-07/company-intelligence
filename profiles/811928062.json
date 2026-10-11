@@ -1,0 +1,196 @@
+{
+  "organization_number": "811928062",
+  "company_name": "SAMEIET SKOLEGATA 5, BREKSTAD",
+  "legal_form": "Eierseksjonssameie (ESEK)",
+  "status": "Active",
+  "registered_date": "2013-05-15",
+  "address": "Storgata 12, 2212, KONGSVINGER, Norge",
+  "postal_address": "Postboks 8, 2201, KONGSVINGER, Norge",
+  "municipality": "KONGSVINGER",
+  "website": null,
+  "email": "adm@kobbl.no",
+  "phone": null,
+  "industry_code": "97.001",
+  "industry_description": "Aktiviteter i borettslag og boligsameier",
+  "employees": null,
+  "sector": null,
+  "revenue": 540245.0,
+  "operating_profit": 27962.0,
+  "net_income": 27490.0,
+  "total_assets": 235824.0,
+  "equity": -34224.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": null,
+  "board_members": [
+    "KONGSVINGER OG OMEGNS BOLIGBYGGELAG AL (Forretningsfører)",
+    "Hallgeir Grøntvedt (Styre)",
+    "Hayati Yasar (Styre)",
+    "Emilie Groven (Styre)",
+    "ALL REVISJON AS (Revisor)",
+    "BDO AS (Revisor)",
+    "KONGSVINGER OG OMEGNS BOLIGBYGGELAG AL (Regnskapsfører)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:50:55.630501",
+  "profile_updated_at": "2026-10-11T17:50:55.630508",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "SAMEIET SKOLEGATA 5, BREKSTAD",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Eierseksjonssameie (ESEK)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-05-15",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Storgata 12, 2212, KONGSVINGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "KONGSVINGER",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "Postboks 8, 2201, KONGSVINGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "adm@kobbl.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "97.001",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i borettslag og boligsameier",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "KONGSVINGER OG OMEGNS BOLIGBYGGELAG AL (Forretningsfører)",
+        "Hallgeir Grøntvedt (Styre)",
+        "Hayati Yasar (Styre)",
+        "Emilie Groven (Styre)",
+        "ALL REVISJON AS (Revisor)",
+        "BDO AS (Revisor)",
+        "KONGSVINGER OG OMEGNS BOLIGBYGGELAG AL (Regnskapsfører)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811928062/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "revenue",
+      "fact_value": 540245.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811928062",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": 27962.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811928062",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": 27490.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811928062",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 235824.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811928062",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": -34224.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/811928062",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    }
+  ],
+  "confidence_score": 0.727,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)"
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "organization_number": "811547042",
+  "company_name": "ARNT-LENNART MARTINSEN",
+  "legal_form": "Enkeltpersonforetak (ENK)",
+  "status": "Active",
+  "registered_date": "2013-02-27",
+  "address": "Nedre Dalveien 12, 8430, MYRE, Norge",
+  "postal_address": null,
+  "municipality": "ØKSNES",
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "03.110",
+  "industry_description": "Fiske og fangst i sjø",
+  "employees": null,
+  "sector": "Personlig næringsdrivende",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Arnt Lennart Martinsen (Innehaver)",
+    "MYRE REGNSKAP AS (Regnskapsfører)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:17:37.341975",
+  "profile_updated_at": "2026-10-11T17:17:37.341984",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "ARNT-LENNART MARTINSEN",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Enkeltpersonforetak (ENK)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-02-27",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Nedre Dalveien 12, 8430, MYRE, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "ØKSNES",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "03.110",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Fiske og fangst i sjø",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Personlig næringsdrivende",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Arnt Lennart Martinsen (Innehaver)",
+        "MYRE REGNSKAP AS (Regnskapsfører)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811547042/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

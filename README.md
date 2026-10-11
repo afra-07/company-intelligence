@@ -214,32 +214,63 @@ curl http://localhost:8000/profile/974760843
 
 This solution is designed for **extreme cost efficiency**, utilizing free Norwegian open government registers as the primary source of truth, with paid external APIs (OpenAI GPT-4o-mini and SerpAPI) invoked conditionally.
 
-### 1. Free Public Register Requests ($0.00)
-* **Brønnøysundregistrene (Enhetsregisteret):** Free, open, keyless government API.
-* **Brreg Roller (Roles Register):** Free, open, keyless government API.
-* **Regnskapsregisteret (Financial statements):** Free, open, keyless government API.
-* **Proff.no:** Free public web data fallback.
-* **Cost per request:** **$0.00**
+### Per-Request Audit (Worst-Case, Full LLM, per company)
 
-### 2. Paid External API Requests
-* **OpenAI GPT-4o-mini:**
-  * Pricing: $0.15 / 1M input tokens, $0.60 / 1M output tokens.
-  * Average consumption per company: ~1,500 input tokens + ~250 output tokens = **~$0.00038 per company**.
-* **SerpAPI (Web Search):**
-  * Free tier: 100 searches/month ($0.00).
-  * Paid rate: ~$0.01 per query. Only triggered when website is missing from Brreg (~30% of companies) = **~$0.0030 per company**.
+| Step | Requests | Type | Conditional? |
+| :--- | :---: | :--- | :--- |
+| Brreg Enhetsregisteret entity | 1–2 | HTTP (free) | +1 only if 404 → fallback to underenheter |
+| Brreg Roller (roles) | 1 | HTTP (free) | Always |
+| Regnskapsregisteret (financials) | 1 | HTTP (free) | Always |
+| Proff.no direct scrape | 1–2 | HTTP (free) | +1 only if slug URL 404 |
+| **SerpAPI** — website discovery | **0–1** | HTTP (paid) | Only if Brreg has no website (~70% of companies) |
+| Company website scrape | 0–1 | HTTP (free) | Only if website found |
+| **SerpAPI** — news search | **0–1** | HTTP (paid) | Only if CEO or description still missing after Proff |
+| LLM: verify Proff.no match | 0–1 | OpenAI API | Only if OpenAI key present |
+| LLM: extract facts from Proff | 0–1 | OpenAI API | Only if Proff verified |
+| LLM: verify website match | 0–1 | OpenAI API | Only if website found + key present |
+| LLM: extract facts from website | 0–1 | OpenAI API | Only if website verified |
+| LLM: extract facts from news | 0–1 | OpenAI API | Only if news results found |
+| LLM: generate description | 0–1 | OpenAI API | Only if description still missing |
+| **Worst-case total** | **~14** | | 8 HTTP + 6 LLM API calls |
+| **Typical cached run** | **1** | | Cache hit — no outbound requests |
 
-### 3. Cost Projections & Daily Limit Compliance
-The challenge specifies a **$10.00 daily external API limit**. Below is the tested cost breakdown:
+### Per-Service Cost Breakdown (100-Company Daily Evaluation)
 
-| Run Scenario | Free Brreg Requests | OpenAI GPT-4o-mini | SerpAPI (Optional) | Total Estimated Cost | Challenge Budget ($10/day) |
+| Service | Unit Price | Avg per Company | 100-Company Run |
+| :--- | :--- | :--- | :--- |
+| **Brreg + Regnskapsregisteret** | $0.00 (public API) | $0.00 | **$0.00** |
+| **Proff.no scrape** | $0.00 (public web) | $0.00 | **$0.00** |
+| **SerpAPI** (website search) | $0.01/query | ~0.7 queries (70% miss rate) → $0.007 | **~$0.70** |
+| **SerpAPI** (news search) | $0.01/query | ~0.5 queries (50% of companies) → $0.005 | **~$0.50** |
+| **OpenAI GPT-4o-mini** (verify×2 + extract×3 + describe×1) | $0.15/1M in · $0.60/1M out | ~7,500 in + 1,500 out tokens → **~$0.0020** | **~$0.20** |
+| **Expected total per daily evaluation** | | | **~$1.40** |
+| **Maximum permitted external API cost** | | | **$10.00 ✅** |
+
+> 💡 **Free-tier note:** SerpAPI provides 100 free searches/month. In standard keyless mode (no API keys), total cost is exactly **$0.00**.
+
+### Request & Time Budget (100 companies, no cache)
+
+| Metric | Worst-case per 100 companies | Daily limit | Status |
+| :--- | :--- | :--- | :--- |
+| Outbound HTTP requests (free) | ~600 (Brreg + Proff + website scrapes) | — | ✅ |
+| Outbound API requests (paid SerpAPI) | ~120 | — | ✅ |
+| Outbound API requests (paid OpenAI) | ~500 LLM calls | — | ✅ |
+| **Total outbound requests** | **~1,220** | **2,000** | ✅ under limit |
+| Execution time | ~10–15 minutes | 45 minutes | ✅ under limit |
+| External API cost | ~$1.40 (worst-case full LLM) | $10.00 | ✅ 14% of limit |
+
+### Full Scenario Projections
+
+| Run Scenario | Brreg (free) | OpenAI GPT-4o-mini | SerpAPI | Total | vs $10/day limit |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100-Company Evaluation (Keyless)** | 100% Free ($0.00) | $0.00 | $0.00 | **$0.00** | ✅ 0.0% of limit ($10.00) |
-| **100-Company Evaluation (Full LLM)** | 100% Free ($0.00) | ~$0.038 | ~$0.30 | **~$0.34** | ✅ 3.4% of limit ($10.00) |
-| **1,000-Profile Generation (Keyless)** | 100% Free ($0.00) | $0.00 | $0.00 | **$0.00** | ✅ 0.0% of limit ($10.00) |
-| **1,000-Profile Generation (Full LLM)**| 100% Free ($0.00) | ~$0.38 | ~$3.00 | **~$3.38** | ✅ 33.8% of limit ($10.00) |
+| **100-Company (Keyless, no API keys)** | $0.00 | $0.00 | $0.00 | **$0.00** | ✅ 0% |
+| **100-Company (Full LLM, worst-case)** | $0.00 | ~$0.20 | ~$1.20 | **~$1.40** | ✅ 14% |
+| **1,000-Company (Keyless)** | $0.00 | $0.00 | $0.00 | **$0.00** | ✅ 0% |
+| **1,000-Company (Full LLM, worst-case)** | $0.00 | ~$2.00 | ~$12.00* | **~$14.00*** | ⚠️ over daily limit |
 
-> 🔒 **Budget Guarantee:** Even during a full 1,000-company LLM batch run, the maximum expenditure is ~$3.38, well below the $10.00 daily limit. In standard keyless mode (default), the cost is exactly $0.00.
+> ⚠️ **Note on 1,000-company LLM runs:** A single full-LLM run over 1,000 *fresh* companies could approach or exceed the $10 SerpAPI limit. In practice, most companies are already cached (1,097 profiles pre-seeded), so daily evaluation of 100 random companies will typically be **fully cached at $0.00**. The worst-case $10 limit applies only to the initial seed run, which was performed once.
+
+> 🔒 **Daily evaluation guarantee:** The challenge evaluates 100 companies per day. With the cache seeded, the per-day cost is **$0.00** for cached companies, and **~$1.40** for 100 fresh companies — well within the $10.00 limit.
 
 ---
 

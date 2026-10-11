@@ -1,0 +1,134 @@
+{
+  "organization_number": "812042602",
+  "company_name": "RIVERDALEN BUSTADSAMEIGE",
+  "legal_form": "Eierseksjonssameie (ESEK)",
+  "status": "Active",
+  "registered_date": "2013-06-27",
+  "address": "Reinevegen 3, 6863, LEIKANGER, Norge",
+  "postal_address": null,
+  "municipality": "SOGNDAL",
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "97.001",
+  "industry_description": "Aktiviteter i borettslag og boligsameier",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Odd Magne Grinde (Styre)",
+    "Kirsten Knudsen (Styre)",
+    "Johannes Ugulsvik (Styre)",
+    "Ellen Torbjørg Hamre (Styre)",
+    "Jan Reidar Njøs (Styre)",
+    "Wenche Synnøve Steigård (Styre)",
+    "Marit Lovise Velle (Styre)",
+    "Ingfrid Bjørk (Styre)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T18:02:53.640206",
+  "profile_updated_at": "2026-10-11T18:02:53.640213",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "RIVERDALEN BUSTADSAMEIGE",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Eierseksjonssameie (ESEK)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-06-27",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Reinevegen 3, 6863, LEIKANGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "SOGNDAL",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "97.001",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i borettslag og boligsameier",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Odd Magne Grinde (Styre)",
+        "Kirsten Knudsen (Styre)",
+        "Johannes Ugulsvik (Styre)",
+        "Ellen Torbjørg Hamre (Styre)",
+        "Jan Reidar Njøs (Styre)",
+        "Wenche Synnøve Steigård (Styre)",
+        "Marit Lovise Velle (Styre)",
+        "Ingfrid Bjørk (Styre)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/812042602/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

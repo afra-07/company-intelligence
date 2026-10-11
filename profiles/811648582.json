@@ -1,0 +1,164 @@
+{
+  "organization_number": "811648582",
+  "company_name": "VIGRA KRISTELEGE UNGDOMSLAG",
+  "legal_form": "Forening/lag/innretning (FLI)",
+  "status": "Active",
+  "registered_date": "2013-03-16",
+  "address": "Kyrkjevegen 651, 6040, VIGRA, Norge",
+  "postal_address": "c/o Odd-Helge Oksavik Juva, Aglasgjerdet 11, 6040, VIGRA, Norge",
+  "municipality": "GISKE",
+  "website": "https://www.vigrabedehus.no",
+  "email": "oddhelge99@msn.com",
+  "phone": null,
+  "industry_code": "94.910",
+  "industry_description": "Aktiviteter i religiøse organisasjoner",
+  "employees": null,
+  "sector": "Ideelle organisasjoner",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Andreas Giskeødegård (Styre)",
+    "Anna Mathea Synnes (Styre)",
+    "Daniel Valen (Styre)",
+    "Elias Johan Fylling (Styre)",
+    "Salome Annine Nordstrand (Styre)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:25:22.150060",
+  "profile_updated_at": "2026-10-11T17:25:22.150067",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "VIGRA KRISTELEGE UNGDOMSLAG",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Forening/lag/innretning (FLI)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-03-16",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Kyrkjevegen 651, 6040, VIGRA, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "GISKE",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "c/o Odd-Helge Oksavik Juva, Aglasgjerdet 11, 6040, VIGRA, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.vigrabedehus.no",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "oddhelge99@msn.com",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "94.910",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i religiøse organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Ideelle organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Andreas Giskeødegård (Styre)",
+        "Anna Mathea Synnes (Styre)",
+        "Daniel Valen (Styre)",
+        "Elias Johan Fylling (Styre)",
+        "Salome Annine Nordstrand (Styre)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811648582/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.733,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

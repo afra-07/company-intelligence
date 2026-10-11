@@ -1,0 +1,113 @@
+{
+  "organization_number": "811701602",
+  "company_name": "SIMPEL AB",
+  "legal_form": "Norskregistrert utenlandsk foretak (NUF)",
+  "status": "Active",
+  "registered_date": "2013-04-06",
+  "address": "Nordsuddsvägen 4, SE-553 03 JÖNKÖPING, Sverige",
+  "postal_address": null,
+  "municipality": null,
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "78.200",
+  "industry_description": "Utleie av arbeidskraft og andre personaladministrative tjenester",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Maria Jadranka Perisa (Kontaktperson)",
+    "RIV- OCH SANERINGSPROFFSEN I SMÅLAND AB (Hovedforetak)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:29:42.701659",
+  "profile_updated_at": "2026-10-11T17:29:42.701664",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "SIMPEL AB",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Norskregistrert utenlandsk foretak (NUF)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-06",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Nordsuddsvägen 4, SE-553 03 JÖNKÖPING, Sverige",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "78.200",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Utleie av arbeidskraft og andre personaladministrative tjenester",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Maria Jadranka Perisa (Kontaktperson)",
+        "RIV- OCH SANERINGSPROFFSEN I SMÅLAND AB (Hovedforetak)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811701602/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

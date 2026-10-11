@@ -1,0 +1,150 @@
+{
+  "organization_number": "811798002",
+  "company_name": "GJØVIK FRISBEEKLUBB",
+  "legal_form": "Forening/lag/innretning (FLI)",
+  "status": "Active",
+  "registered_date": "2014-12-16",
+  "address": null,
+  "postal_address": "c/o Ronny Graskopf, Mellemvegen 5, 2819, GJØVIK, Norge",
+  "municipality": null,
+  "website": "https://www.facebook.com/groups/295479887241272",
+  "email": "gjovikfrisbee@outlook.com",
+  "phone": null,
+  "industry_code": "93.120",
+  "industry_description": "Aktiviteter i idrettslag og -klubber",
+  "employees": null,
+  "sector": "Ideelle organisasjoner",
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "Ronny Graskopf (Styre)",
+    "Frode Harnes (Styre)",
+    "Stian Larsen (Styre)",
+    "Tor Arne Eriksrud (Styre)",
+    "Daniel Sebastian Johnsen (Styre)",
+    "Eirik Arnesen (Styre)",
+    "Bjørn Romskaug (Styre)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:38:26.261041",
+  "profile_updated_at": "2026-10-11T17:38:26.261047",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "GJØVIK FRISBEEKLUBB",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Forening/lag/innretning (FLI)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2014-12-16",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "c/o Ronny Graskopf, Mellemvegen 5, 2819, GJØVIK, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.facebook.com/groups/295479887241272",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "email",
+      "fact_value": "gjovikfrisbee@outlook.com",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "93.120",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Aktiviteter i idrettslag og -klubber",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Ideelle organisasjoner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Ronny Graskopf (Styre)",
+        "Frode Harnes (Styre)",
+        "Stian Larsen (Styre)",
+        "Tor Arne Eriksrud (Styre)",
+        "Daniel Sebastian Johnsen (Styre)",
+        "Eirik Arnesen (Styre)",
+        "Bjørn Romskaug (Styre)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811798002/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

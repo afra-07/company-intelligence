@@ -1,0 +1,256 @@
+{
+  "organization_number": "923609016",
+  "company_name": "EQUINOR ASA",
+  "legal_form": "Allmennaksjeselskap (ASA)",
+  "status": "Active",
+  "registered_date": "1995-03-12",
+  "address": "Forusbeen 50, 4035, STAVANGER, Norge",
+  "postal_address": "Postboks 8500, 4035, STAVANGER, Norge",
+  "municipality": "STAVANGER",
+  "website": "https://www.equinor.com",
+  "email": null,
+  "phone": "51 99 00 00",
+  "industry_code": "06.100",
+  "industry_description": "Utvinning av råolje",
+  "employees": 21272,
+  "sector": "Statlig eide aksjeselskaper mv.",
+  "revenue": 106462000000.0,
+  "operating_profit": 25353000000.0,
+  "net_income": 5058000000.0,
+  "total_assets": 131727000000.0,
+  "equity": 40497000000.0,
+  "financial_year": 2025,
+  "financials_status": "found",
+  "ceo": "Anders Opedal",
+  "board_members": [
+    "Jarle Kjell Roth (Styre)",
+    "Finn Bjørn Ruyter (Styre)",
+    "Haakon Stephen Bruun-Hanssen (Styre)",
+    "Fernanda Lopes Larsen (Styre)",
+    "Hilde Møllerstad (Styre)",
+    "Frank Gundersen (Styre)",
+    "Geir Leon Vadheim (Styre)",
+    "Anne Drinkwater (Styre)",
+    "Mikael Roland Karlsson (Styre)",
+    "Dawn Summers (Styre)",
+    "Hans Einar Haldorsen (Styre)",
+    "Anette Heggholmen (Styre)",
+    "Terje Werner Hansen (Styre)",
+    "ERNST & YOUNG AS (Revisor)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T16:54:29.710890",
+  "profile_updated_at": "2026-10-11T17:18:50.285038",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "EQUINOR ASA",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Allmennaksjeselskap (ASA)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "1995-03-12",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Forusbeen 50, 4035, STAVANGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "municipality",
+      "fact_value": "STAVANGER",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "Postboks 8500, 4035, STAVANGER, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.equinor.com",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "51 99 00 00",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "06.100",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Utvinning av råolje",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "employees",
+      "fact_value": 21272,
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "sector",
+      "fact_value": "Statlig eide aksjeselskaper mv.",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "ceo",
+      "fact_value": "Anders Opedal",
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "Jarle Kjell Roth (Styre)",
+        "Finn Bjørn Ruyter (Styre)",
+        "Haakon Stephen Bruun-Hanssen (Styre)",
+        "Fernanda Lopes Larsen (Styre)",
+        "Hilde Møllerstad (Styre)",
+        "Frank Gundersen (Styre)",
+        "Geir Leon Vadheim (Styre)",
+        "Anne Drinkwater (Styre)",
+        "Mikael Roland Karlsson (Styre)",
+        "Dawn Summers (Styre)",
+        "Hans Einar Haldorsen (Styre)",
+        "Anette Heggholmen (Styre)",
+        "Terje Werner Hansen (Styre)",
+        "ERNST & YOUNG AS (Revisor)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "revenue",
+      "fact_value": 106462000000.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "operating_profit",
+      "fact_value": 25353000000.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "net_income",
+      "fact_value": 5058000000.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "total_assets",
+      "fact_value": 131727000000.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "equity",
+      "fact_value": 40497000000.0,
+      "source_name": "Regnskapsregisteret (2025)",
+      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+      "date_checked": "2026-10-11",
+      "confidence": 0.95,
+      "method": "regnskaps_api"
+    },
+    {
+      "fact_key": "website",
+      "fact_value": "https://www.equinor.com",
+      "source_name": "Web search",
+      "source_url": "https://www.equinor.com",
+      "date_checked": "2026-10-11",
+      "confidence": 0.6,
+      "method": "serp_search"
+    }
+  ],
+  "confidence_score": 0.921,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)",
+    "Regnskapsregisteret (brreg.no)",
+    "Company website (https://www.equinor.com)"
+  ]
+}

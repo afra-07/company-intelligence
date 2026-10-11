@@ -177,4 +177,4 @@ if __name__ == "__main__":
     print("  🚀 Starting Signalpost Company Intelligence Dashboard...", flush=True)
     print("  👉 Open in your browser: http://localhost:8000", flush=True)
     print("═" * 64 + "\n", flush=True)
-    uvicorn.run("main:app", host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)

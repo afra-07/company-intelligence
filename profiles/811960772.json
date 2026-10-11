@@ -1,0 +1,133 @@
+{
+  "organization_number": "811960772",
+  "company_name": "SERMAN & TIPSMARK",
+  "legal_form": "Norskregistrert utenlandsk foretak (NUF)",
+  "status": "Active",
+  "registered_date": "2013-06-10",
+  "address": "Maltvej 12, DK-9700 BRØNDERSLEV, Danmark",
+  "postal_address": "c/o PwC Tax Services AS, Postboks 748 Sentrum, 0106, OSLO, Norge",
+  "municipality": null,
+  "website": null,
+  "email": null,
+  "phone": "02316",
+  "industry_code": "43.240",
+  "industry_description": "Annet installasjonsarbeid",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "PWC TAX SERVICES AS (Norsk repr. for utenl. enhet)",
+    "Anneli Gjertsen (Kontaktperson)",
+    "SERMAN & TIPSMARK A/S (Hovedforetak)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:56:21.425056",
+  "profile_updated_at": "2026-10-11T17:56:21.425063",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "SERMAN & TIPSMARK",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Norskregistrert utenlandsk foretak (NUF)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-06-10",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Maltvej 12, DK-9700 BRØNDERSLEV, Danmark",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "postal_address",
+      "fact_value": "c/o PwC Tax Services AS, Postboks 748 Sentrum, 0106, OSLO, Norge",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "02316",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "43.240",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Annet installasjonsarbeid",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "PWC TAX SERVICES AS (Norsk repr. for utenl. enhet)",
+        "Anneli Gjertsen (Kontaktperson)",
+        "SERMAN & TIPSMARK A/S (Hovedforetak)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811960772/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "organization_number": "811729132",
+  "company_name": "MARTIFER ROMANIA SRL NUF",
+  "legal_form": "Norskregistrert utenlandsk foretak (NUF)",
+  "status": "Active",
+  "registered_date": "2013-04-09",
+  "address": "Stelea Spataru No 12, Sector 3, 030213 Bucuresti, Romania",
+  "postal_address": null,
+  "municipality": null,
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "43.990",
+  "industry_description": "Annen spesialisert bygge- og anleggsvirksomhet ikke nevnt annet sted",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "AZETS INSIGHT AS (Norsk repr. for utenl. enhet)",
+    "Marianne Fosser (Kontaktperson)",
+    "AZETS INSIGHT AS (Regnskapsfører)",
+    "MARTIFER ROMANIA SRL (Hovedforetak)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:32:11.693620",
+  "profile_updated_at": "2026-10-11T17:32:11.693628",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "MARTIFER ROMANIA SRL NUF",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Norskregistrert utenlandsk foretak (NUF)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-09",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Stelea Spataru No 12, Sector 3, 030213 Bucuresti, Romania",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "43.990",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Annen spesialisert bygge- og anleggsvirksomhet ikke nevnt annet sted",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "AZETS INSIGHT AS (Norsk repr. for utenl. enhet)",
+        "Marianne Fosser (Kontaktperson)",
+        "AZETS INSIGHT AS (Regnskapsfører)",
+        "MARTIFER ROMANIA SRL (Hovedforetak)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811729132/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

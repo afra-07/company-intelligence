@@ -8,7 +8,8 @@ Profiles are stored in ./profiles/<org_number>.json
 from __future__ import annotations
 import json
 import os
-from datetime import datetime
+import threading
+from datetime import datetime, timezone, timedelta
 from typing import Optional, List
 from pathlib import Path
 from models import CompanyProfile, EvidenceItem
@@ -16,13 +17,78 @@ from models import CompanyProfile, EvidenceItem
 PROFILES_DIR = Path("profiles")
 PROFILES_DIR.mkdir(exist_ok=True)
 
+# ── Cache TTL ──────────────────────────────────────────────────────────────────
+# Profiles older than this are considered stale and will be re-fetched.
+# Set to 1 day so the evaluator always gets data checked within the last 24 h.
+# Override via env: CACHE_TTL_DAYS=0 to disable caching (always fresh).
+CACHE_TTL_DAYS: float = float(os.getenv("CACHE_TTL_DAYS", "1"))
+
+
+def is_profile_stale(profile: CompanyProfile) -> bool:
+    """Return True if the profile is older than CACHE_TTL_DAYS and should be refreshed."""
+    if CACHE_TTL_DAYS <= 0:
+        return True  # Caching disabled — always re-fetch
+    try:
+        updated = datetime.fromisoformat(profile.profile_updated_at)
+        # Make timezone-aware if naive
+        if updated.tzinfo is None:
+            updated = updated.replace(tzinfo=timezone.utc)
+        age = datetime.now(timezone.utc) - updated
+        return age > timedelta(days=CACHE_TTL_DAYS)
+    except Exception:
+        return True  # Unparseable timestamp → treat as stale
+
+
+# ── Request counter (thread-safe, per-process) ─────────────────────────────────
+_request_lock = threading.Lock()
+_request_counts: dict = {
+    "brreg_http": 0,
+    "regnskap_http": 0,
+    "proff_http": 0,
+    "website_http": 0,
+    "serpapi_http": 0,
+    "openai_llm": 0,
+    "other_http": 0,
+}
+
+
+def increment_request(category: str, n: int = 1) -> None:
+    """Increment the outbound request counter for a given category."""
+    with _request_lock:
+        _request_counts[category] = _request_counts.get(category, 0) + n
+
+
+def get_request_counts() -> dict:
+    """Return a snapshot of all outbound request counts."""
+    with _request_lock:
+        total = sum(_request_counts.values())
+        return {**_request_counts, "total": total}
+
 
 def _profile_path(org_number: str) -> Path:
     return PROFILES_DIR / f"{org_number}.json"
 
 
 def load_profile(org_number: str) -> Optional[CompanyProfile]:
-    """Load an existing profile from disk, or return None."""
+    """Load an existing profile from disk, or return None if missing or stale."""
+    path = _profile_path(org_number)
+    if not path.exists():
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        profile = CompanyProfile(**data)
+        # Return None if stale so the pipeline re-runs and refreshes the data.
+        # This prevents the evaluator from receiving outdated facts.
+        if is_profile_stale(profile):
+            return None
+        return profile
+    except Exception:
+        return None
+
+
+def load_profile_any_age(org_number: str) -> Optional[CompanyProfile]:
+    """Load a profile regardless of age (used for merge base, not for serving)."""
     path = _profile_path(org_number)
     if not path.exists():
         return None

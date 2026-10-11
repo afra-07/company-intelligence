@@ -1,0 +1,89 @@
+{
+  "organization_number": "811678112",
+  "company_name": "DUBRAVO APS",
+  "legal_form": "Utenlandsk enhet (UTLA)",
+  "status": "Active",
+  "registered_date": "2013-04-03",
+  "address": "c/o Per Lindorf Jørgensen, Parkgyden 1 Allesø, DK-5270 ODENSE N, Danmark",
+  "postal_address": null,
+  "municipality": null,
+  "website": null,
+  "email": null,
+  "phone": "+4552221202",
+  "industry_code": null,
+  "industry_description": null,
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": null,
+  "description": null,
+  "profile_created_at": "2026-10-11T17:27:36.153029",
+  "profile_updated_at": "2026-10-11T17:27:36.153034",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "DUBRAVO APS",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Utenlandsk enhet (UTLA)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-03",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "c/o Per Lindorf Jørgensen, Parkgyden 1 Allesø, DK-5270 ODENSE N, Danmark",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "phone",
+      "fact_value": "+4552221202",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.6,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

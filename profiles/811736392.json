@@ -1,0 +1,115 @@
+{
+  "organization_number": "811736392",
+  "company_name": "FRAMGÅRDENS ALLESERVICE",
+  "legal_form": "Norskregistrert utenlandsk foretak (NUF)",
+  "status": "Active",
+  "registered_date": "2013-04-16",
+  "address": "Högsbyn 21, SE-660 10 DALS-LÅNGED, Sverige",
+  "postal_address": null,
+  "municipality": null,
+  "website": null,
+  "email": null,
+  "phone": null,
+  "industry_code": "33.120",
+  "industry_description": "Reparasjon og vedlikehold av maskiner",
+  "employees": null,
+  "sector": null,
+  "revenue": null,
+  "operating_profit": null,
+  "net_income": null,
+  "total_assets": null,
+  "equity": null,
+  "financial_year": null,
+  "financials_status": "not_filed",
+  "ceo": null,
+  "board_members": [
+    "MJØRUD AS (Norsk repr. for utenl. enhet)",
+    "Kim Bratteli (Kontaktperson)",
+    "JAN TYRENHAG (Hovedforetak)"
+  ],
+  "description": null,
+  "profile_created_at": "2026-10-11T17:33:03.790417",
+  "profile_updated_at": "2026-10-11T17:33:03.790427",
+  "evidence": [
+    {
+      "fact_key": "company_name",
+      "fact_value": "FRAMGÅRDENS ALLESERVICE",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "legal_form",
+      "fact_value": "Norskregistrert utenlandsk foretak (NUF)",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "status",
+      "fact_value": "Active",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "registered_date",
+      "fact_value": "2013-04-16",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "address",
+      "fact_value": "Högsbyn 21, SE-660 10 DALS-LÅNGED, Sverige",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_code",
+      "fact_value": "33.120",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "industry_description",
+      "fact_value": "Reparasjon og vedlikehold av maskiner",
+      "source_name": "Brønnøysundregistrene (Brreg)",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    },
+    {
+      "fact_key": "board_members",
+      "fact_value": [
+        "MJØRUD AS (Norsk repr. for utenl. enhet)",
+        "Kim Bratteli (Kontaktperson)",
+        "JAN TYRENHAG (Hovedforetak)"
+      ],
+      "source_name": "Brønnøysundregistrene — Roller",
+      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/811736392/roller",
+      "date_checked": "2026-10-11",
+      "confidence": 1.0,
+      "method": "brreg_api"
+    }
+  ],
+  "confidence_score": 0.667,
+  "sources_used": [
+    "Brønnøysundregistrene (brreg.no)"
+  ]
+}

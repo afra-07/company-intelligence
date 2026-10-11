@@ -32,7 +32,7 @@ from llm_extractor import (
     generate_description,
     resolve_conflicting_values,
 )
-from profile_store import load_profile, save_profile, merge_profile
+from profile_store import load_profile, load_profile_any_age, save_profile, merge_profile, increment_request
 import os
 
 # Skip LLM steps gracefully when no valid OpenAI key is configured
@@ -115,6 +115,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
     # ── STEP 2: Brreg — Management roles ─────────────────────────────────────
     steps.append("brreg_roles")
+    increment_request("brreg_http")
     roles_result = await fetch_brreg_roles(org_number)
     roles_evidence: List[EvidenceItem] = roles_result.pop("evidence", [])
     all_evidence.extend(roles_evidence)
@@ -131,17 +132,20 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
     # ── STEP 4: Proff.no — Enrichment ────────────────────────────────────────
     steps.append("proff_scrape")
+    increment_request("proff_http")  # 1 req (+ 1 fallback if slug misses, counted in scrape_proff)
     proff_result = await scrape_proff(org_number, company_name)
     proff_evidence: List[EvidenceItem] = proff_result.pop("evidence", [])
     proff_text = proff_result.pop("_proff_text", None)
 
     # Company matching guard for Proff.no
     if proff_text and HAS_OPENAI:
+        increment_request("openai_llm")  # verify_company_match
         verification = await verify_company_match(proff_text, org_number, company_name)
         if verification.get("is_match", False) and verification.get("confidence", 0) > 0.5:
             steps.append("proff_verified")
             all_evidence.extend(proff_evidence)
             # LLM extract from Proff text
+            increment_request("openai_llm")  # extract_facts_from_text
             proff_extracted = await extract_facts_from_text(
                 proff_text, company_name, org_number,
                 source_url=f"https://www.proff.no/firmaer/{org_number}/",
@@ -161,6 +165,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
     # ── STEP 5: Company website discovery + scrape ────────────────────────────
     known_website = merged_data.get("website")
     steps.append("website_discovery")
+    increment_request("serpapi_http")  # discover_company_website (0 if already known, 1 if SerpAPI used)
     web_result = await discover_company_website(org_number, company_name, known_website)
     web_evidence: List[EvidenceItem] = web_result.pop("evidence", [])
     website_text = web_result.pop("_website_text", None)
@@ -171,11 +176,13 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
     if website_text and HAS_OPENAI:
         # Verify this is really the company's website
+        increment_request("openai_llm")  # verify_company_match
         web_verification = await verify_company_match(website_text, org_number, company_name)
         if web_verification.get("is_match", False) and web_verification.get("confidence", 0) > 0.4:
             steps.append("website_verified")
             all_evidence.extend(web_evidence)
             # LLM extract from website
+            increment_request("openai_llm")  # extract_facts_from_text
             web_extracted = await extract_facts_from_text(
                 website_text, company_name, org_number,
                 source_url=discovered_website or known_website or "",
@@ -199,12 +206,14 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
     # ── STEP 6: News search (only if CEO or description still missing) ────────
     if HAS_OPENAI and (not merged_data.get("ceo") or not merged_data.get("description")):
         steps.append("news_search")
+        increment_request("serpapi_http")  # search_company_news
         news_result = await search_company_news(company_name, org_number)
         news_snippets = news_result.get("news_snippets", [])
         news_evidence: List[EvidenceItem] = news_result.get("evidence", [])
 
         if news_snippets:
             combined_news = "\n".join(news_snippets)
+            increment_request("openai_llm")  # extract_facts_from_text (news)
             news_extracted = await extract_facts_from_text(
                 combined_news, company_name, org_number,
                 source_url="https://www.google.com",
@@ -221,6 +230,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
     # ── STEP 7: Generate description if still missing ─────────────────────────
     if HAS_OPENAI and not merged_data.get("description"):
         steps.append("generate_description")
+        increment_request("openai_llm")  # generate_description
         desc = await generate_description(merged_data)
         if desc:
             merged_data["description"] = desc
