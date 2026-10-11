@@ -157,6 +157,24 @@ async def health():
     }
 
 
+@app.on_event("startup")
+async def startup_banner():
+    import sys
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    print("\n" + "═" * 64, flush=True)
+    print("  🚀 Signalpost Company Intelligence Dashboard is LIVE!", flush=True)
+    print("  👉 Click or open in your browser: http://localhost:8000", flush=True)
+    print("═" * 64 + "\n", flush=True)
+
+
 if __name__ == "__main__":
     import uvicorn
+    import sys
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    print("\n" + "═" * 64, flush=True)
+    print("  🚀 Starting Signalpost Company Intelligence Dashboard...", flush=True)
+    print("  👉 Open in your browser: http://localhost:8000", flush=True)
+    print("═" * 64 + "\n", flush=True)
     uvicorn.run("main:app", host="127.0.0.1", port=8000)
