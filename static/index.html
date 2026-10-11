@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalpost — Norwegian Company Intelligence Agent</title>
+  <meta name="description" content="Automated Norwegian company profiling agent. Enter an organisation number to get a complete company profile with sourced evidence." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css?v=20261011_v3" />
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-grid"></div>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="url(#lg1)" stroke-width="2"/>
+          <path d="M16 6 L16 26 M8 12 L16 6 L24 12" stroke="url(#lg1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="16" cy="16" r="3" fill="url(#lg1)"/>
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#3b82f6"/>
+              <stop offset="1" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">SIGNAL<span class="logo-accent">POST</span></span>
+      </div>
+      <div class="header-meta">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" onclick="toggleTheme()">☀️</button>
+        <span class="stat-pill" id="total-profiles-stat">— profiles cached</span>
+        <a href="/docs" target="_blank" class="api-link">API Docs ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Hero search -->
+    <section class="hero">
+      <h1 class="hero-title">Norwegian Company<br><span class="gradient-text">Intelligence Agent</span></h1>
+      <p class="hero-sub">Enter an organisation number to get a complete, sourced company profile in seconds.</p>
+
+      <form class="search-form" id="search-form" onsubmit="handleSearch(event)">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            type="text"
+            id="org-input"
+            class="search-input"
+            placeholder="Enter 9-digit Norwegian org number…"
+            maxlength="9"
+            pattern="[0-9]{9}"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button type="submit" class="search-btn" id="search-btn">
+            <span class="btn-text">Analyse</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        <div class="search-hints">
+          <span>Try:</span>
+          <button type="button" class="hint-chip" onclick="fillOrg('974760843')">974760843 — Riksrevisjonen</button>
+          <button type="button" class="hint-chip" onclick="fillOrg('923609016')">923609016 — Equinor</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Pipeline status (visible during loading) -->
+    <section class="pipeline-section hidden" id="pipeline-section">
+      <div class="pipeline-bar">
+        <div class="pipeline-steps" id="pipeline-steps">
+          <div class="p-step" data-step="brreg_entity">Brreg</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="brreg_roles">Roles</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="regnskapsregisteret">Financials</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="proff_scrape">Proff</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="website_discovery">Web</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="generate_description">LLM</div>
+          <div class="p-arrow">→</div>
+          <div class="p-step" data-step="build_profile">Done ✓</div>
+        </div>
+      </div>
+      <p class="pipeline-msg" id="pipeline-msg">Fetching company data…</p>
+    </section>
+
+    <!-- Profile output -->
+    <section class="profile-section hidden" id="profile-section">
+
+      <!-- Company header card -->
+      <div class="card company-header-card" id="company-header">
+        <div class="company-header-top">
+          <div class="company-identity">
+            <div class="company-name" id="c-name">—</div>
+            <div class="company-badges">
+              <span class="badge badge-org" id="c-org">—</span>
+              <span class="badge" id="c-status">—</span>
+              <span class="badge badge-form" id="c-form">—</span>
+            </div>
+          </div>
+          <div class="confidence-ring-wrap">
+            <svg class="confidence-ring" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="32" />
+              <circle class="ring-fill" id="ring-fill" cx="40" cy="40" r="32"
+                stroke-dasharray="201" stroke-dashoffset="201" />
+            </svg>
+            <div class="confidence-label">
+              <span class="conf-pct" id="conf-pct">0%</span>
+              <span class="conf-sub">confidence</span>
+            </div>
+          </div>
+        </div>
+        <div class="company-meta-row">
+          <div class="meta-item" id="c-industry-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            <span id="c-industry">—</span>
+          </div>
+          <div class="meta-item" id="c-addr-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="c-addr">—</span>
+          </div>
+          <div class="meta-item" id="c-web-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <a id="c-web" href="#" target="_blank">—</a>
+          </div>
+        </div>
+        <div class="company-description" id="c-desc"></div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="stats-grid">
+        <div class="card stat-card" id="sc-revenue">
+          <div class="stat-icon">💰</div>
+          <div class="stat-label">Revenue</div>
+          <div class="stat-value" id="sv-revenue">—</div>
+          <div class="stat-year" id="sy-year"></div>
+          <div class="stat-note" id="sn-revenue"></div>
+        </div>
+        <div class="card stat-card" id="sc-employees">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Employees</div>
+          <div class="stat-value" id="sv-employees">—</div>
+          <div class="stat-note" id="sn-employees"></div>
+        </div>
+        <div class="card stat-card" id="sc-ceo">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-label">CEO</div>
+          <div class="stat-value" id="sv-ceo">—</div>
+          <div class="stat-note" id="sn-ceo"></div>
+        </div>
+        <div class="card stat-card" id="sc-founded">
+          <div class="stat-icon">📅</div>
+          <div class="stat-label">Registered</div>
+          <div class="stat-value" id="sv-founded">—</div>
+          <div class="stat-note" id="sn-founded"></div>
+        </div>
+        <div class="card stat-card" id="sc-profit">
+          <div class="stat-icon">📈</div>
+          <div class="stat-label">Net Income</div>
+          <div class="stat-value" id="sv-profit">—</div>
+          <div class="stat-note" id="sn-profit"></div>
+        </div>
+        <div class="card stat-card" id="sc-assets">
+          <div class="stat-icon">🏦</div>
+          <div class="stat-label">Total Assets</div>
+          <div class="stat-value" id="sv-assets">—</div>
+          <div class="stat-note" id="sn-assets"></div>
+        </div>
+      </div>
+
+      <!-- Financials status notice banner -->
+      <div id="fin-unavail-notice" class="fin-unavail-banner hidden">
+        <span class="fin-notice-icon" id="fin-notice-icon">📋</span>
+        <div class="fin-notice-content">
+          <strong class="fin-notice-title" id="fin-notice-title">Notice</strong>
+          <p class="fin-notice-body" id="fin-notice-body"></p>
+        </div>
+      </div>
+
+      <!-- Pipeline trace + Evidence -->
+      <div class="lower-grid">
+        <!-- Pipeline steps executed -->
+        <div class="card pipeline-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Pipeline Trace
+          </h2>
+          <div class="pipeline-trace" id="pipeline-trace"></div>
+          <div class="timing-row">
+            <span class="timing-label">Duration</span>
+            <span class="timing-val" id="duration-val">—</span>
+          </div>
+        </div>
+
+        <!-- Board members -->
+        <div class="card board-card" id="board-card">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Board & Management
+          </h2>
+          <div class="board-list" id="board-list"></div>
+        </div>
+      </div>
+
+      <!-- Evidence Trail -->
+      <div class="card evidence-card">
+        <div class="evidence-header">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+            Evidence Trail
+          </h2>
+          <div class="evidence-filters">
+            <button class="filter-btn active" onclick="filterEvidence('all', this)">All</button>
+            <button class="filter-btn" onclick="filterEvidence('brreg_api', this)">Brreg API</button>
+            <button class="filter-btn" onclick="filterEvidence('regnskaps_api', this)">Financials</button>
+            <button class="filter-btn" onclick="filterEvidence('webpage_scrape', this)">Scraped</button>
+            <button class="filter-btn" onclick="filterEvidence('llm_extract', this)">LLM</button>
+          </div>
+        </div>
+        <div class="evidence-grid" id="evidence-grid"></div>
+      </div>
+
+      <!-- Raw JSON toggle -->
+      <div class="card json-card">
+        <div class="json-header" onclick="toggleJson()">
+          <h2 class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Raw Profile JSON
+          </h2>
+          <span class="json-toggle" id="json-toggle">▼ Show</span>
+        </div>
+        <pre class="json-pre hidden" id="json-pre"></pre>
+      </div>
+
+    </section>
+
+    <!-- Error section -->
+    <section class="error-section hidden" id="error-section">
+      <div class="error-card card">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title" id="error-title">Something went wrong</div>
+        <div class="error-msg" id="error-msg"></div>
+        <button class="search-btn" onclick="resetUI()">Try Again</button>
+      </div>
+    </section>
+
+    <!-- Batch section -->
+    <section class="batch-section">
+      <div class="card batch-card">
+        <h2 class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Batch Processing
+        </h2>
+        <p class="batch-desc">Process multiple companies at once. Enter one org number per line.</p>
+        <div class="batch-input-row">
+          <textarea id="batch-input" class="batch-textarea" placeholder="974760843&#10;923609016" rows="4"></textarea>
+          <button class="search-btn batch-run-btn" onclick="runBatch()">
+            Run Batch
+          </button>
+        </div>
+        <div class="batch-results" id="batch-results"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Signalpost Agent · Data from <a href="https://brreg.no" target="_blank">brreg.no</a> · Built for Signalpost Hackathon</p>
+  </footer>
+
+  <script src="/static/app.js?v=20261011_v3"></script>
+</body>
+</html>
