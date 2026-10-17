@@ -280,17 +280,6 @@ Run the test suite to verify fact citations, non-guessing of missing values, and
 python test_evaluation.py
 ```
 
-## Scoring Breakdown
-
-| Category | Points | How we address it |
-|----------|--------|-------------------|
-| Finding information | 35 | 6 data sources, LLM extraction |
-| Company matching | 30 | LLM identity verification at every scrape step |
-| Updating information | 20 | Smart merge logic with evidence deduplication |
-| Explanation | 10 | Full evidence trail with source + method + confidence |
-| Usability | 5 | Web dashboard + CLI + REST API |
-
----
 
 ## Project Structure
 
