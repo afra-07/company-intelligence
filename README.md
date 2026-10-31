@@ -1,6 +1,6 @@
 # 🔍 Signalpost — Norwegian Company Intelligence Agent
 
-Automated company profiling agent for Norwegian organisations. Takes a 9-digit Norwegian organisation number and returns a complete, sourced company profile.
+Automated company profiling agent for Norwegian organisations. Takes a 9-digit Norwegian organisation number and returns a complete, sourced, contract-compliant company profile.
 
 ---
 
@@ -16,34 +16,51 @@ org_number
 └──────────┬──────────┘
            │
     ┌──────▼──────────────┐
-    │  Brreg Roles API    │  ← CEO, board members
+    │  Brreg Roles API    │  ← CEO, board members  (free, keyless)
     └──────┬──────────────┘
            │
     ┌──────▼──────────────┐
-    │ Regnskapsregisteret │  ← Revenue, profit, assets, equity
-    │  (free, keyless)    │
+    │ Regnskapsregisteret │  ← Revenue, profit, assets, equity  (free, keyless)
     └──────┬──────────────┘
            │
     ┌──────▼──────────────┐
-    │  Proff.no scrape    │  ← Enriched business data
+    │  Proff.no scrape    │  ← Discover company homepage URL  (free, keyless)
+    │  (bridge only)      │    Fallback employee count (if omitted by Brreg)
     └──────┬──────────────┘
            │
-    ┌──────▼──────────────┐   ┌─────────────────────────┐
-    │  Web search (SERP)  │   │  Company Matcher (LLM)  │
-    │  + website scrape   │ → │  Verify source ≡ company │  ← Critical 30pt step
-    └──────┬──────────────┘   └─────────────────────────┘
+    ┌──────▼──────────────┐   ┌──────────────────────────┐
+    │  Company website    │   │  Company Matcher (LLM)   │
+    │  scrape (keyless)   │ → │  Verify source ≡ company │  ← Optional: only runs
+    │  + SerpAPI (opt.)   │   │  (requires LLM API key)  │     when key configured
+    └──────┬──────────────┘   └──────────────────────────┘
            │
     ┌──────▼──────────────┐
-    │  LLM Extraction     │  ← GPT-4o-mini parses unstructured text
-    │  (GPT-4o-mini)      │
-    └──────┬──────────────┘
+    │  LLM Extraction     │  ← Optional; any of OpenAI / Anthropic / Gemini
+    │  (optional)         │    Facts are always cited with the company's own
+    └──────┬──────────────┘    URL or an official register — never proff.no
            │
     ┌──────▼──────────────┐
-    │  Profile Merge/Save │  ← Smart update logic
+    │  Profile Merge/Save │  ← Smart update logic & structure validation
     └──────┬──────────────┘
            │
-    JSON Company Profile
+    JSON Company Profile  (nested 6-section format per OUTPUT_CONTRACT.md)
 ```
+
+### Keyless Operation
+
+With **no API keys configured**, the pipeline returns a fully contract-compliant, citeable profile (`success=true`) for every valid 9-digit Norwegian organisation number found in Brreg. It extracts all available information from Norway's official public registers and direct website scraping.
+
+Unavailable facts (such as financial accounts for exempt public-sector entities or sole proprietorships, missing company websites, or unlisted contact numbers) remain `null` in strict accordance with `OUTPUT_CONTRACT.md`. Missing facts are never guessed or hallucinated.
+
+| Step | Source | Auth needed? |
+|------|--------|:---:|
+| Identity / address / employees / status | Brreg Enhetsregisteret | None |
+| CEO / board members | Brreg Roller | None |
+| Revenue / assets / equity / profit | Regnskapsregisteret | None |
+| Company homepage discovery | Brreg `hjemmeside` field → Proff.no fallback bridge | None |
+| Company website scrape | Direct HTTP | None |
+| Web search (supplemental) | SerpAPI | Optional key |
+| LLM extraction / verification | OpenAI / Anthropic / Gemini | Optional key |
 
 ---
 
@@ -90,10 +107,12 @@ Copy the example environment file:
 Configure your API keys in `.env` (optional):
 ```env
 OPENAI_API_KEY=sk-...          # Optional: Enables LLM fact extraction & verification
+ANTHROPIC_API_KEY=sk-ant-...   # Optional: Alternative LLM provider (Anthropic Claude)
+GEMINI_API_KEY=...             # Optional: Alternative LLM provider (Google Gemini)
 SERPAPI_KEY=...                 # Optional: Web search discovery
 ```
 
-> 💡 **Free / Keyless Operation:** If no API keys are provided, the agent still works seamlessly using Norway's open public APIs (Brønnøysundregistrene Enhetsregisteret, Roller, and Regnskapsregisteret).
+> 💡 **Free / Keyless Operation:** If no API keys are provided, the agent operates entirely in keyless mode using Norway's open public APIs (Brønnøysundregistrene Enhetsregisteret, Roller, and Regnskapsregisteret) plus direct website scraping. The pipeline returns a contract-valid profile for every valid Norwegian organisation number found in Brreg. Only facts that actually exist in official sources are populated; unavailable facts remain `null` and are never guessed. LLM extraction, LLM company verification, and SerpAPI web search are optional enrichments that require a configured provider key and are skipped in keyless mode.
 
 ---
 
@@ -125,12 +144,35 @@ python cli.py 974760843 --evidence
 
 # Output raw JSON
 python cli.py 923609016 --json
+
+# Interactive mode (prompts for org number)
+python cli.py
 ```
 
-#### C. Batch Profiling
-Process multiple companies in parallel:
+#### C. Official Evaluation Runner (Batch with Contract Validation)
+`run.py` is the primary evaluation entrypoint. It takes the **input file path as a positional argument** and validates every output line against `OUTPUT_CONTRACT.md`:
+
 ```bash
+# Run against the default org_numbers.txt
+python run.py org_numbers.txt
+
+# Specify an arbitrary input file and custom output path
+python run.py /path/to/eval_set.txt --output results.jsonl
+
+# With increased concurrency and forced refresh
+python run.py org_numbers.txt --concurrency 8 --refresh
+```
+
+`run.py` accepts any valid file path as its first positional argument, handles batch processing with per-company exception isolation, preserves input order, and outputs one JSONL line per input record.
+
+#### D. Batch Profiling (Pre-seeding)
+Pre-seed profiles into the cache from Brreg open data or an input file:
+```bash
+# Seed 100 profiles from Brreg open registry
 python seed_profiles.py --count 100 --concurrency 5
+
+# Seed from a custom text file
+python seed_profiles.py --from-file org_numbers.txt --concurrency 5
 ```
 Or use the Batch Processing section directly on the web dashboard at `http://localhost:8000`.
 
@@ -140,9 +182,9 @@ Or use the Batch Processing section directly on the web dashboard at `http://loc
 
 | Org Number | Company / Entity | What It Tests |
 | :--- | :--- | :--- |
-| `974760843` | **Riksrevisjonen** | Public-sector / Government entity: explains statutory exemption from commercial financial filing |
-| `923609016` | **Equinor ASA** | Major commercial company with full employee, executive, and financial metrics |
-| `984851006` | **DNB Bank ASA** | Financial institution: shows bank classification and explains separate ESAP/XBRL reporting |
+| `974760843` | **Riksrevisjonen** | Public-sector / Government entity (448 employees): demonstrates statutory exemption from commercial financial filing |
+| `923609016` | **Equinor ASA** | Major commercial enterprise (21,231 employees): full executive roles and complete Regnskapsregisteret financial metrics |
+| `984851006` | **DNB Bank ASA** | Financial institution (7,347 employees): shows banking classification and explains specialized financial reporting |
 
 ---
 
@@ -150,16 +192,17 @@ Or use the Batch Processing section directly on the web dashboard at `http://loc
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET`  | `/profile/{org_number}` | Get (or create) a profile |
-| `POST` | `/profile` | Full agent run with step trace |
-| `POST` | `/batch` | Up to 50 companies at once |
-| `GET`  | `/profiles` | List all cached org numbers |
-| `GET`  | `/stats` | Profile count & health |
-| `DELETE` | `/profile/{org_number}` | Delete cached profile |
-| `GET`  | `/health` | API health check |
-| `GET`  | `/docs` | Swagger UI |
+| `GET`  | `/profile/{org_number}` | Get or generate profile (query param: `refresh=false`; returns nested `CompanyProfile`) |
+| `POST` | `/profile` | Full agent run with step trace (JSON body: `{"organization_number": "...", "force_refresh": false}`) |
+| `POST` | `/batch` | Batch profiling up to 50 companies (JSON body: `{"organization_numbers": [...], "concurrency": 5}`) |
+| `GET`  | `/profiles` | List cached organisation numbers with pagination (`?skip=0&limit=100`) |
+| `GET`  | `/stats` | Cache statistics and sample organisation numbers |
+| `DELETE` | `/profile/{org_number}` | Delete a cached profile from storage |
+| `GET`  | `/health` | API health check and provider configuration flags |
+| `GET`  | `/` | Serve web dashboard UI (`static/index.html`) |
+| `GET`  | `/docs` | Interactive Swagger / OpenAPI documentation |
 
-### Example
+### Example Response (`GET /profile/974760843`)
 
 ```bash
 curl http://localhost:8000/profile/974760843
@@ -167,27 +210,72 @@ curl http://localhost:8000/profile/974760843
 
 ```json
 {
-  "organization_number": "974760843",
-  "company_name": "RIKSREVISJONEN",
-  "legal_form": "Organisasjonsledd (ORGL)",
-  "status": "Active",
-  "address": "Storgata 16, 0184, OSLO, Norge",
-  "industry_description": "Generell offentlig administrasjon",
-  "employees": 449,
-  "website": "https://www.riksrevisjonen.no/",
-  "email": "postmottak@riksrevisjonen.no",
-  "confidence_score": 0.84,
-  "evidence": [
-    {
-      "fact_key": "company_name",
-      "fact_value": "RIKSREVISJONEN",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-05",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    }
-  ]
+  "identity": {
+    "organization_number": "974760843",
+    "company_name": "RIKSREVISJONEN",
+    "legal_form": "Organisasjonsledd (ORGL)",
+    "status": "Active",
+    "registered_date": "1995-08-09"
+  },
+  "contact": {
+    "address": "Storgata 16, 0184, OSLO, Norge",
+    "postal_address": "Postboks 6835 St. Olavs plass, 0130, OSLO, Norge",
+    "municipality": "OSLO",
+    "website": "https://www.riksrevisjonen.no",
+    "email": "postmottak@riksrevisjonen.no",
+    "phone": "22 24 10 00"
+  },
+  "business": {
+    "industry_code": "84.110",
+    "industry_description": "Generell offentlig administrasjon",
+    "employees": 448,
+    "sector": "Statsforvaltningen"
+  },
+  "financials": {
+    "revenue": null,
+    "operating_profit": null,
+    "net_income": null,
+    "total_assets": null,
+    "equity": null,
+    "financial_year": null,
+    "financials_status": "not_filed"
+  },
+  "people": {
+    "ceo": "Jens Arild Gunvaldsen",
+    "board_members": [
+      "DIREKTORATET FOR FORVALTNING OG ØKONOMISTYRING (Regnskapsfører)",
+      "STORTINGET (Org.ledd i offentlig sektor)"
+    ],
+    "description": null
+  },
+  "meta": {
+    "profile_created_at": "2026-10-31T16:09:07.234498",
+    "profile_updated_at": "2026-10-31T16:42:05.538970",
+    "evidence": [
+      {
+        "fact_key": "company_name",
+        "fact_value": "RIKSREVISJONEN",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-10-31",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "employees",
+        "fact_value": 448,
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-10-31",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      }
+    ],
+    "confidence_score": 0.867,
+    "sources_used": [
+      "Brønnøysundregistrene (brreg.no)"
+    ]
+  }
 }
 ```
 
@@ -200,21 +288,23 @@ curl http://localhost:8000/profile/974760843
 | Brreg Enhetsregisteret | Name, status, address, industry, employees | ✅ | None |
 | Brreg Roller | CEO, board members | ✅ | None |
 | Regnskapsregisteret | Revenue, profit, assets, equity | ✅ | None |
-| Proff.no | Enriched business data | ✅* | None |
-| SerpAPI | Web search results | ✅** | API key |
-| Company website | Description, contact | ✅ | None |
-| OpenAI GPT-4o-mini | Extraction + verification | 💰 | API key |
+| Proff.no | Homepage URL discovery + fallback employee count | ✅* | None |
+| Company website | Description, contact info (direct HTTP scrape) | ✅ | None |
+| SerpAPI | Supplemental web search results | ✅** | API key (optional) |
+| OpenAI / Anthropic / Gemini | Optional LLM extraction + website verification | 💰 | API key (optional) |
 
-*scraping — use respectfully  
-**free tier: 100 searches/month
+\* *Proff.no is used strictly as a discovery bridge to locate the official company website, and as a fallback employee count when omitted by Brreg. Proff.no is never cited as the source for published facts from company websites, which must cite the company's own domain or official registers.*
+\*\* *SerpAPI free tier: 100 searches/month; optional — pipeline is fully operational without it.*
 
 ---
 
-## Expected Costs & API Budget
+## Estimated Costs & API Budget
 
-This solution is designed for **extreme cost efficiency**, utilizing free Norwegian open government registers as the primary source of truth, with paid external APIs (OpenAI GPT-4o-mini and SerpAPI) invoked conditionally.
+All figures below are **estimates** based on public third-party pricing at the time of evaluation design, not guaranteed rates or contractually fixed prices. Free Norwegian open government registers are the primary source of truth, with paid external APIs (OpenAI / Anthropic / Gemini and SerpAPI) invoked conditionally only when keys are configured.
 
-### Per-Request Audit (Worst-Case, Full LLM, per company)
+In default **keyless mode (no API keys configured)**, total external API cost is exactly **$0.00**.
+
+### Estimated Per-Request Breakdown (Worst-Case, Full LLM Enabled, per Company)
 
 | Step | Requests | Type | Conditional? |
 | :--- | :---: | :--- | :--- |
@@ -222,83 +312,83 @@ This solution is designed for **extreme cost efficiency**, utilizing free Norweg
 | Brreg Roller (roles) | 1 | HTTP (free) | Always |
 | Regnskapsregisteret (financials) | 1 | HTTP (free) | Always |
 | Proff.no direct scrape | 1–2 | HTTP (free) | +1 only if slug URL 404 |
-| **SerpAPI** — website discovery | **0–1** | HTTP (paid) | Only if Brreg has no website (~70% of companies) |
-| Company website scrape | 0–1 | HTTP (free) | Only if website found |
-| **SerpAPI** — news search | **0–1** | HTTP (paid) | Only if CEO or description still missing after Proff |
-| LLM: verify Proff.no match | 0–1 | OpenAI API | Only if OpenAI key present |
-| LLM: extract facts from Proff | 0–1 | OpenAI API | Only if Proff verified |
-| LLM: verify website match | 0–1 | OpenAI API | Only if website found + key present |
-| LLM: extract facts from website | 0–1 | OpenAI API | Only if website verified |
-| LLM: extract facts from news | 0–1 | OpenAI API | Only if news results found |
-| LLM: generate description | 0–1 | OpenAI API | Only if description still missing |
-| **Worst-case total** | **~14** | | 8 HTTP + 6 LLM API calls |
+| Company website direct scrape | 0–1 | HTTP (free) | Only if website found |
+| **SerpAPI** — website discovery | **0–1** | HTTP (paid) | Only if Brreg & Proff yield no website (~30% of companies) |
+| **SerpAPI** — news search | **0–1** | HTTP (paid) | Only if CEO or description still missing after registers |
+| LLM: verify website match | 0–1 | LLM API | Only if website found + LLM key configured |
+| LLM: extract facts from website | 0–1 | LLM API | Only if website verified + LLM key configured |
+| LLM: extract facts from news | 0–1 | LLM API | Only if news results found + LLM key configured |
+| LLM: generate description | 0–1 | LLM API | Only if description still missing + LLM key configured |
+| **Estimated worst-case total** | **~10** | | ~6 HTTP + ~4 LLM API calls |
 | **Typical cached run** | **1** | | Cache hit — no outbound requests |
 
-### Per-Service Cost Breakdown (100-Company Daily Evaluation)
+### Estimated Per-Service Cost Breakdown (100-Company Run)
 
-| Service | Unit Price | Avg per Company | 100-Company Run |
+| Service | Estimated Unit Price | Estimated Avg per Company | Estimated 100-Company Run |
 | :--- | :--- | :--- | :--- |
 | **Brreg + Regnskapsregisteret** | $0.00 (public API) | $0.00 | **$0.00** |
 | **Proff.no scrape** | $0.00 (public web) | $0.00 | **$0.00** |
-| **SerpAPI** (website search) | $0.01/query | ~0.7 queries (70% miss rate) → $0.007 | **~$0.70** |
-| **SerpAPI** (news search) | $0.01/query | ~0.5 queries (50% of companies) → $0.005 | **~$0.50** |
-| **OpenAI GPT-4o-mini** (verify×2 + extract×3 + describe×1) | $0.15/1M in · $0.60/1M out | ~7,500 in + 1,500 out tokens → **~$0.0020** | **~$0.20** |
-| **Expected total per daily evaluation** | | | **~$1.40** |
-| **Maximum permitted external API cost** | | | **$10.00 ✅** |
+| **Company website scrape** | $0.00 (direct HTTP) | $0.00 | **$0.00** |
+| **SerpAPI** (website search) | ~$0.01/query | ~0.3 queries (miss rate) → ~$0.003 | **~$0.30** |
+| **SerpAPI** (news search) | ~$0.01/query | ~0.2 queries → ~$0.002 | **~$0.20** |
+| **OpenAI GPT-4o-mini** (verify×1 + extract×1 + describe×1) | ~$0.15/1M in · ~$0.60/1M out | ~4,000 in + 1,000 out tokens → **~$0.0012** | **~$0.12** |
+| **Estimated total (full LLM mode)** | | | **~$0.62** |
+| **Keyless mode (default)** | | | **$0.00** |
 
-> 💡 **Free-tier note:** SerpAPI provides 100 free searches/month. In standard keyless mode (no API keys), total cost is exactly **$0.00**.
+> 💡 **Free-tier note:** SerpAPI provides 100 free searches/month. In standard keyless mode (no API keys), external cost is exactly **$0.00**.
 
-### Request & Time Budget (100 companies, no cache)
+### Scenario Projections
 
-| Metric | Worst-case per 100 companies | Daily limit | Status |
-| :--- | :--- | :--- | :--- |
-| Outbound HTTP requests (free) | ~600 (Brreg + Proff + website scrapes) | — | ✅ |
-| Outbound API requests (paid SerpAPI) | ~120 | — | ✅ |
-| Outbound API requests (paid OpenAI) | ~500 LLM calls | — | ✅ |
-| **Total outbound requests** | **~1,220** | **2,000** | ✅ under limit |
-| Execution time | ~10–15 minutes | 45 minutes | ✅ under limit |
-| External API cost | ~$1.40 (worst-case full LLM) | $10.00 | ✅ 14% of limit |
-
-### Full Scenario Projections
-
-| Run Scenario | Brreg (free) | OpenAI GPT-4o-mini | SerpAPI | Total | vs $10/day limit |
+| Run Scenario | Brreg (free) | LLM (est.) | SerpAPI (est.) | Total (est.) | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100-Company (Keyless, no API keys)** | $0.00 | $0.00 | $0.00 | **$0.00** | ✅ 0% |
-| **100-Company (Full LLM, worst-case)** | $0.00 | ~$0.20 | ~$1.20 | **~$1.40** | ✅ 14% |
-| **1,000-Company (Keyless)** | $0.00 | $0.00 | $0.00 | **$0.00** | ✅ 0% |
-| **1,000-Company (Full LLM, worst-case)** | $0.00 | ~$2.00 | ~$12.00* | **~$14.00*** | ⚠️ over daily limit |
-
-> ⚠️ **Note on 1,000-company LLM runs:** A single full-LLM run over 1,000 *fresh* companies could approach or exceed the $10 SerpAPI limit. In practice, most companies are already cached (1,097 profiles pre-seeded), so daily evaluation of 100 random companies will typically be **fully cached at $0.00**. The worst-case $10 limit applies only to the initial seed run, which was performed once.
-
-> 🔒 **Daily evaluation guarantee:** The challenge evaluates 100 companies per day. With the cache seeded, the per-day cost is **$0.00** for cached companies, and **~$1.40** for 100 fresh companies — well within the $10.00 limit.
+| **100-Company (Keyless, default)** | $0.00 | $0.00 | $0.00 | **$0.00** | 100% free open data |
+| **100-Company (Full LLM, fresh)** | $0.00 | ~$0.12 | ~$0.50 | **~$0.62** | Well within evaluation budget |
+| **100-Company (Cached)** | $0.00 | $0.00 | $0.00 | **$0.00** | Served instantly from cache |
 
 ---
 
 ### Automated Evaluation Suite
-Run the test suite to verify fact citations, non-guessing of missing values, and merge protections:
+Run the test suite to verify keyless compliance, nested contract sections, fact citations, non-guessing of missing values, and merge protections:
 ```bash
 python test_evaluation.py
 ```
 
+<<<<<<< HEAD
+=======
+## Scoring Breakdown
+
+| Category | Points | How We Address It |
+|----------|--------|-------------------|
+| Finding information | 35 | 5 core open data sources (Brreg Enhetsregisteret, Brreg Roller, Regnskapsregisteret, Company website, Proff.no bridge) + optional SerpAPI & LLMs |
+| Company matching | 30 | Identity verification: Brreg 9-digit matching, domain validation, and optional LLM website verification |
+| Updating information | 20 | Smart merge logic protecting verified fields with evidence deduplication |
+| Explanation | 10 | Full evidence audit trail with source name, URL, method, and confidence per fact |
+| Usability | 5 | Web dashboard + CLI + REST API + contract-validated evaluation runner |
+
+---
+>>>>>>> 0e2f0d3 (Implement keyless profiling and contract validation)
 
 ## Project Structure
 
 ```
 signalpost/
-├── main.py              ← FastAPI server
+├── run.py               ← Official evaluation runner (validates against OUTPUT_CONTRACT.md)
+├── main.py              ← FastAPI server & web dashboard backend
 ├── agent.py             ← Main pipeline orchestrator
-├── models.py            ← Pydantic data models
-├── brreg_fetcher.py     ← Brreg + Regnskapsregisteret APIs
-├── web_searcher.py      ← SerpAPI + web scraping
-├── llm_extractor.py     ← OpenAI extraction + verification
-├── profile_store.py     ← JSON profile storage + merge logic
-├── seed_profiles.py     ← Batch seeder (1,000+ profiles)
-├── cli.py               ← Command-line interface
+├── models.py            ← Pydantic data models (nested 6-section structure)
+├── brreg_fetcher.py     ← Brreg + Regnskapsregisteret open APIs
+├── web_searcher.py      ← SerpAPI + direct web scraping (keyless-capable)
+├── llm_extractor.py     ← Multi-provider LLM extraction (OpenAI / Anthropic / Gemini)
+├── profile_store.py     ← JSON profile storage & smart merge logic
+├── seed_profiles.py     ← Batch seeder (Brreg open data or file input)
+├── cli.py               ← Command-line interface with evidence inspector
+├── OUTPUT_CONTRACT.md   ← Official output format specification
+├── test_evaluation.py   ← Automated test suite for compliance verification
 ├── static/
 │   ├── index.html       ← Dashboard UI
-│   ├── style.css        ← Styling
-│   └── app.js           ← Frontend logic
-├── profiles/            ← Auto-created profile cache
-├── requirements.txt
-└── .env.example
+│   ├── style.css        ← Dashboard styling
+│   └── app.js           ← Dashboard interactive logic
+├── profiles/            ← Profile cache directory
+├── requirements.txt     ← Project dependencies
+└── .env.example         ← Environment configuration template
 ```

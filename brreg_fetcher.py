@@ -60,18 +60,21 @@ async def fetch_brreg_entity(org_number: str) -> Dict[str, Any]:
     evidence: list[EvidenceItem] = []
     result: Dict[str, Any] = {}
 
-    async with httpx.AsyncClient(timeout=15) as client:
-        resp = await client.get(url, headers=HEADERS)
-
-        if resp.status_code == 404:
-            # Try sub-units (underenheter)
-            url = f"{BRREG_BASE}/underenheter/{org_number}"
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
             resp = await client.get(url, headers=HEADERS)
 
-        if resp.status_code != 200:
-            return {"error": f"Brreg returned {resp.status_code}", "evidence": []}
+            if resp.status_code == 404:
+                # Try sub-units (underenheter)
+                url = f"{BRREG_BASE}/underenheter/{org_number}"
+                resp = await client.get(url, headers=HEADERS)
 
-        data = resp.json()
+            if resp.status_code != 200:
+                return {"error": f"Brreg returned HTTP {resp.status_code}", "evidence": []}
+
+            data = resp.json()
+    except Exception as e:
+        return {"error": f"Brreg request failed: {str(e)}", "evidence": []}
 
     # ── Parse fields ──────────────────────────────────────────────────────────
     name = data.get("navn")
@@ -170,11 +173,14 @@ async def fetch_brreg_roles(org_number: str) -> Dict[str, Any]:
     The roles endpoint returns board members and CEO.
     """
     url = f"{BRREG_BASE}/enheter/{org_number}/roller"
-    async with httpx.AsyncClient(timeout=15) as client:
-        resp = await client.get(url, headers=HEADERS)
-        if resp.status_code != 200:
-            return {"evidence": []}
-        data = resp.json()
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.get(url, headers=HEADERS)
+            if resp.status_code != 200:
+                return {"evidence": []}
+            data = resp.json()
+    except Exception:
+        return {"evidence": []}
 
     evidence: list[EvidenceItem] = []
     result: Dict[str, Any] = {}

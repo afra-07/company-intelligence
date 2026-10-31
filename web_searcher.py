@@ -3,6 +3,14 @@ Signalpost Company Intelligence Agent
 =====================================
 Source 2: Web Search via SerpAPI + intelligent scraping
 Finds company websites, news, and supplemental facts.
+
+Keyless operation (no SERPAPI_KEY):
+  - serp_search() returns [] immediately — no external call.
+  - discover_company_website() uses the Brreg-supplied hjemmeside first, then
+    falls back to extracting a homepage link from the Proff.no page.
+  - search_company_news() returns empty — no search key available.
+  All core pipeline steps (Brreg + Regnskapsregisteret + Proff scrape) still
+  run and a complete profile is produced for every company.
 """
 
 from __future__ import annotations
@@ -56,8 +64,8 @@ async def scrape_page(url: str, max_chars: int = 8000) -> Optional[str]:
     """
     Fetch a webpage and return clean text content.
     """
-    async with httpx.AsyncClient(timeout=20, follow_redirects=True, headers=HEADERS) as client:
-        try:
+    try:
+        async with httpx.AsyncClient(timeout=8, follow_redirects=True, headers=HEADERS) as client:
             resp = await client.get(url)
             if resp.status_code != 200:
                 return None
@@ -69,22 +77,22 @@ async def scrape_page(url: str, max_chars: int = 8000) -> Optional[str]:
             # Collapse whitespace
             text = re.sub(r"\n{3,}", "\n\n", text)
             return text[:max_chars]
-        except Exception:
-            return None
+    except Exception:
+        return None
 
 
 # ─── Proff.no direct lookup ───────────────────────────────────────────────────
 
 async def scrape_proff(org_number: str, company_name: str) -> Dict[str, Any]:
     """
-    Scrape proff.no for enriched company data.
-    Proff.no has a predictable URL structure for Norwegian companies.
+    Scrape proff.no for company website discovery and fallback employee count.
+    Citation rule: Proff.no is permitted ONLY for employees and internal _proff_raw keys.
+    Never attribute Proff-extracted facts to a company's website.
     """
     evidence: list[EvidenceItem] = []
     result: Dict[str, Any] = {}
 
     # Proff.no URL pattern: /firmaer/<slug>/<org_number>/
-    # We try to build the slug from the company name
     slug = re.sub(r"[^a-z0-9]+", "-", company_name.lower()).strip("-")
     url = f"https://www.proff.no/firmaer/{slug}/{org_number}/"
 
@@ -96,25 +104,21 @@ async def scrape_proff(org_number: str, company_name: str) -> Dict[str, Any]:
         if not text:
             return {"evidence": []}
 
-    source_ev = EvidenceItem(
-        fact_key="_proff_raw",
-        fact_value=url,
-        source_name="Proff.no",
-        source_url=url,
-        date_checked=TODAY,
-        confidence=0.75,
-        method="webpage_scrape",
-    )
+    # Extract official company website URL from Proff
+    company_website = _extract_company_website_from_proff(text, org_number)
+    if company_website:
+        result["_proff_website"] = company_website
 
-    # Extract employee count if missing
+    # Extract employee count if present on Proff
     emp_match = re.search(r"(\d[\d\s]*)\s+ansatte", text, re.IGNORECASE)
     if emp_match:
         emp_str = emp_match.group(1).replace(" ", "")
         try:
-            result["employees_proff"] = int(emp_str)
+            emp_val = int(emp_str)
+            result["employees"] = emp_val
             evidence.append(EvidenceItem(
                 fact_key="employees",
-                fact_value=int(emp_str),
+                fact_value=emp_val,
                 source_name="Proff.no",
                 source_url=url,
                 date_checked=TODAY,
@@ -125,8 +129,30 @@ async def scrape_proff(org_number: str, company_name: str) -> Dict[str, Any]:
             pass
 
     result["evidence"] = evidence
-    result["_proff_text"] = text[:3000]  # Keep for LLM
     return result
+
+
+def _extract_company_website_from_proff(text: str, org_number: str) -> Optional[str]:
+    """
+    Parse the plain text of a Proff.no page to find the company's own homepage.
+    Proff typically renders it as a labelled line like:
+      Hjemmeside: https://www.example.no
+    Returns the URL string if found, else None.
+    """
+    # Match labelled website line
+    m = re.search(
+        r"(?:Hjemmeside|Nettside|Website)[:\s]+((https?://|www\.)[^\s\n,;\"'<>]+)",
+        text,
+        re.IGNORECASE,
+    )
+    if m:
+        site = m.group(1).rstrip("/.,;")
+        if not site.startswith("http"):
+            site = "https://" + site
+        # Exclude aggregator sites
+        if not any(skip in site for skip in ["proff.no", "brreg.no", "1881.no", "gulesider"]):
+            return site
+    return None
 
 
 # ─── Company website discovery ────────────────────────────────────────────────
@@ -135,25 +161,39 @@ async def discover_company_website(
     org_number: str,
     company_name: str,
     known_website: Optional[str] = None,
+    proff_website_hint: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    If Brreg doesn't have a website, search for it via SerpAPI.
-    Also scrapes the homepage for a short description.
+    If Brreg doesn't have a website, find one via:
+      1. SerpAPI search (if SERPAPI_KEY is set), OR
+      2. Homepage URL extracted from the Proff.no page (keyless fallback).
+    Then scrapes the company's own homepage for a description.
+
+    The discovered URL is always the company's own site, so facts scraped from
+    it are cited with the company's domain as source_url — never proff.no.
     """
     evidence: list[EvidenceItem] = []
     result: Dict[str, Any] = {}
 
     website = known_website
+
     if not website:
-        # Search for the company website
-        results = await serp_search(f'"{company_name}" organisasjonsnummer {org_number} site:no OR site:com', num=3)
-        for r in results:
-            link = r.get("link", "")
-            # Skip aggregator sites
-            if any(skip in link for skip in ["proff.no", "brreg.no", "1881.no", "gulesider"]):
-                continue
-            website = link
-            break
+        if SERPAPI_KEY:
+            # Search for the company website via SerpAPI
+            results = await serp_search(
+                f'"{company_name}" organisasjonsnummer {org_number} site:no OR site:com', num=3
+            )
+            for r in results:
+                link = r.get("link", "")
+                # Skip aggregator sites
+                if any(skip in link for skip in ["proff.no", "brreg.no", "1881.no", "gulesider"]):
+                    continue
+                website = link
+                break
+
+        # Keyless fallback: use homepage URL extracted from Proff.no page
+        if not website and proff_website_hint:
+            website = proff_website_hint
 
     if not website:
         return {"evidence": []}
@@ -162,11 +202,11 @@ async def discover_company_website(
     evidence.append(EvidenceItem(
         fact_key="website",
         fact_value=website,
-        source_name="Web search",
+        source_name="Company website" if (not SERPAPI_KEY or proff_website_hint == website) else "Web search",
         source_url=website,
         date_checked=TODAY,
-        confidence=0.6,
-        method="serp_search",
+        confidence=0.65 if not SERPAPI_KEY else 0.6,
+        method="webpage_scrape" if (not SERPAPI_KEY or proff_website_hint == website) else "serp_search",
     ))
 
     # Scrape homepage for description
@@ -180,32 +220,33 @@ async def discover_company_website(
 
 # ─── Company news search ──────────────────────────────────────────────────────
 
-async def search_company_news(company_name: str, org_number: str) -> Dict[str, Any]:
+async def search_company_news(company_name: str, org_number: str) -> List[Dict[str, str]]:
     """
     Search for recent news about the company to find CEO, revenue, etc.
+    Returns a list of articles: [{"title": ..., "link": ..., "snippet": ...}]
+    Only includes items with valid, real article URLs (never google.com or aggregators).
     """
     query = f'"{company_name}" Norway CEO revenue employees 2024 OR 2025'
     results = await serp_search(query, num=5)
 
-    evidence: list[EvidenceItem] = []
-    snippets: list[str] = []
+    articles: List[Dict[str, str]] = []
 
     for r in results:
         snippet = r.get("snippet", "")
         link = r.get("link", "")
-        if snippet:
-            snippets.append(f"[{link}]: {snippet}")
-            evidence.append(EvidenceItem(
-                fact_key="_news_snippet",
-                fact_value=snippet,
-                source_name=r.get("title", "News article"),
-                source_url=link,
-                date_checked=TODAY,
-                confidence=0.5,
-                method="serp_search",
-            ))
+        title = r.get("title", "News article")
+        if not link or not snippet:
+            continue
+        if not (link.startswith("http://") or link.startswith("https://")):
+            continue
+        # Skip search engines, portals and aggregators
+        if any(skip in link for skip in ["google.", "bing.", "yahoo.", "proff.no", "1881.no", "gulesider"]):
+            continue
 
-    return {
-        "news_snippets": snippets,
-        "evidence": evidence,
-    }
+        articles.append({
+            "title": title,
+            "link": link,
+            "snippet": snippet,
+        })
+
+    return articles

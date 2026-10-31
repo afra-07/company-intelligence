@@ -110,56 +110,87 @@ def save_profile(profile: CompanyProfile) -> None:
 def merge_profile(existing: CompanyProfile, updates: dict, new_evidence: List[EvidenceItem]) -> CompanyProfile:
     """
     Merge new data into an existing profile.
-    - For each field: if the new value is from a higher-confidence source, replace.
-    - Always append new evidence items (deduplication by source_url + fact_key).
-    - Update profile_updated_at timestamp.
+    - Preserves all 6 nested sections (identity, contact, business, financials, people, meta).
+    - For each field: if new value is valid, updates; protects core identity fields from lower-confidence overwrites.
+    - Always appends new evidence items (deduplication by source_url + fact_key).
+    - Updates profile_updated_at timestamp.
     """
-    existing_data = existing.model_dump()
+    # Extract flattened dictionary from existing profile
+    existing_flat = {
+        "organization_number": existing.identity.organization_number,
+        "company_name": existing.identity.company_name,
+        "legal_form": existing.identity.legal_form,
+        "status": existing.identity.status,
+        "registered_date": existing.identity.registered_date,
+        "address": existing.contact.address,
+        "postal_address": existing.contact.postal_address,
+        "municipality": existing.contact.municipality,
+        "website": existing.contact.website,
+        "email": existing.contact.email,
+        "phone": existing.contact.phone,
+        "industry_code": existing.business.industry_code,
+        "industry_description": existing.business.industry_description,
+        "employees": existing.business.employees,
+        "sector": existing.business.sector,
+        "revenue": existing.financials.revenue,
+        "operating_profit": existing.financials.operating_profit,
+        "net_income": existing.financials.net_income,
+        "total_assets": existing.financials.total_assets,
+        "equity": existing.financials.equity,
+        "financial_year": existing.financials.financial_year,
+        "financials_status": existing.financials.financials_status,
+        "ceo": existing.people.ceo,
+        "board_members": existing.people.board_members,
+        "description": existing.people.description,
+        "profile_created_at": existing.meta.profile_created_at,
+        "profile_updated_at": existing.meta.profile_updated_at,
+        "confidence_score": existing.meta.confidence_score,
+        "sources_used": list(existing.meta.sources_used),
+    }
 
-    # Fields that should NEVER be overwritten by lower-confidence sources
+    # Flatten updates if nested
+    updates_flat: dict = {}
+    if "identity" in updates and isinstance(updates["identity"], dict):
+        for section in ("identity", "contact", "business", "financials", "people", "meta"):
+            if section in updates and isinstance(updates[section], dict):
+                updates_flat.update(updates[section])
+    else:
+        updates_flat = dict(updates)
+
     PROTECTED_FIELDS = {"organization_number", "company_name", "legal_form", "registered_date"}
 
-    for field, new_value in updates.items():
+    for field, new_value in updates_flat.items():
         if field in ("evidence", "profile_created_at", "profile_updated_at", "confidence_score", "sources_used"):
             continue
         if new_value is None:
             continue
 
-        current_value = existing_data.get(field)
-
+        current_value = existing_flat.get(field)
         if current_value is None:
-            # Always fill empty fields
-            existing_data[field] = new_value
+            existing_flat[field] = new_value
         elif field in PROTECTED_FIELDS:
-            # Protected: only update if from official brreg source
             new_ev = next(
                 (e for e in new_evidence if e.fact_key == field and e.method == "brreg_api"),
                 None,
             )
             if new_ev:
-                existing_data[field] = new_value
+                existing_flat[field] = new_value
         else:
-            # For non-protected fields, update if new value differs
             if current_value != new_value:
-                existing_data[field] = new_value
+                existing_flat[field] = new_value
 
     # Merge evidence — deduplicate by (source_url, fact_key)
-    existing_evidence = existing_data.get("evidence", [])
-    existing_ev_keys = {
-        (e["source_url"], e["fact_key"])
-        for e in existing_evidence
-    }
+    existing_evidence = [e.model_dump() for e in existing.meta.evidence]
+    existing_ev_keys = {(e["source_url"], e["fact_key"]) for e in existing_evidence}
     for ev in new_evidence:
         key = (ev.source_url, ev.fact_key)
         if key not in existing_ev_keys:
             existing_evidence.append(ev.model_dump())
             existing_ev_keys.add(key)
-    existing_data["evidence"] = existing_evidence
+    existing_flat["evidence"] = existing_evidence
+    existing_flat["profile_updated_at"] = datetime.utcnow().isoformat()
 
-    # Update timestamp
-    existing_data["profile_updated_at"] = datetime.utcnow().isoformat()
-
-    return CompanyProfile(**existing_data)
+    return CompanyProfile(**existing_flat)
 
 
 def list_profiles() -> List[str]:
