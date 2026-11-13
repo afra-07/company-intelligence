@@ -58,18 +58,25 @@ elif _PROVIDER == "gemini":
     _genai_client = genai.GenerativeModel("gemini-1.5-flash")
 
 from models import EvidenceItem, CompanyProfile
+from web_searcher import verify_company_identity
 
 
 # ─── System prompts ───────────────────────────────────────────────────────────
 
 EXTRACTION_SYSTEM = """You are a data extraction specialist for Norwegian company intelligence.
 Given raw text from websites, news articles, or company pages, extract structured company facts.
-ONLY extract facts that are clearly stated in the text. Do NOT invent or guess.
+Focus on:
+1. Core leadership and contact info (CEO, phone, email, website).
+2. Diverse business intelligence (products and services, business activities, sustainability initiatives, strategic projects, partnerships).
+ONLY extract facts that are clearly stated in the text. Do NOT invent, assume or guess.
 Return valid JSON only."""
 
 VERIFICATION_SYSTEM = """You are a company identity verification specialist.
-Your job is to confirm whether a piece of information belongs to a SPECIFIC company.
-You must be strict: if the org number or full company name doesn't match, say so.
+Your job is to confirm whether a piece of text genuinely belongs to a SPECIFIC Norwegian company.
+You must be strict:
+- If a DIFFERENT Norwegian 9-digit organization number appears, is_match MUST be false.
+- If the text describes a different entity with a similar name, is_match MUST be false.
+- Only return is_match: true if the company is confirmed to be the subject.
 Return valid JSON only."""
 
 DESCRIPTION_SYSTEM = """You are a business analyst. Given company data, write a concise 2-3 sentence
@@ -135,7 +142,7 @@ async def extract_facts_from_text(
     Returns a dict of field->value plus evidence items.
     Returns empty dict (no-op) when no LLM provider is available.
     """
-    prompt = f"""Extract company facts for: {company_name} (org: {org_number})
+    prompt = f"""Extract verified company facts for: {company_name} (org: {org_number})
 
 TEXT:
 {text[:4000]}
@@ -143,20 +150,19 @@ TEXT:
 Return JSON with these fields (omit fields not found):
 {{
   "ceo": "full name or null",
-  "employees": number or null,
-  "revenue": number in NOK or null,
-  "description": "what the company does" or null,
-  "website": "URL" or null,
-  "phone": "phone number" or null,
-  "email": "email" or null,
-  "board_members": ["name (role)", ...] or null
+  "description": "concise factual summary of what the company does or null",
+  "products_services": "concise description of core products, services or solutions or null",
+  "business_activity": "concise description of key operational activities or null",
+  "sustainability": "concise description of sustainability or climate initiatives or null",
+  "technology_innovation": "concise description of key technologies, facilities or R&D or null",
+  "project": "major active project or strategic initiative or null",
+  "partnership": "key documented business partnership or collaboration or null"
 }}"""
 
     try:
         raw = await _complete(EXTRACTION_SYSTEM, prompt, json_mode=True, max_tokens=800)
         if raw is None:
             return {"evidence": []}
-        # Gemini/Anthropic may wrap JSON in markdown fences — strip them
         raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
         extracted = json.loads(raw)
     except Exception as e:
@@ -166,7 +172,7 @@ Return JSON with these fields (omit fields not found):
     result: Dict[str, Any] = {}
 
     for field, value in extracted.items():
-        if value is None:
+        if value is None or value == "":
             continue
         result[field] = value
         evidence.append(EvidenceItem(
@@ -175,7 +181,7 @@ Return JSON with these fields (omit fields not found):
             source_name=source_name,
             source_url=source_url,
             date_checked=TODAY,
-            confidence=0.7,  # LLM extraction is less certain than direct API
+            confidence=0.85,
             method="llm_extract",
         ))
 
@@ -189,21 +195,43 @@ async def verify_company_match(
     candidate_text: str,
     expected_org_number: str,
     expected_name: str,
+    candidate_url: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     CRITICAL: Verify that a webpage/source actually refers to the target company.
-    This is the 30-point Company Matching component.
-    Returns {is_match: bool, confidence: float, reason: str}
-    Returns a permissive default when no LLM provider is available.
+    Guards against matching wrong companies with similar names.
     """
+    # Deterministic heuristic verification first
+    is_ver, conf, reason = verify_company_identity(candidate_text, expected_org_number, expected_name, candidate_url)
+    if not is_ver and conf == 0.0:
+        # Hard conflict (e.g. mismatched org number found)
+        return {
+            "is_match": False,
+            "confidence": 0.0,
+            "org_number_found": False,
+            "name_matches": False,
+            "reason": reason,
+        }
+
+    # If no LLM available, use deterministic verification result
+    if _PROVIDER is None:
+        return {
+            "is_match": is_ver,
+            "confidence": conf,
+            "org_number_found": "org" in reason.lower(),
+            "name_matches": "name" in reason.lower() or "domain" in reason.lower(),
+            "reason": reason,
+        }
+
     prompt = f"""We are looking for information about:
 - Company name: {expected_name}
 - Organization number: {expected_org_number}
 
-Does this text refer to THAT SPECIFIC company? Check:
-1. Does the org number appear? (strongest signal)
+Does this text refer to THAT SPECIFIC company?
+Check:
+1. Does the 9-digit org number appear?
 2. Is the full company name an exact match?
-3. Is there any evidence this could be a different company with a similar name?
+3. Is there ANY evidence this is a different company with a similar name? If so, is_match must be false.
 
 TEXT:
 {candidate_text[:2000]}
@@ -220,12 +248,15 @@ Return JSON:
     try:
         raw = await _complete(VERIFICATION_SYSTEM, prompt, json_mode=True, max_tokens=300)
         if raw is None:
-            # No LLM available — default to uncertain
-            return {"is_match": True, "confidence": 0.5, "reason": "LLM verification unavailable"}
+            return {"is_match": is_ver, "confidence": conf, "reason": reason}
         raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-        return json.loads(raw)
+        data = json.loads(raw)
+        # Ensure confidence is capped if deterministic check failed
+        if not is_ver and data.get("is_match", False):
+            data["confidence"] = min(data.get("confidence", 0.5), 0.6)
+        return data
     except Exception:
-        return {"is_match": True, "confidence": 0.5, "reason": "LLM verification unavailable"}
+        return {"is_match": is_ver, "confidence": conf, "reason": reason}
 
 
 # ─── Company description generation ──────────────────────────────────────────
@@ -264,10 +295,8 @@ async def resolve_conflicting_values(
     company_name: str,
 ) -> Dict[str, Any]:
     """
-    When multiple sources disagree on a value (e.g. different employee counts),
-    use LLM to pick the most credible one and explain why.
-    Returns {chosen_value, confidence, reason}
-    Falls back to highest-confidence source when no LLM provider is available.
+    When multiple sources disagree on a value, pick the most credible one.
+    Official registers > government sources > news > scraped web.
     """
     if len(values) == 1:
         return {"chosen_value": values[0]["value"], "confidence": values[0]["confidence"], "reason": "Only one source"}
@@ -296,6 +325,5 @@ Return JSON: {{"chosen_value": ..., "confidence": 0.0-1.0, "reason": "..."}}"""
         raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
         return json.loads(raw)
     except Exception:
-        # Fall back to highest confidence
         best = max(values, key=lambda v: v["confidence"])
         return {"chosen_value": best["value"], "confidence": best["confidence"], "reason": "Fallback to highest confidence source"}

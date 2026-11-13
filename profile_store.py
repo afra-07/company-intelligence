@@ -78,8 +78,6 @@ def load_profile(org_number: str) -> Optional[CompanyProfile]:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         profile = CompanyProfile(**data)
-        # Return None if stale so the pipeline re-runs and refreshes the data.
-        # This prevents the evaluator from receiving outdated facts.
         if is_profile_stale(profile):
             return None
         return profile
@@ -107,15 +105,23 @@ def save_profile(profile: CompanyProfile) -> None:
         json.dump(profile.model_dump(), f, ensure_ascii=False, indent=2, default=str)
 
 
+def _ev_fingerprint(ev_dict: dict) -> tuple:
+    val = ev_dict.get("fact_value")
+    if isinstance(val, dict):
+        val_repr = str(val.get("headline") or val.get("title") or val)[:60]
+    else:
+        val_repr = str(val)[:60]
+    return (ev_dict.get("fact_key"), ev_dict.get("source_url"), val_repr)
+
+
 def merge_profile(existing: CompanyProfile, updates: dict, new_evidence: List[EvidenceItem]) -> CompanyProfile:
     """
     Merge new data into an existing profile.
     - Preserves all 6 nested sections (identity, contact, business, financials, people, meta).
-    - For each field: if new value is valid, updates; protects core identity fields from lower-confidence overwrites.
-    - Always appends new evidence items (deduplication by source_url + fact_key).
+    - Protects core identity fields from lower-confidence overwrites.
+    - Merges evidence with smart deduplication across news, jobs, and diverse facts.
     - Updates profile_updated_at timestamp.
     """
-    # Extract flattened dictionary from existing profile
     existing_flat = {
         "organization_number": existing.identity.organization_number,
         "company_name": existing.identity.company_name,
@@ -179,14 +185,16 @@ def merge_profile(existing: CompanyProfile, updates: dict, new_evidence: List[Ev
             if current_value != new_value:
                 existing_flat[field] = new_value
 
-    # Merge evidence — deduplicate by (source_url, fact_key)
+    # Merge evidence with smart fingerprint deduplication
     existing_evidence = [e.model_dump() for e in existing.meta.evidence]
-    existing_ev_keys = {(e["source_url"], e["fact_key"]) for e in existing_evidence}
+    existing_fps = {_ev_fingerprint(e) for e in existing_evidence}
     for ev in new_evidence:
-        key = (ev.source_url, ev.fact_key)
-        if key not in existing_ev_keys:
-            existing_evidence.append(ev.model_dump())
-            existing_ev_keys.add(key)
+        ev_dict = ev.model_dump()
+        fp = _ev_fingerprint(ev_dict)
+        if fp not in existing_fps:
+            existing_evidence.append(ev_dict)
+            existing_fps.add(fp)
+
     existing_flat["evidence"] = existing_evidence
     existing_flat["profile_updated_at"] = datetime.utcnow().isoformat()
 

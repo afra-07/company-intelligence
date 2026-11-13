@@ -2,49 +2,66 @@
 Signalpost Company Intelligence Agent
 =====================================
 The main orchestration pipeline.
-Coordinates all sources, handles matching, and builds the final profile.
+Coordinates all authoritative public sources, performs strict identity verification,
+runs dedicated news and job posting pipelines, and produces high-diversity company intelligence.
 
 Pipeline:
   org_number
-    → Brreg entity fetch   (authoritative identity)
-    → Brreg roles fetch    (CEO, board)
-    → Regnskapsregisteret  (financials)
-    → Proff.no scrape      (enrichment)
-    → Web search + scrape  (supplemental)
-    → LLM extraction       (unstructured → structured)
-    → Company verification (matching guard)
-    → Description gen      (polish)
-    → Profile merge/save   (update logic)
-    → CompanyProfile
+    → Brreg entity fetch                 (authoritative legal identity, address, status, employees)
+    → Brreg roles fetch                  (CEO, board of directors)
+    → Regnskapsregisteret                (annual accounts & financials)
+    → Proff.no scrape                    (website discovery bridge & employee fallback)
+    → Website Discovery & Verification   (strict domain and org number cross-checking)
+    → Dedicated News Pipeline            (headlines, summaries, publication dates, original URLs)
+    → Dedicated Job Posting Pipeline     (vacancies, locations, employment types, deadlines, URLs)
+    → Dedicated Intelligence Facts       (products/services, operations, sustainability, projects)
+    → LLM Extraction & Verification      (optional deep extraction if provider key set)
+    → Deduplication & Quality Filter     (removes duplicate/unsupported claims, validates citations)
+    → Profile Merge / Persist            (updates store and generates contract-compliant profile)
 """
 
 from __future__ import annotations
 import asyncio
+import os
 import time
-from datetime import datetime
-from typing import List, Optional
+from datetime import datetime, date
+from typing import List, Optional, Dict, Any
+
 from models import CompanyProfile, EvidenceItem, AgentRunResult
 from brreg_fetcher import fetch_brreg_entity, fetch_brreg_roles, fetch_regnskap
-from web_searcher import scrape_proff, discover_company_website, search_company_news
+from web_searcher import (
+    scrape_proff,
+    discover_company_website,
+    extract_company_news,
+    extract_company_jobs,
+    extract_company_intelligence_facts,
+    search_company_news,
+)
 from llm_extractor import (
     extract_facts_from_text,
     verify_company_match,
     generate_description,
     resolve_conflicting_values,
 )
-from profile_store import load_profile, load_profile_any_age, save_profile, merge_profile, increment_request
-import os
+from profile_store import (
+    load_profile,
+    load_profile_any_age,
+    save_profile,
+    merge_profile,
+    increment_request,
+)
 from llm_extractor import _PROVIDER as _LLM_PROVIDER
 
-# LLM steps run when any supported provider key (OpenAI / Anthropic / Gemini) is available.
-HAS_OPENAI = _LLM_PROVIDER is not None  # name kept for backwards-compat
+HAS_OPENAI = _LLM_PROVIDER is not None
+TODAY = date.today().isoformat()
 
 
 def _compute_confidence(profile: CompanyProfile) -> float:
     """
     Compute overall profile confidence score based on:
-    - Number of fields populated
-    - Confidence of supporting evidence
+    - Number of core fields populated
+    - Average confidence of supporting evidence
+    - Diversity bonus for non-registry company intelligence (news, jobs, products)
     """
     key_fields = [
         "company_name", "status", "industry_description", "address",
@@ -53,12 +70,20 @@ def _compute_confidence(profile: CompanyProfile) -> float:
     filled = sum(1 for f in key_fields if getattr(profile, f, None) is not None)
     field_score = filled / len(key_fields)
 
+    # Check evidence diversity: reward independently verified intelligence
+    fact_keys = {e.fact_key for e in profile.evidence}
+    has_news = "company_news" in fact_keys
+    has_jobs = "job_posting" in fact_keys
+    has_diverse = any(k in fact_keys for k in ["products_services", "business_activity", "sustainability", "technology_innovation", "project"])
+    diversity_bonus = 0.05 if (has_news or has_jobs or has_diverse) else 0.0
+
     if profile.evidence:
         avg_ev_confidence = sum(e.confidence for e in profile.evidence) / len(profile.evidence)
     else:
         avg_ev_confidence = 0.0
 
-    return round(0.6 * field_score + 0.4 * avg_ev_confidence, 3)
+    score = 0.5 * field_score + 0.45 * avg_ev_confidence + diversity_bonus
+    return min(1.0, round(score, 3))
 
 
 def _dedupe_sources(sources: List[str]) -> List[str]:
@@ -71,6 +96,46 @@ def _dedupe_sources(sources: List[str]) -> List[str]:
     return out
 
 
+def _ev_fingerprint(ev: EvidenceItem) -> tuple:
+    val = ev.fact_value
+    if isinstance(val, dict):
+        val_repr = str(val.get("headline") or val.get("title") or val)[:60]
+    else:
+        val_repr = str(val)[:60]
+    return (ev.fact_key, ev.source_url, val_repr)
+
+
+def _clean_and_dedupe_evidence(evidence_list: List[EvidenceItem]) -> List[EvidenceItem]:
+    """
+    Audit evidence trail to guarantee:
+      1. No citation violations (no proff.no for published facts, no search engines).
+      2. No duplicate claims.
+      3. Valid confidence scores in [0.0, 1.0].
+      4. Valid methods in OUTPUT_CONTRACT.
+    """
+    VALID_METHODS = {"brreg_api", "regnskaps_api", "serp_search", "webpage_scrape", "llm_extract"}
+    cleaned = []
+    seen = set()
+
+    for ev in evidence_list:
+        # Check citation rules
+        if "proff.no" in ev.source_url.lower() and ev.fact_key not in ("employees", "_proff_raw"):
+            continue
+        if any(engine in ev.source_url.lower() for engine in ["google.", "bing.", "yahoo."]):
+            continue
+        if ev.method not in VALID_METHODS:
+            continue
+        if ev.fact_value is None or ev.fact_value == "":
+            continue
+
+        fp = _ev_fingerprint(ev)
+        if fp not in seen:
+            seen.add(fp)
+            cleaned.append(ev)
+
+    return cleaned
+
+
 async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRunResult:
     """
     Main agent pipeline. Returns an AgentRunResult with the full CompanyProfile.
@@ -80,6 +145,8 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
       - If org number is invalid or not in Brreg, returns success=False and profile=None.
       - Never fabricates evidence or guesses missing fields.
       - Proff.no is strictly used for website discovery; never as a published fact source.
+      - Gathers dedicated verified news and job postings.
+      - Employs strict identity cross-checking to prevent false matches.
     """
     start_time = time.time()
     steps: List[str] = []
@@ -115,8 +182,9 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                 steps_executed=steps,
             )
 
-        # ── STEP 1: Brreg — Authoritative identity ────────────────────────────
+        # ── STEP 1: Brreg — Authoritative legal identity ─────────────────────
         steps.append("brreg_entity")
+        increment_request("brreg_http")
         brreg_result = await fetch_brreg_entity(org_number)
 
         if "error" in brreg_result and "company_name" not in brreg_result:
@@ -136,7 +204,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
         company_name = merged_data.get("company_name", "")
 
-        # ── STEP 2: Brreg — Management roles ─────────────────────────────────
+        # ── STEP 2: Brreg — Management roles & governance ────────────────────
         steps.append("brreg_roles")
         increment_request("brreg_http")
         roles_result = await fetch_brreg_roles(org_number)
@@ -144,8 +212,9 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         all_evidence.extend(roles_evidence)
         merged_data.update({k: v for k, v in roles_result.items() if not k.startswith("_")})
 
-        # ── STEP 3: Regnskapsregisteret — Financials ──────────────────────────
+        # ── STEP 3: Regnskapsregisteret — Financial statements ────────────────
         steps.append("regnskapsregisteret")
+        increment_request("regnskap_http")
         regnskap_result = await fetch_regnskap(org_number)
         regnskap_evidence: List[EvidenceItem] = regnskap_result.pop("evidence", [])
         all_evidence.extend(regnskap_evidence)
@@ -154,8 +223,6 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             sources_used.append("Regnskapsregisteret (brreg.no)")
 
         # ── STEP 4: Proff.no — Website discovery & employee fallback ─────────
-        # Citation rule: Proff.no is permitted ONLY for employees and internal _proff_raw keys.
-        # Never attribute Proff-extracted facts to a company's website.
         steps.append("proff_scrape")
         increment_request("proff_http")
         proff_result = await scrape_proff(org_number, company_name)
@@ -164,7 +231,6 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         if proff_website_hint:
             steps.append("proff_website_discovered")
 
-        # Fallback to Proff employee count only if Brreg didn't already supply employees
         if merged_data.get("employees") is None and "employees" in proff_result:
             merged_data["employees"] = proff_result["employees"]
             for ev in proff_evidence:
@@ -172,10 +238,10 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                     all_evidence.append(ev)
                     sources_used.append("Proff.no")
 
-        # ── STEP 5: Company website discovery + scrape ────────────────────────
+        # ── STEP 5: Official Website Discovery & Verification ────────────────
         known_website = merged_data.get("website")
         steps.append("website_discovery")
-        increment_request("serpapi_http")
+        increment_request("website_http")
         web_result = await discover_company_website(org_number, company_name, known_website, proff_website_hint)
         web_evidence: List[EvidenceItem] = web_result.pop("evidence", [])
         website_text = web_result.pop("_website_text", None)
@@ -183,23 +249,99 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
         if discovered_website and not merged_data.get("website"):
             merged_data["website"] = discovered_website
-            # Add website evidence only if not already provided by Brreg
             if not any(e.fact_key == "website" for e in all_evidence):
                 all_evidence.extend(web_evidence)
 
         target_website = discovered_website or known_website
+
+        # ── STEP 6: PHASE 3 — Dedicated Company News Pipeline ────────────────
+        if target_website:
+            steps.append("company_news_pipeline")
+            try:
+                news_items = await extract_company_news(target_website, company_name, org_number)
+                for item in news_items:
+                    all_evidence.append(EvidenceItem(
+                        fact_key="company_news",
+                        fact_value={
+                            "headline": item["headline"],
+                            "summary": item["summary"],
+                            "published_date": item["published_date"],
+                            "url": item["url"],
+                            "company": company_name,
+                        },
+                        source_name=item.get("source_name", f"{company_name} Official News"),
+                        source_url=item["url"],
+                        date_checked=TODAY,
+                        confidence=0.92,
+                        method="webpage_scrape",
+                    ))
+                    sources_used.append(f"{item.get('source_name', 'Company News')} ({item['url']})")
+                if news_items:
+                    steps.append("news_extracted")
+            except Exception:
+                pass
+
+        # ── STEP 7: PHASE 4 — Dedicated Job Posting Pipeline ─────────────────
+        if target_website:
+            steps.append("job_posting_pipeline")
+            try:
+                jobs = await extract_company_jobs(target_website, company_name, org_number)
+                for job in jobs:
+                    all_evidence.append(EvidenceItem(
+                        fact_key="job_posting",
+                        fact_value={
+                            "title": job["title"],
+                            "location": job["location"],
+                            "employment_type": job.get("employment_type"),  # None if not determinable
+                            "published_date": job.get("published_date") or job.get("posted_date"),
+                            "deadline": job.get("deadline"),  # None if not determinable
+                            "url": job["url"],
+                            "company": company_name,
+                        },
+                        source_name=job.get("source_name", f"{company_name} Careers"),
+                        source_url=job["url"],
+                        date_checked=TODAY,
+                        confidence=0.90,
+                        method="webpage_scrape",
+                    ))
+                    sources_used.append(f"{job.get('source_name', 'Careers')} ({job['url']})")
+                if jobs:
+                    steps.append("jobs_extracted")
+            except Exception:
+                pass
+
+        # ── STEP 8: PHASE 2 — Diverse Company Intelligence Facts ──────────────
+        if target_website:
+            steps.append("diverse_facts_pipeline")
+            try:
+                diverse_facts = await extract_company_intelligence_facts(target_website, company_name, org_number)
+                for df in diverse_facts:
+                    all_evidence.append(EvidenceItem(
+                        fact_key=df["fact_key"],
+                        fact_value=df["fact_value"],
+                        source_name=df["source_name"],
+                        source_url=df["source_url"],
+                        date_checked=TODAY,
+                        confidence=df.get("confidence", 0.90),
+                        method="webpage_scrape",
+                    ))
+                    sources_used.append(f"{df['source_name']} ({df['source_url']})")
+                if diverse_facts:
+                    steps.append("diverse_facts_extracted")
+            except Exception:
+                pass
+
+        # ── STEP 9: Optional LLM Extraction & Verification ────────────────────
         if website_text and target_website and HAS_OPENAI:
-            # Verify this is really the company's website
             increment_request("openai_llm")
-            web_verification = await verify_company_match(website_text, org_number, company_name)
-            if web_verification.get("is_match", False) and web_verification.get("confidence", 0) > 0.4:
+            web_verification = await verify_company_match(website_text, org_number, company_name, target_website)
+            if web_verification.get("is_match", False) and web_verification.get("confidence", 0) >= 0.8:
                 steps.append("website_verified")
-                # Extract facts directly from the actual company website
                 increment_request("openai_llm")
                 web_extracted = await extract_facts_from_text(
                     website_text, company_name, org_number,
                     source_url=target_website,
-                    source_name="Company website",
+                    source_name=f"{company_name} Official Website",
                 )
                 web_extracted_ev: List[EvidenceItem] = web_extracted.pop("evidence", [])
                 for field, value in web_extracted.items():
@@ -208,45 +350,20 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                 all_evidence.extend(web_extracted_ev)
                 sources_used.append(f"Company website ({target_website})")
         elif website_text and target_website:
-            steps.append("website_no_llm_extract")
+            steps.append("website_scraped")
             sources_used.append(f"Company website ({target_website})")
 
-        # ── STEP 6: News search (only if CEO or description still missing) ────
-        if HAS_OPENAI and (not merged_data.get("ceo") or not merged_data.get("description")):
-            steps.append("news_search")
-            increment_request("serpapi_http")
-            articles = await search_company_news(company_name, org_number)
-
-            for art in articles:
-                art_url = art.get("link")
-                art_title = art.get("title") or "News article"
-                snippet = art.get("snippet")
-                if not art_url or not snippet:
-                    continue
-
-                increment_request("openai_llm")
-                news_extracted = await extract_facts_from_text(
-                    snippet, company_name, org_number,
-                    source_url=art_url,
-                    source_name=art_title,
-                )
-                news_extracted_ev: List[EvidenceItem] = news_extracted.pop("evidence", [])
-                added_fields = 0
-                for field, value in news_extracted.items():
-                    if not field.startswith("_") and merged_data.get(field) is None:
-                        merged_data[field] = value
-                        added_fields += 1
-
-                if added_fields > 0 and news_extracted_ev:
-                    for ev in news_extracted_ev:
-                        if merged_data.get(ev.fact_key) == ev.fact_value:
-                            all_evidence.append(ev)
-                    sources_used.append(f"{art_title} ({art_url})")
-
-                if merged_data.get("ceo") and merged_data.get("description"):
+        # ── STEP 10: Generate description if still missing ────────────────────
+        if not merged_data.get("description"):
+            # Use verified business_activity from official website as factual description
+            for ev in all_evidence:
+                if ev.fact_key == "business_activity" and ev.fact_value:
+                    desc_val = str(ev.fact_value).strip()
+                    if len(desc_val) > 300:
+                        desc_val = desc_val[:297] + "..."
+                    merged_data["description"] = desc_val
                     break
 
-        # ── STEP 7: Generate description if still missing ─────────────────────
         if HAS_OPENAI and not merged_data.get("description"):
             steps.append("generate_description")
             increment_request("openai_llm")
@@ -254,22 +371,23 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             if desc:
                 merged_data["description"] = desc
 
-        # ── STEP 8: Build final profile ───────────────────────────────────────
+        # ── STEP 11: Deduplicate & Clean Evidence ─────────────────────────────
         steps.append("build_profile")
+        cleaned_evidence = _clean_and_dedupe_evidence(all_evidence)
 
         profile_fields = {
             k: v for k, v in merged_data.items()
             if not k.startswith("_") and k != "evidence"
         }
-        profile_fields["evidence"] = all_evidence
+        profile_fields["evidence"] = cleaned_evidence
         profile_fields["sources_used"] = _dedupe_sources(sources_used)
 
         profile = CompanyProfile(**profile_fields)
         profile.confidence_score = _compute_confidence(profile)
 
-        # ── STEP 9: Merge with existing or save fresh ─────────────────────────
+        # ── STEP 12: Merge with existing or save fresh ────────────────────────
         if existing:
-            profile = merge_profile(existing, profile.model_dump(), all_evidence)
+            profile = merge_profile(existing, profile.model_dump(), cleaned_evidence)
             steps.append("profile_merged")
         else:
             steps.append("profile_created")

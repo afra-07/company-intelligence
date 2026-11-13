@@ -6,6 +6,7 @@ Free, keyless REST API. Returns authoritative identity + address + industry data
 """
 
 from __future__ import annotations
+import asyncio
 import httpx
 from datetime import date
 from typing import Optional, Dict, Any
@@ -60,21 +61,42 @@ async def fetch_brreg_entity(org_number: str) -> Dict[str, Any]:
     evidence: list[EvidenceItem] = []
     result: Dict[str, Any] = {}
 
-    try:
-        async with httpx.AsyncClient(timeout=15) as client:
-            resp = await client.get(url, headers=HEADERS)
-
-            if resp.status_code == 404:
-                # Try sub-units (underenheter)
-                url = f"{BRREG_BASE}/underenheter/{org_number}"
+    data = None
+    last_err = ""
+    for attempt in range(3):
+        try:
+            async with httpx.AsyncClient(timeout=15) as client:
                 resp = await client.get(url, headers=HEADERS)
 
-            if resp.status_code != 200:
-                return {"error": f"Brreg returned HTTP {resp.status_code}", "evidence": []}
+                if resp.status_code == 404:
+                    # Try sub-units (underenheter)
+                    sub_url = f"{BRREG_BASE}/underenheter/{org_number}"
+                    sub_resp = await client.get(sub_url, headers=HEADERS)
+                    if sub_resp.status_code == 200:
+                        resp = sub_resp
+                        url = sub_url
 
-            data = resp.json()
-    except Exception as e:
-        return {"error": f"Brreg request failed: {str(e)}", "evidence": []}
+                if resp.status_code == 404:
+                    return {"error": f"Brreg returned HTTP 404", "evidence": []}
+
+                if resp.status_code != 200:
+                    last_err = f"Brreg returned HTTP {resp.status_code}"
+                    if attempt < 2:
+                        await asyncio.sleep(0.5)
+                        continue
+                    return {"error": last_err, "evidence": []}
+
+                data = resp.json()
+                break
+        except Exception as e:
+            last_err = f"Brreg request failed: {type(e).__name__} {str(e)}"
+            if attempt < 2:
+                await asyncio.sleep(0.5)
+                continue
+            return {"error": last_err, "evidence": []}
+
+    if not data:
+        return {"error": last_err or "Empty response from Brreg", "evidence": []}
 
     # ── Parse fields ──────────────────────────────────────────────────────────
     name = data.get("navn")

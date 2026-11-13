@@ -1,256 +1,484 @@
 {
-  "organization_number": "923609016",
-  "company_name": "EQUINOR ASA",
-  "legal_form": "Allmennaksjeselskap (ASA)",
-  "status": "Active",
-  "registered_date": "1995-03-12",
-  "address": "Forusbeen 50, 4035, STAVANGER, Norge",
-  "postal_address": "Postboks 8500, 4035, STAVANGER, Norge",
-  "municipality": "STAVANGER",
-  "website": "https://www.equinor.com",
-  "email": null,
-  "phone": "51 99 00 00",
-  "industry_code": "06.100",
-  "industry_description": "Utvinning av råolje",
-  "employees": 21272,
-  "sector": "Statlig eide aksjeselskaper mv.",
-  "revenue": 106462000000.0,
-  "operating_profit": 25353000000.0,
-  "net_income": 5058000000.0,
-  "total_assets": 131727000000.0,
-  "equity": 40497000000.0,
-  "financial_year": 2025,
-  "financials_status": "found",
-  "ceo": "Anders Opedal",
-  "board_members": [
-    "Jarle Kjell Roth (Styre)",
-    "Finn Bjørn Ruyter (Styre)",
-    "Haakon Stephen Bruun-Hanssen (Styre)",
-    "Fernanda Lopes Larsen (Styre)",
-    "Hilde Møllerstad (Styre)",
-    "Frank Gundersen (Styre)",
-    "Geir Leon Vadheim (Styre)",
-    "Anne Drinkwater (Styre)",
-    "Mikael Roland Karlsson (Styre)",
-    "Dawn Summers (Styre)",
-    "Hans Einar Haldorsen (Styre)",
-    "Anette Heggholmen (Styre)",
-    "Terje Werner Hansen (Styre)",
-    "ERNST & YOUNG AS (Revisor)"
-  ],
-  "description": null,
-  "profile_created_at": "2026-10-11T16:54:29.710890",
-  "profile_updated_at": "2026-10-11T17:18:50.285038",
-  "evidence": [
-    {
-      "fact_key": "company_name",
-      "fact_value": "EQUINOR ASA",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "legal_form",
-      "fact_value": "Allmennaksjeselskap (ASA)",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "status",
-      "fact_value": "Active",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "registered_date",
-      "fact_value": "1995-03-12",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "address",
-      "fact_value": "Forusbeen 50, 4035, STAVANGER, Norge",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "municipality",
-      "fact_value": "STAVANGER",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "postal_address",
-      "fact_value": "Postboks 8500, 4035, STAVANGER, Norge",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "website",
-      "fact_value": "https://www.equinor.com",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "phone",
-      "fact_value": "51 99 00 00",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "industry_code",
-      "fact_value": "06.100",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "industry_description",
-      "fact_value": "Utvinning av råolje",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "employees",
-      "fact_value": 21272,
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "sector",
-      "fact_value": "Statlig eide aksjeselskaper mv.",
-      "source_name": "Brønnøysundregistrene (Brreg)",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "ceo",
-      "fact_value": "Anders Opedal",
-      "source_name": "Brønnøysundregistrene — Roller",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "board_members",
-      "fact_value": [
-        "Jarle Kjell Roth (Styre)",
-        "Finn Bjørn Ruyter (Styre)",
-        "Haakon Stephen Bruun-Hanssen (Styre)",
-        "Fernanda Lopes Larsen (Styre)",
-        "Hilde Møllerstad (Styre)",
-        "Frank Gundersen (Styre)",
-        "Geir Leon Vadheim (Styre)",
-        "Anne Drinkwater (Styre)",
-        "Mikael Roland Karlsson (Styre)",
-        "Dawn Summers (Styre)",
-        "Hans Einar Haldorsen (Styre)",
-        "Anette Heggholmen (Styre)",
-        "Terje Werner Hansen (Styre)",
-        "ERNST & YOUNG AS (Revisor)"
-      ],
-      "source_name": "Brønnøysundregistrene — Roller",
-      "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
-      "date_checked": "2026-10-11",
-      "confidence": 1.0,
-      "method": "brreg_api"
-    },
-    {
-      "fact_key": "revenue",
-      "fact_value": 106462000000.0,
-      "source_name": "Regnskapsregisteret (2025)",
-      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
-      "date_checked": "2026-10-11",
-      "confidence": 0.95,
-      "method": "regnskaps_api"
-    },
-    {
-      "fact_key": "operating_profit",
-      "fact_value": 25353000000.0,
-      "source_name": "Regnskapsregisteret (2025)",
-      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
-      "date_checked": "2026-10-11",
-      "confidence": 0.95,
-      "method": "regnskaps_api"
-    },
-    {
-      "fact_key": "net_income",
-      "fact_value": 5058000000.0,
-      "source_name": "Regnskapsregisteret (2025)",
-      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
-      "date_checked": "2026-10-11",
-      "confidence": 0.95,
-      "method": "regnskaps_api"
-    },
-    {
-      "fact_key": "total_assets",
-      "fact_value": 131727000000.0,
-      "source_name": "Regnskapsregisteret (2025)",
-      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
-      "date_checked": "2026-10-11",
-      "confidence": 0.95,
-      "method": "regnskaps_api"
-    },
-    {
-      "fact_key": "equity",
-      "fact_value": 40497000000.0,
-      "source_name": "Regnskapsregisteret (2025)",
-      "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
-      "date_checked": "2026-10-11",
-      "confidence": 0.95,
-      "method": "regnskaps_api"
-    },
-    {
-      "fact_key": "website",
-      "fact_value": "https://www.equinor.com",
-      "source_name": "Web search",
-      "source_url": "https://www.equinor.com",
-      "date_checked": "2026-10-11",
-      "confidence": 0.6,
-      "method": "serp_search"
-    }
-  ],
-  "confidence_score": 0.921,
-  "sources_used": [
-    "Brønnøysundregistrene (brreg.no)",
-    "Regnskapsregisteret (brreg.no)",
-    "Company website (https://www.equinor.com)"
-  ]
+  "identity": {
+    "organization_number": "923609016",
+    "company_name": "EQUINOR ASA",
+    "legal_form": "Allmennaksjeselskap (ASA)",
+    "status": "Active",
+    "registered_date": "1995-03-12"
+  },
+  "contact": {
+    "address": "Forusbeen 50, 4035, STAVANGER, Norge",
+    "postal_address": "Postboks 8500, 4035, STAVANGER, Norge",
+    "municipality": "STAVANGER",
+    "website": "https://www.equinor.com",
+    "email": null,
+    "phone": "51 99 00 00"
+  },
+  "business": {
+    "industry_code": "06.100",
+    "industry_description": "Utvinning av råolje",
+    "employees": 21182,
+    "sector": "Statlig eide aksjeselskaper mv."
+  },
+  "financials": {
+    "revenue": 106462000000.0,
+    "operating_profit": 25353000000.0,
+    "net_income": 5058000000.0,
+    "total_assets": 131727000000.0,
+    "equity": 40497000000.0,
+    "financial_year": 2025,
+    "financials_status": "found"
+  },
+  "people": {
+    "ceo": "Anders Opedal",
+    "board_members": [
+      "Jarle Kjell Roth (Styre)",
+      "Finn Bjørn Ruyter (Styre)",
+      "Haakon Stephen Bruun-Hanssen (Styre)",
+      "Fernanda Lopes Larsen (Styre)",
+      "Hilde Møllerstad (Styre)",
+      "Frank Gundersen (Styre)",
+      "Geir Leon Vadheim (Styre)",
+      "Anne Drinkwater (Styre)",
+      "Mikael Roland Karlsson (Styre)",
+      "Dawn Summers (Styre)",
+      "Hans Einar Haldorsen (Styre)",
+      "Anette Heggholmen (Styre)",
+      "Terje Werner Hansen (Styre)",
+      "ERNST & YOUNG AS (Revisor)"
+    ],
+    "description": "Equinor is an international energy company committed to providing reliable energy in a volatile world."
+  },
+  "meta": {
+    "profile_created_at": "2026-11-13T16:36:54.608710",
+    "profile_updated_at": "2026-11-13T17:07:27.462605",
+    "evidence": [
+      {
+        "fact_key": "company_name",
+        "fact_value": "EQUINOR ASA",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "legal_form",
+        "fact_value": "Allmennaksjeselskap (ASA)",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "status",
+        "fact_value": "Active",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "registered_date",
+        "fact_value": "1995-03-12",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "address",
+        "fact_value": "Forusbeen 50, 4035, STAVANGER, Norge",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "municipality",
+        "fact_value": "STAVANGER",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "postal_address",
+        "fact_value": "Postboks 8500, 4035, STAVANGER, Norge",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "website",
+        "fact_value": "https://www.equinor.com",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "phone",
+        "fact_value": "51 99 00 00",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "industry_code",
+        "fact_value": "06.100",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "industry_description",
+        "fact_value": "Utvinning av råolje",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "employees",
+        "fact_value": 21182,
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "sector",
+        "fact_value": "Statlig eide aksjeselskaper mv.",
+        "source_name": "Brønnøysundregistrene (Brreg)",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "ceo",
+        "fact_value": "Anders Opedal",
+        "source_name": "Brønnøysundregistrene — Roller",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "board_members",
+        "fact_value": [
+          "Jarle Kjell Roth (Styre)",
+          "Finn Bjørn Ruyter (Styre)",
+          "Haakon Stephen Bruun-Hanssen (Styre)",
+          "Fernanda Lopes Larsen (Styre)",
+          "Hilde Møllerstad (Styre)",
+          "Frank Gundersen (Styre)",
+          "Geir Leon Vadheim (Styre)",
+          "Anne Drinkwater (Styre)",
+          "Mikael Roland Karlsson (Styre)",
+          "Dawn Summers (Styre)",
+          "Hans Einar Haldorsen (Styre)",
+          "Anette Heggholmen (Styre)",
+          "Terje Werner Hansen (Styre)",
+          "ERNST & YOUNG AS (Revisor)"
+        ],
+        "source_name": "Brønnøysundregistrene — Roller",
+        "source_url": "https://data.brreg.no/enhetsregisteret/api/enheter/923609016/roller",
+        "date_checked": "2026-11-13",
+        "confidence": 1.0,
+        "method": "brreg_api"
+      },
+      {
+        "fact_key": "revenue",
+        "fact_value": 106462000000.0,
+        "source_name": "Regnskapsregisteret (2025)",
+        "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+        "date_checked": "2026-11-13",
+        "confidence": 0.95,
+        "method": "regnskaps_api"
+      },
+      {
+        "fact_key": "operating_profit",
+        "fact_value": 25353000000.0,
+        "source_name": "Regnskapsregisteret (2025)",
+        "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+        "date_checked": "2026-11-13",
+        "confidence": 0.95,
+        "method": "regnskaps_api"
+      },
+      {
+        "fact_key": "net_income",
+        "fact_value": 5058000000.0,
+        "source_name": "Regnskapsregisteret (2025)",
+        "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+        "date_checked": "2026-11-13",
+        "confidence": 0.95,
+        "method": "regnskaps_api"
+      },
+      {
+        "fact_key": "total_assets",
+        "fact_value": 131727000000.0,
+        "source_name": "Regnskapsregisteret (2025)",
+        "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+        "date_checked": "2026-11-13",
+        "confidence": 0.95,
+        "method": "regnskaps_api"
+      },
+      {
+        "fact_key": "equity",
+        "fact_value": 40497000000.0,
+        "source_name": "Regnskapsregisteret (2025)",
+        "source_url": "https://data.brreg.no/regnskapsregisteret/regnskap/923609016",
+        "date_checked": "2026-11-13",
+        "confidence": 0.95,
+        "method": "regnskaps_api"
+      },
+      {
+        "fact_key": "company_news",
+        "fact_value": {
+          "headline": "Equinor third quarter 2026 results",
+          "summary": "Equinor delivered an adjusted operating income* of USD 12.35 billion in the third quarter of 2026. Equinor reported a net operating income of USD 11.95 billion and a net income of USD 2.54 billion. Adjusted net income* was USD 2.86 billion, leadin...",
+          "published_date": "2026-10-28",
+          "url": "https://www.equinor.com/news/equinor-third-quarter-2026-results",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official News",
+        "source_url": "https://www.equinor.com/news/equinor-third-quarter-2026-results",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "company_news",
+        "fact_value": {
+          "headline": "Ex. dividend second quarter 2026 today - OSE",
+          "summary": "The shares in Equinor ASA will as from today be traded on the Oslo Stock Exchange exclusive the second quarter 2026 cash dividend as detailed below.",
+          "published_date": "2026-11-13",
+          "url": "https://www.equinor.com/news/20261113-ex-dividend-second-quarter-2026",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official News",
+        "source_url": "https://www.equinor.com/news/20261113-ex-dividend-second-quarter-2026",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "company_news",
+        "fact_value": {
+          "headline": "Doubles North Sea gas discovery estimate",
+          "summary": "A new appraisal well in the Afrodite discovery near the Kvitebjørn field shows that the recoverable gas volumes may be more than twice as large as previously estimated.",
+          "published_date": "2026-10-29",
+          "url": "https://www.equinor.com/news/20261029-doubles-north-sea-gas-discovery-estimate",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official News",
+        "source_url": "https://www.equinor.com/news/20261029-doubles-north-sea-gas-discovery-estimate",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "job_posting",
+        "fact_value": {
+          "title": "Junior Deal Handler",
+          "location": "London, Great Britain",
+          "employment_type": null,
+          "published_date": null,
+          "deadline": null,
+          "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/London-Great-Britain/Junior-Deal-Handler_JR108097",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official Workday Portal",
+        "source_url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/London-Great-Britain/Junior-Deal-Handler_JR108097",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "job_posting",
+        "fact_value": {
+          "title": "Logistikk og Maritim Leder - Norsk Sokkel",
+          "location": "Offshore Norway, Norway",
+          "employment_type": null,
+          "published_date": null,
+          "deadline": null,
+          "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Offshore-Norway-Norway/Logistikk-og-Maritim-Leder---Norsk-Sokkel_JR108060",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official Workday Portal",
+        "source_url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Offshore-Norway-Norway/Logistikk-og-Maritim-Leder---Norsk-Sokkel_JR108060",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "job_posting",
+        "fact_value": {
+          "title": "Principal, Performance Management",
+          "location": "Aberdeen, Great Britain",
+          "employment_type": null,
+          "published_date": null,
+          "deadline": null,
+          "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Aberdeen-Great-Britain/Principal--Performance-Management_JR107870",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official Workday Portal",
+        "source_url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Aberdeen-Great-Britain/Principal--Performance-Management_JR107870",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "job_posting",
+        "fact_value": {
+          "title": "Data Scientist - Agentic AI",
+          "location": "4 Locations",
+          "employment_type": null,
+          "published_date": null,
+          "deadline": null,
+          "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Sandsli-Norway/Data-Scientist---Agentic-AI_JR107962",
+          "company": "EQUINOR ASA"
+        },
+        "source_name": "EQUINOR ASA Official Workday Portal",
+        "source_url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Sandsli-Norway/Data-Scientist---Agentic-AI_JR107962",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "business_activity",
+        "fact_value": "Equinor is an international energy company committed to providing reliable energy in a volatile world.",
+        "source_name": "EQUINOR ASA Operations",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "products_services",
+        "fact_value": "Our deliveries of oil, gas, and wind power provide a vital contribution to Europe’s energy security.",
+        "source_name": "EQUINOR ASA Products & Services",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "business_activity",
+        "fact_value": "The Norwegian continental shelf is the backbone of the company, while our international oil and gas portfolio is focused on a set of core positions in the US, Brazil, Angola, the UK and Canada.",
+        "source_name": "EQUINOR ASA Operations",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "sustainability",
+        "fact_value": "Our power business is built around onshore and offshore wind, supplemented by solar assets, in countries like Poland, the UK, Brazil and Norway.",
+        "source_name": "EQUINOR ASA Sustainability",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "project",
+        "fact_value": "In Equinor, we believe that collaboration across disciplines, companies, and countries holds the key to providing the reliable energy the world needs.",
+        "source_name": "EQUINOR ASA Projects & Collaboration",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.88,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "products_services",
+        "fact_value": "Our portfolio encompasses oil and gas, renewables and low-carbon solutions. We are a major supplier of energy to Europe, a world-leading offshore operator with positions in renewables and low-carbon solutions.",
+        "source_name": "EQUINOR ASA Products & Services",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "products_services",
+        "fact_value": "Our goal is to supply the energy the world needs today and to develop the energy solutions for tomorrow, while reducing emissions together with society to reach net zero by 2050.",
+        "source_name": "EQUINOR ASA Products & Services",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.92,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "sustainability",
+        "fact_value": "Through our brand, we wish to position ourselves as a leading company in the energy transition with the industrial strength to make a difference, driven by purpose, people, innovative thinking and not least — collaboration.",
+        "source_name": "EQUINOR ASA Sustainability",
+        "source_url": "https://www.equinor.com/about-us",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "sustainability",
+        "fact_value": "Equinor supports the goals of the Paris Agreement and the pursuit of a net-zero future. We deliver energy the world needs today while developing energy solutions for tomorrow.",
+        "source_name": "EQUINOR ASA Sustainability",
+        "source_url": "https://www.equinor.com/sustainability",
+        "date_checked": "2026-11-13",
+        "confidence": 0.9,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "project",
+        "fact_value": "We proactively assess risks and manage them through collaboration, research, and the application of national and international standards.",
+        "source_name": "EQUINOR ASA Projects & Collaboration",
+        "source_url": "https://www.equinor.com/sustainability",
+        "date_checked": "2026-11-13",
+        "confidence": 0.88,
+        "method": "webpage_scrape"
+      },
+      {
+        "fact_key": "project",
+        "fact_value": "We always consider risk in every project we enter and strive to have an open dialogue with stakeholders and communities that are impacted.",
+        "source_name": "EQUINOR ASA Projects & Collaboration",
+        "source_url": "https://www.equinor.com/sustainability",
+        "date_checked": "2026-11-13",
+        "confidence": 0.88,
+        "method": "webpage_scrape"
+      }
+    ],
+    "confidence_score": 0.977,
+    "sources_used": [
+      "Brønnøysundregistrene (brreg.no)",
+      "Regnskapsregisteret (brreg.no)",
+      "EQUINOR ASA Official News (https://www.equinor.com/news/equinor-third-quarter-2026-results)",
+      "EQUINOR ASA Official News (https://www.equinor.com/news/20261113-ex-dividend-second-quarter-2026)",
+      "EQUINOR ASA Official News (https://www.equinor.com/news/20261029-doubles-north-sea-gas-discovery-estimate)",
+      "EQUINOR ASA Official Workday Portal (https://equinor.wd3.myworkdayjobs.com/EQNR/job/London-Great-Britain/Junior-Deal-Handler_JR108097)",
+      "EQUINOR ASA Official Workday Portal (https://equinor.wd3.myworkdayjobs.com/EQNR/job/Offshore-Norway-Norway/Logistikk-og-Maritim-Leder---Norsk-Sokkel_JR108060)",
+      "EQUINOR ASA Official Workday Portal (https://equinor.wd3.myworkdayjobs.com/EQNR/job/Aberdeen-Great-Britain/Principal--Performance-Management_JR107870)",
+      "EQUINOR ASA Official Workday Portal (https://equinor.wd3.myworkdayjobs.com/EQNR/job/Sandsli-Norway/Data-Scientist---Agentic-AI_JR107962)",
+      "EQUINOR ASA Operations (https://www.equinor.com/about-us)",
+      "EQUINOR ASA Products & Services (https://www.equinor.com/about-us)",
+      "EQUINOR ASA Sustainability (https://www.equinor.com/about-us)",
+      "EQUINOR ASA Projects & Collaboration (https://www.equinor.com/about-us)",
+      "EQUINOR ASA Sustainability (https://www.equinor.com/sustainability)",
+      "EQUINOR ASA Projects & Collaboration (https://www.equinor.com/sustainability)",
+      "Company website (https://www.equinor.com)"
+    ]
+  }
 }
