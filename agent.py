@@ -386,7 +386,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         profile.confidence_score = _compute_confidence(profile)
 
         # ── STEP 12: Merge with existing or save fresh ────────────────────────
-        if existing:
+        if existing and not force_refresh:
             profile = merge_profile(existing, profile.model_dump(), cleaned_evidence)
             steps.append("profile_merged")
         else:

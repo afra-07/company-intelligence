@@ -50,8 +50,8 @@
     "description": "Equinor is an international energy company committed to providing reliable energy in a volatile world."
   },
   "meta": {
-    "profile_created_at": "2026-11-13T16:36:54.608710",
-    "profile_updated_at": "2026-11-13T17:07:27.462605",
+    "profile_created_at": "2026-11-13T17:43:18.835546",
+    "profile_updated_at": "2026-11-13T17:43:18.835552",
     "evidence": [
       {
         "fact_key": "company_name",
@@ -299,8 +299,8 @@
           "title": "Junior Deal Handler",
           "location": "London, Great Britain",
           "employment_type": null,
-          "published_date": null,
-          "deadline": null,
+          "published_date": "2026-11-10",
+          "deadline": "2026-11-25",
           "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/London-Great-Britain/Junior-Deal-Handler_JR108097",
           "company": "EQUINOR ASA"
         },
@@ -315,9 +315,9 @@
         "fact_value": {
           "title": "Logistikk og Maritim Leder - Norsk Sokkel",
           "location": "Offshore Norway, Norway",
-          "employment_type": null,
-          "published_date": null,
-          "deadline": null,
+          "employment_type": "Full-time",
+          "published_date": "2026-11-10",
+          "deadline": "2026-12-02",
           "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Offshore-Norway-Norway/Logistikk-og-Maritim-Leder---Norsk-Sokkel_JR108060",
           "company": "EQUINOR ASA"
         },
@@ -332,9 +332,9 @@
         "fact_value": {
           "title": "Principal, Performance Management",
           "location": "Aberdeen, Great Britain",
-          "employment_type": null,
-          "published_date": null,
-          "deadline": null,
+          "employment_type": "Full-time",
+          "published_date": "2026-11-09",
+          "deadline": "2026-11-24",
           "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Aberdeen-Great-Britain/Principal--Performance-Management_JR107870",
           "company": "EQUINOR ASA"
         },
@@ -349,9 +349,9 @@
         "fact_value": {
           "title": "Data Scientist - Agentic AI",
           "location": "4 Locations",
-          "employment_type": null,
-          "published_date": null,
-          "deadline": null,
+          "employment_type": "Full-time",
+          "published_date": "2026-11-04",
+          "deadline": "2026-11-19",
           "url": "https://equinor.wd3.myworkdayjobs.com/EQNR/job/Sandsli-Norway/Data-Scientist---Agentic-AI_JR107962",
           "company": "EQUINOR ASA"
         },

@@ -13,6 +13,7 @@ Keyless operation (no SERPAPI_KEY):
 
 from __future__ import annotations
 import httpx
+import json
 import os
 import re
 import urllib.parse
@@ -784,6 +785,52 @@ async def _query_workday_jobs(workday_url: str, company_name: str, org_number: s
                             )
                             if not is_v and c_conf == 0.0:
                                 continue  # Conflicting company found -> exclude!
+
+                        # Parse structured data (JSON-LD) from the individual job page to verify requisition ID & title
+                        soup_job = BeautifulSoup(page_text, "html.parser")
+                        ld_job = None
+                        for s in soup_job.find_all("script"):
+                            if s.get("type") == "application/ld+json":
+                                try:
+                                    ld_parsed = json.loads(s.get_text())
+                                    if isinstance(ld_parsed, dict) and ld_parsed.get("@type") == "JobPosting":
+                                        ld_job = ld_parsed
+                                        break
+                                except Exception:
+                                    pass
+
+                        if ld_job:
+                            ld_title = ld_job.get("title")
+                            ld_id_obj = ld_job.get("identifier")
+                            ld_req_id = ld_id_obj.get("value") if isinstance(ld_id_obj, dict) else None
+                            
+                            # If requisition ID is present in URL/job data, verify match
+                            if ext_path and "_" in ext_path:
+                                expected_req = ext_path.split("_")[-1]
+                                if ld_req_id and ld_req_id != expected_req:
+                                    continue  # Mismatched requisition ID!
+                            
+                            # Verify title matches or aligns with API title
+                            if ld_title and title and (ld_title.lower() not in title.lower() and title.lower() not in ld_title.lower()):
+                                continue  # Mismatched job title!
+                                
+                            # Extract verified location, datePosted, validThrough from JSON-LD if not already found
+                            if not loc:
+                                loc_addr = ld_job.get("jobLocation", {}).get("address", {})
+                                if isinstance(loc_addr, dict):
+                                    loc_city = loc_addr.get("addressLocality")
+                                    loc_country = loc_addr.get("addressCountry")
+                                    loc = f"{loc_city}, {loc_country}" if loc_city and loc_country else (loc_city or loc_country)
+                            if ld_job.get("datePosted"):
+                                posted_on = ld_job.get("datePosted")
+                            if not deadline and ld_job.get("validThrough"):
+                                deadline = ld_job.get("validThrough")
+                            if not emp_type and ld_job.get("employmentType"):
+                                raw_et = ld_job.get("employmentType")
+                                if raw_et == "FULL_TIME":
+                                    emp_type = "Full-time"
+                                elif raw_et == "PART_TIME":
+                                    emp_type = "Part-time"
 
                         page_lower = page_text.lower()
                         if any(closed in page_lower for closed in [

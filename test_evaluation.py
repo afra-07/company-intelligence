@@ -596,6 +596,149 @@ async def test_company_multiple_distinct_operational_facts():
     print(f"  ✓ {len(diverse_ev)} distinct, substantive operational facts verified across categories.", flush=True)
 
 
+async def test_workday_mismatched_requisition_id_excluded():
+    """22. Regression: Verify Workday vacancy is excluded when requisition ID mismatches."""
+    print("\n[TEST 22] Verifying mismatched requisition ID is excluded...", flush=True)
+    from unittest.mock import AsyncMock
+    mock_post_resp = AsyncMock()
+    mock_post_resp.status_code = 200
+    mock_post_resp.json = lambda: {
+        "jobPostings": [
+            {
+                "title": "Junior Deal Handler",
+                "externalPath": "/job/London/Junior-Deal-Handler_JR108097",
+                "locationsText": "London, Great Britain",
+            }
+        ]
+    }
+
+    # Page returns a conflicting requisition ID JR999999
+    mock_get_resp = AsyncMock()
+    mock_get_resp.status_code = 200
+    mock_get_resp.text = """
+    <html><head>
+    <script type="application/ld+json">
+    {
+        "@type": "JobPosting",
+        "title": "Junior Deal Handler",
+        "identifier": {"@type": "PropertyValue", "value": "JR999999"},
+        "hiringOrganization": {"name": "Equinor ASA"}
+    }
+    </script>
+    </head><body>Junior Deal Handler</body></html>
+    """
+
+    with patch("httpx.AsyncClient.post", new_callable=AsyncMock, return_value=mock_post_resp):
+        with patch("httpx.AsyncClient.get", new_callable=AsyncMock, return_value=mock_get_resp):
+            from web_searcher import _query_workday_jobs
+            jobs = await _query_workday_jobs("https://equinor.wd3.myworkdayjobs.com/EQNR", "EQUINOR ASA", "923609016")
+            assert len(jobs) == 0, f"Vacancy should be excluded when requisition ID mismatches, got {len(jobs)}"
+    print("  ✓ Mismatched requisition ID strictly excluded.", flush=True)
+
+
+async def test_workday_mismatched_title_excluded():
+    """23. Regression: Verify Workday vacancy is excluded when job title mismatches."""
+    print("\n[TEST 23] Verifying mismatched job title is excluded...", flush=True)
+    from unittest.mock import AsyncMock
+    mock_post_resp = AsyncMock()
+    mock_post_resp.status_code = 200
+    mock_post_resp.json = lambda: {
+        "jobPostings": [
+            {
+                "title": "Junior Deal Handler",
+                "externalPath": "/job/London/Junior-Deal-Handler_JR108097",
+                "locationsText": "London, Great Britain",
+            }
+        ]
+    }
+
+    # Page returns completely different job title
+    mock_get_resp = AsyncMock()
+    mock_get_resp.status_code = 200
+    mock_get_resp.text = """
+    <html><head>
+    <script type="application/ld+json">
+    {
+        "@type": "JobPosting",
+        "title": "Senior Reservoir Geologist",
+        "identifier": {"@type": "PropertyValue", "value": "JR108097"},
+        "hiringOrganization": {"name": "Equinor ASA"}
+    }
+    </script>
+    </head><body>Senior Reservoir Geologist</body></html>
+    """
+
+    with patch("httpx.AsyncClient.post", new_callable=AsyncMock, return_value=mock_post_resp):
+        with patch("httpx.AsyncClient.get", new_callable=AsyncMock, return_value=mock_get_resp):
+            from web_searcher import _query_workday_jobs
+            jobs = await _query_workday_jobs("https://equinor.wd3.myworkdayjobs.com/EQNR", "EQUINOR ASA", "923609016")
+            assert len(jobs) == 0, f"Vacancy should be excluded when title mismatches, got {len(jobs)}"
+    print("  ✓ Mismatched job title strictly excluded.", flush=True)
+
+
+async def test_news_date_transposition_and_accuracy():
+    """24. Regression: Verify news dates match article metadata and are not transposed."""
+    print("\n[TEST 24] Verifying news date extraction accuracy...", flush=True)
+    from web_searcher import parse_iso_date
+
+    # 1. 2024 announcement (Ørsted acquisition was 7 Oct 2024, NOT 2026)
+    html_2024 = '<time datetime="2024-10-07T07:00:00Z">7 October 2024</time>'
+    extracted = parse_iso_date(html_2024)
+    assert extracted == "2024-10-07", f"Expected 2024-10-07, got {extracted}"
+
+    # 2. Q3 2026 results (published 28 Oct 2026, NOT 13 Nov 2026)
+    html_q3 = '<meta property="article:published_time" content="2026-10-28T05:48:00.000Z">'
+    extracted_q3 = parse_iso_date(html_q3)
+    assert extracted_q3 == "2026-10-28", f"Expected 2026-10-28, got {extracted_q3}"
+    assert extracted_q3 != "2026-11-13", "Q3 results date must not be transposed to 2026-11-13"
+
+    # 3. Dividend announcement (13 Nov 2026)
+    html_div = '<meta property="article:published_time" content="2026-11-13T10:00:37.372Z">'
+    extracted_div = parse_iso_date(html_div)
+    assert extracted_div == "2026-11-13", f"Expected 2026-11-13, got {extracted_div}"
+    print("  ✓ News dates accurately parsed and verified against source metadata.", flush=True)
+
+
+async def test_job_posting_company_attribution_mismatch():
+    """25. Regression: Verify job posting belonging to a different company is excluded."""
+    print("\n[TEST 25] Verifying job posting company attribution mismatch...", flush=True)
+    from unittest.mock import AsyncMock
+    mock_post_resp = AsyncMock()
+    mock_post_resp.status_code = 200
+    mock_post_resp.json = lambda: {
+        "jobPostings": [
+            {
+                "title": "Drilling Supervisor",
+                "externalPath": "/job/Stavanger/Drilling-Supervisor_JR555555",
+                "locationsText": "Stavanger, Norway",
+            }
+        ]
+    }
+
+    # Page belongs to another company with conflicting org number
+    mock_get_resp = AsyncMock()
+    mock_get_resp.status_code = 200
+    mock_get_resp.text = """
+    <html><head>
+    <script type="application/ld+json">
+    {
+        "@type": "JobPosting",
+        "title": "Drilling Supervisor",
+        "identifier": {"@type": "PropertyValue", "value": "JR555555"},
+        "hiringOrganization": {"name": "Shell Global Exploration AS"}
+    }
+    </script>
+    </head><body>Org nr: 912345678 Shell Global Exploration AS</body></html>
+    """
+
+    with patch("httpx.AsyncClient.post", new_callable=AsyncMock, return_value=mock_post_resp):
+        with patch("httpx.AsyncClient.get", new_callable=AsyncMock, return_value=mock_get_resp):
+            from web_searcher import _query_workday_jobs
+            jobs = await _query_workday_jobs("https://equinor.wd3.myworkdayjobs.com/EQNR", "EQUINOR ASA", "923609016")
+            assert len(jobs) == 0, f"Vacancy from conflicting company should be excluded, got {len(jobs)}"
+    print("  ✓ Conflicting company attribution on job posting correctly rejected.", flush=True)
+
+
 async def run_all():
     print("=" * 65, flush=True)
     print("Signalpost Comprehensive Evaluation & Verification Test Suite", flush=True)
@@ -621,8 +764,12 @@ async def run_all():
     await test_date_validation_missing_and_invalid()
     await test_company_with_no_news_or_vacancies()
     await test_company_multiple_distinct_operational_facts()
+    await test_workday_mismatched_requisition_id_excluded()
+    await test_workday_mismatched_title_excluded()
+    await test_news_date_transposition_and_accuracy()
+    await test_job_posting_company_attribution_mismatch()
     print("\n" + "=" * 65, flush=True)
-    print("🎉 ALL 21 TEST SUITES PASSED SUCCESSFULLY!", flush=True)
+    print("🎉 ALL 25 TEST SUITES PASSED SUCCESSFULLY!", flush=True)
     print("=" * 65, flush=True)
 
 
