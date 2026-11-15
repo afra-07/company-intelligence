@@ -29,6 +29,46 @@ function isSoleProprietorship(profile) {
   return lf.includes('ENK') || lf.includes('ENKELTPERSONFORETAK');
 }
 
+function normalizeProfile(raw) {
+  if (!raw) return {};
+  if (raw.identity && raw.contact && raw.business && raw.financials && raw.people && raw.meta) {
+    return {
+      organization_number: raw.identity.organization_number,
+      company_name: raw.identity.company_name,
+      legal_form: raw.identity.legal_form,
+      status: raw.identity.status,
+      registered_date: raw.identity.registered_date,
+      address: raw.contact.address,
+      postal_address: raw.contact.postal_address,
+      municipality: raw.contact.municipality,
+      website: raw.contact.website,
+      email: raw.contact.email,
+      phone: raw.contact.phone,
+      industry_code: raw.business.industry_code,
+      industry_description: raw.business.industry_description,
+      employees: raw.business.employees,
+      sector: raw.business.sector,
+      revenue: raw.financials.revenue,
+      operating_profit: raw.financials.operating_profit,
+      net_income: raw.financials.net_income,
+      total_assets: raw.financials.total_assets,
+      equity: raw.financials.equity,
+      financial_year: raw.financials.financial_year,
+      financials_status: raw.financials.financials_status,
+      ceo: raw.people.ceo,
+      board_members: raw.people.board_members,
+      description: raw.people.description,
+      evidence: raw.meta.evidence || [],
+      confidence_score: raw.meta.confidence_score,
+      sources_used: raw.meta.sources_used || [],
+      profile_created_at: raw.meta.profile_created_at,
+      profile_updated_at: raw.meta.profile_updated_at,
+      _raw: raw,
+    };
+  }
+  return raw;
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -97,8 +137,9 @@ async function handleSearch(e) {
     const result = await runAgent(orgNum);
     if (result.success && result.profile) {
       currentProfile = result.profile;
-      allEvidence = result.profile.evidence || [];
-      renderProfile(result.profile, result.steps_executed, result.duration_seconds);
+      const norm = normalizeProfile(result.profile);
+      allEvidence = norm.evidence || [];
+      renderProfile(norm, result.steps_executed, result.duration_seconds);
       showProfile();
     } else {
       showError('Company not found', result.error || 'No data could be retrieved for this organisation number.');
@@ -279,7 +320,7 @@ function renderProfile(p, steps, duration) {
   renderEvidence(p.evidence || []);
 
   // JSON
-  document.getElementById('json-pre').textContent = JSON.stringify(p, null, 2);
+  document.getElementById('json-pre').textContent = JSON.stringify(p._raw || p, null, 2);
 
   // Stagger card animations
   document.querySelectorAll('.stat-card').forEach((el, i) => {
@@ -412,9 +453,20 @@ function renderEvidence(evidence) {
     card.dataset.method = ev.method;
 
     const confPct = Math.round((ev.confidence || 0) * 100);
-    const valStr = Array.isArray(ev.fact_value)
-      ? ev.fact_value.join(', ')
-      : String(ev.fact_value ?? '—');
+    let valStr = '';
+    if (Array.isArray(ev.fact_value)) {
+      valStr = ev.fact_value.join(', ');
+    } else if (typeof ev.fact_value === 'object' && ev.fact_value !== null) {
+      if (ev.fact_value.headline) {
+        valStr = ev.fact_value.headline + (ev.fact_value.published_date ? ` (${ev.fact_value.published_date})` : '');
+      } else if (ev.fact_value.title) {
+        valStr = ev.fact_value.title + (ev.fact_value.location ? ` · ${ev.fact_value.location}` : '');
+      } else {
+        valStr = JSON.stringify(ev.fact_value);
+      }
+    } else {
+      valStr = String(ev.fact_value ?? '—');
+    }
 
     card.innerHTML = `
       <div class="ev-card-top">
@@ -514,7 +566,7 @@ function renderBatchResults(results) {
   results.forEach(r => {
     const row = document.createElement('div');
     row.className = 'batch-result-row';
-    const p = r.profile || {};
+    const p = normalizeProfile(r.profile || {});
     const name = p.company_name || '—';
     const rev = formatNOK(p.revenue);
     const inc = formatNOK(p.net_income);
@@ -541,8 +593,9 @@ async function loadCached(orgNum) {
     if (!res.ok) return;
     const profile = await res.json();
     currentProfile = profile;
-    allEvidence = profile.evidence || [];
-    renderProfile(profile, [], null);
+    const norm = normalizeProfile(profile);
+    allEvidence = norm.evidence || [];
+    renderProfile(norm, [], null);
     showProfile();
   } catch (_) {}
 }

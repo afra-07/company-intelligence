@@ -45,17 +45,29 @@ _anthropic_client = None
 _genai_client     = None
 
 if _PROVIDER == "openai":
-    from openai import AsyncOpenAI
-    _openai_client = AsyncOpenAI(api_key=_OPENAI_KEY)
+    try:
+        from openai import AsyncOpenAI
+        _openai_client = AsyncOpenAI(api_key=_OPENAI_KEY)
+    except ImportError as e:
+        print(f"⚠️ Warning: OPENAI_API_KEY is configured, but the 'openai' library is not available: {e}. Running in keyless mode.")
+        _PROVIDER = None
 
 elif _PROVIDER == "anthropic":
-    import anthropic as _ant_module
-    _anthropic_client = _ant_module.AsyncAnthropic(api_key=_ANTHROPIC_KEY)
+    try:
+        import anthropic as _ant_module
+        _anthropic_client = _ant_module.AsyncAnthropic(api_key=_ANTHROPIC_KEY)
+    except ImportError as e:
+        print(f"⚠️ Warning: ANTHROPIC_API_KEY is configured, but the 'anthropic' library is not installed: {e}. Running in keyless mode. Install with: pip install anthropic")
+        _PROVIDER = None
 
 elif _PROVIDER == "gemini":
-    import google.generativeai as genai  # type: ignore
-    genai.configure(api_key=_GEMINI_KEY)
-    _genai_client = genai.GenerativeModel("gemini-1.5-flash")
+    try:
+        import google.generativeai as genai  # type: ignore
+        genai.configure(api_key=_GEMINI_KEY)
+        _genai_client = genai.GenerativeModel("gemini-1.5-flash")
+    except ImportError as e:
+        print(f"⚠️ Warning: GEMINI_API_KEY is configured, but 'google-generativeai' library is not installed: {e}. Running in keyless mode. Install with: pip install google-generativeai")
+        _PROVIDER = None
 
 from models import EvidenceItem, CompanyProfile
 from web_searcher import verify_company_identity

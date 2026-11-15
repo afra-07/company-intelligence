@@ -1,4 +1,4 @@
-"""
+﻿"""
 Signalpost Company Intelligence Agent
 =====================================
 Core data models for company profiles and evidence matching OUTPUT_CONTRACT.md.
@@ -65,8 +65,9 @@ class ProfileMeta(BaseModel):
     profile_created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
     profile_updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
     evidence: List[EvidenceItem] = Field(default_factory=list)
-    confidence_score: float = Field(default=0.0, ge=0.0, le=1.0, description="Overall profile confidence 0-1")
     sources_used: List[str] = Field(default_factory=list)
+    confidence_score: float = Field(default=0.0, ge=0.0, le=1.0, description="Overall profile confidence 0-1")
+    enrichment_done: bool = False
 
 
 class CompanyProfile(BaseModel):
@@ -247,3 +248,4 @@ class AgentRunResult(BaseModel):
     error: Optional[str] = None
     duration_seconds: float = 0.0
     steps_executed: List[str] = Field(default_factory=list)
+

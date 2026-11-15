@@ -153,6 +153,8 @@ async def health():
         "status": "ok",
         "profiles_cached": get_profile_count(),
         "openai_configured": bool(os.getenv("OPENAI_API_KEY")),
+        "anthropic_configured": bool(os.getenv("ANTHROPIC_API_KEY")),
+        "gemini_configured": bool(os.getenv("GEMINI_API_KEY")),
         "serpapi_configured": bool(os.getenv("SERPAPI_KEY")),
     }
 

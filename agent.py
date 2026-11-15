@@ -1,4 +1,4 @@
-"""
+﻿"""
 Signalpost Company Intelligence Agent
 =====================================
 The main orchestration pipeline.
@@ -7,17 +7,17 @@ runs dedicated news and job posting pipelines, and produces high-diversity compa
 
 Pipeline:
   org_number
-    → Brreg entity fetch                 (authoritative legal identity, address, status, employees)
-    → Brreg roles fetch                  (CEO, board of directors)
-    → Regnskapsregisteret                (annual accounts & financials)
-    → Proff.no scrape                    (website discovery bridge & employee fallback)
-    → Website Discovery & Verification   (strict domain and org number cross-checking)
-    → Dedicated News Pipeline            (headlines, summaries, publication dates, original URLs)
-    → Dedicated Job Posting Pipeline     (vacancies, locations, employment types, deadlines, URLs)
-    → Dedicated Intelligence Facts       (products/services, operations, sustainability, projects)
-    → LLM Extraction & Verification      (optional deep extraction if provider key set)
-    → Deduplication & Quality Filter     (removes duplicate/unsupported claims, validates citations)
-    → Profile Merge / Persist            (updates store and generates contract-compliant profile)
+    â†’ Brreg entity fetch                 (authoritative legal identity, address, status, employees)
+    â†’ Brreg roles fetch                  (CEO, board of directors)
+    â†’ Regnskapsregisteret                (annual accounts & financials)
+    â†’ Proff.no scrape                    (website discovery bridge & employee fallback)
+    â†’ Website Discovery & Verification   (strict domain and org number cross-checking)
+    â†’ Dedicated News Pipeline            (headlines, summaries, publication dates, original URLs)
+    â†’ Dedicated Job Posting Pipeline     (vacancies, locations, employment types, deadlines, URLs)
+    â†’ Dedicated Intelligence Facts       (products/services, operations, sustainability, projects)
+    â†’ LLM Extraction & Verification      (optional deep extraction if provider key set)
+    â†’ Deduplication & Quality Filter     (removes duplicate/unsupported claims, validates citations)
+    â†’ Profile Merge / Persist            (updates store and generates contract-compliant profile)
 """
 
 from __future__ import annotations
@@ -151,7 +151,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
     start_time = time.time()
     steps: List[str] = []
 
-    # ── Input validation ──────────────────────────────────────────────────────
+    # â”€â”€ Input validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     org_str = str(org_number).strip().replace(" ", "")
     if not (org_str.isdigit() and len(org_str) == 9):
         steps.append("input_validation_failed")
@@ -170,7 +170,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
     sources_used: List[str] = []
 
     try:
-        # ── STEP 0: Check cache ───────────────────────────────────────────────
+        # â”€â”€ STEP 0: Check cache â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         existing = load_profile(org_number)
         if existing and not force_refresh:
             steps.append("cache_hit")
@@ -182,7 +182,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                 steps_executed=steps,
             )
 
-        # ── STEP 1: Brreg — Authoritative legal identity ─────────────────────
+        # â”€â”€ STEP 1: Brreg â€” Authoritative legal identity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("brreg_entity")
         increment_request("brreg_http")
         brreg_result = await fetch_brreg_entity(org_number)
@@ -200,11 +200,11 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         brreg_evidence: List[EvidenceItem] = brreg_result.pop("evidence", [])
         all_evidence.extend(brreg_evidence)
         merged_data.update({k: v for k, v in brreg_result.items() if not k.startswith("_")})
-        sources_used.append("Brønnøysundregistrene (brreg.no)")
+        sources_used.append("BrÃ¸nnÃ¸ysundregistrene (brreg.no)")
 
         company_name = merged_data.get("company_name", "")
 
-        # ── STEP 2: Brreg — Management roles & governance ────────────────────
+        # â”€â”€ STEP 2: Brreg â€” Management roles & governance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("brreg_roles")
         increment_request("brreg_http")
         roles_result = await fetch_brreg_roles(org_number)
@@ -212,7 +212,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         all_evidence.extend(roles_evidence)
         merged_data.update({k: v for k, v in roles_result.items() if not k.startswith("_")})
 
-        # ── STEP 3: Regnskapsregisteret — Financial statements ────────────────
+        # â”€â”€ STEP 3: Regnskapsregisteret â€” Financial statements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("regnskapsregisteret")
         increment_request("regnskap_http")
         regnskap_result = await fetch_regnskap(org_number)
@@ -222,7 +222,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         if regnskap_evidence:
             sources_used.append("Regnskapsregisteret (brreg.no)")
 
-        # ── STEP 4: Proff.no — Website discovery & employee fallback ─────────
+        # â”€â”€ STEP 4: Proff.no â€” Website discovery & employee fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("proff_scrape")
         increment_request("proff_http")
         proff_result = await scrape_proff(org_number, company_name)
@@ -238,7 +238,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                     all_evidence.append(ev)
                     sources_used.append("Proff.no")
 
-        # ── STEP 5: Official Website Discovery & Verification ────────────────
+        # â”€â”€ STEP 5: Official Website Discovery & Verification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         known_website = merged_data.get("website")
         steps.append("website_discovery")
         increment_request("website_http")
@@ -254,7 +254,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
         target_website = discovered_website or known_website
 
-        # ── STEP 6: PHASE 3 — Dedicated Company News Pipeline ────────────────
+        # â”€â”€ STEP 6: PHASE 3 â€” Dedicated Company News Pipeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if target_website:
             steps.append("company_news_pipeline")
             try:
@@ -281,7 +281,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             except Exception:
                 pass
 
-        # ── STEP 7: PHASE 4 — Dedicated Job Posting Pipeline ─────────────────
+        # â”€â”€ STEP 7: PHASE 4 â€” Dedicated Job Posting Pipeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if target_website:
             steps.append("job_posting_pipeline")
             try:
@@ -310,7 +310,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             except Exception:
                 pass
 
-        # ── STEP 8: PHASE 2 — Diverse Company Intelligence Facts ──────────────
+        # â”€â”€ STEP 8: PHASE 2 â€” Diverse Company Intelligence Facts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if target_website:
             steps.append("diverse_facts_pipeline")
             try:
@@ -331,7 +331,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             except Exception:
                 pass
 
-        # ── STEP 9: Optional LLM Extraction & Verification ────────────────────
+        # â”€â”€ STEP 9: Optional LLM Extraction & Verification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if website_text and target_website and HAS_OPENAI:
             increment_request("openai_llm")
             web_verification = await verify_company_match(website_text, org_number, company_name, target_website)
@@ -353,7 +353,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             steps.append("website_scraped")
             sources_used.append(f"Company website ({target_website})")
 
-        # ── STEP 10: Generate description if still missing ────────────────────
+        # â”€â”€ STEP 10: Generate description if still missing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if not merged_data.get("description"):
             # Use verified business_activity from official website as factual description
             for ev in all_evidence:
@@ -371,7 +371,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             if desc:
                 merged_data["description"] = desc
 
-        # ── STEP 11: Deduplicate & Clean Evidence ─────────────────────────────
+        # â”€â”€ STEP 11: Deduplicate & Clean Evidence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("build_profile")
         cleaned_evidence = _clean_and_dedupe_evidence(all_evidence)
 
@@ -383,9 +383,10 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         profile_fields["sources_used"] = _dedupe_sources(sources_used)
 
         profile = CompanyProfile(**profile_fields)
+        profile.meta.enrichment_done = True
         profile.confidence_score = _compute_confidence(profile)
 
-        # ── STEP 12: Merge with existing or save fresh ────────────────────────
+        # â”€â”€ STEP 12: Merge with existing or save fresh â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if existing and not force_refresh:
             profile = merge_profile(existing, profile.model_dump(), cleaned_evidence)
             steps.append("profile_merged")
@@ -445,3 +446,4 @@ async def run_batch(
 
     tasks = [_run_one(org) for org in org_numbers]
     return await asyncio.gather(*tasks)
+
