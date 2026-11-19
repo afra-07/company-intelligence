@@ -171,16 +171,18 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
     try:
         # â”€â”€ STEP 0: Check cache â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        existing = load_profile(org_number)
-        if existing and not force_refresh:
-            steps.append("cache_hit")
-            return AgentRunResult(
-                organization_number=org_number,
-                success=True,
-                profile=existing,
-                duration_seconds=round(time.time() - start_time, 2),
-                steps_executed=steps,
-            )
+        existing = load_profile_any_age(org_number)
+        if not force_refresh:
+            fresh_existing = load_profile(org_number)
+            if fresh_existing:
+                steps.append("cache_hit")
+                return AgentRunResult(
+                    organization_number=org_number,
+                    success=True,
+                    profile=fresh_existing,
+                    duration_seconds=round(time.time() - start_time, 2),
+                    steps_executed=steps,
+                )
 
         # â”€â”€ STEP 1: Brreg â€” Authoritative legal identity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         steps.append("brreg_entity")
@@ -387,7 +389,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         profile.confidence_score = _compute_confidence(profile)
 
         # â”€â”€ STEP 12: Merge with existing or save fresh â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        if existing and not force_refresh:
+        if existing:
             profile = merge_profile(existing, profile.model_dump(), cleaned_evidence)
             steps.append("profile_merged")
         else:
