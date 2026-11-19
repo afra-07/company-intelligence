@@ -1,4 +1,4 @@
-﻿"""
+"""
 Signalpost Company Intelligence Agent
 =====================================
 The main orchestration pipeline.
@@ -22,8 +22,10 @@ Pipeline:
 
 from __future__ import annotations
 import asyncio
+import math
 import os
 import time
+from urllib.parse import urlparse
 from datetime import datetime, date
 from typing import List, Optional, Dict, Any
 
@@ -114,14 +116,43 @@ def _clean_and_dedupe_evidence(evidence_list: List[EvidenceItem]) -> List[Eviden
       4. Valid methods in OUTPUT_CONTRACT.
     """
     VALID_METHODS = {"brreg_api", "regnskaps_api", "serp_search", "webpage_scrape", "llm_extract"}
+    BLOCKED_SEARCH_LABELS = {
+        "google", "bing", "yahoo", "duckduckgo", "brave", "ecosia", "baidu", "yandex"
+    }
     cleaned = []
     seen = set()
 
     for ev in evidence_list:
-        # Check citation rules
-        if "proff.no" in ev.source_url.lower() and ev.fact_key not in ("employees", "_proff_raw"):
+        # Confidence validation
+        conf = ev.confidence
+        if conf is None or not isinstance(conf, (int, float)) or isinstance(conf, bool):
             continue
-        if any(engine in ev.source_url.lower() for engine in ["google.", "bing.", "yahoo."]):
+        if math.isnan(conf) or math.isinf(conf) or not (0.0 <= conf <= 1.0):
+            continue
+
+        # URL validation
+        url = ev.source_url
+        if not url or not isinstance(url, str):
+            continue
+        try:
+            parsed = urlparse(url.strip())
+        except Exception:
+            continue
+        if parsed.scheme.lower() not in ("http", "https") or not parsed.netloc:
+            continue
+
+        hostname = (parsed.hostname or "").lower()
+        if not hostname:
+            continue
+
+        # Check search engine domain labels (matches exact labels like 'google', 'bing', 'brave' in hostname)
+        host_labels = set(hostname.split("."))
+        if host_labels & BLOCKED_SEARCH_LABELS:
+            continue
+
+        # Check Proff rules (only proff.no and its subdomains)
+        is_proff = hostname == "proff.no" or hostname.endswith(".proff.no")
+        if is_proff and ev.fact_key not in ("employees", "_proff_raw"):
             continue
         if ev.method not in VALID_METHODS:
             continue
