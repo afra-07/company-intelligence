@@ -51,6 +51,7 @@ from profile_store import (
     save_profile,
     merge_profile,
     increment_request,
+    filter_expired_jobs,
 )
 from llm_extractor import _PROVIDER as _LLM_PROVIDER
 
@@ -424,6 +425,7 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             profile = merge_profile(existing, profile.model_dump(), cleaned_evidence)
             steps.append("profile_merged")
         else:
+            profile = filter_expired_jobs(profile)
             steps.append("profile_created")
 
         save_profile(profile)

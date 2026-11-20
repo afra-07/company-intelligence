@@ -469,13 +469,39 @@ async def extract_company_news(
             if len(candidate_article_links) >= 3:
                 break
 
+    # Blacklist of generic navigation/utility paths and headline terms
+    GENERIC_NON_NEWS_TERMS = {
+        "follow-us", "follow us", "følg oss", "folg oss",
+        "contact-us", "contact", "kontakt-oss", "kontakt",
+        "about-us", "about", "om-oss", "om oss",
+        "privacy", "personvern", "privacy-policy",
+        "cookies", "informasjonskapsler",
+        "terms", "vilkår", "vilkaar",
+        "newsletter", "nyhetsbrev",
+        "social-media", "sosiale-medier",
+        "karriere", "careers", "jobs", "jobb",
+        "faq", "search", "søk", "soek", "login", "logg-inn",
+    }
+
     for raw_headline, art_url, date_hint in candidate_article_links[:3]:
+        # Fast URL path check against generic utility pages
+        parsed_art = urllib.parse.urlparse(art_url)
+        art_path_segments = [seg.lower().strip() for seg in parsed_art.path.split("/") if seg.strip()]
+        if any(seg in GENERIC_NON_NEWS_TERMS or seg.replace("-", " ") in GENERIC_NON_NEWS_TERMS for seg in art_path_segments):
+            continue
+
         art_text, art_soup, _ = await scrape_page_soup(art_url, max_chars=6000)
         if not art_soup:
             continue
 
         h1 = art_soup.find("h1")
         headline = h1.get_text(strip=True) if h1 else raw_headline
+
+        # Headline check against generic utility titles (normalized for punctuation, case, whitespace)
+        headline_norm = re.sub(r"[^\w\s]", "", headline).lower().strip()
+        headline_norm = re.sub(r"\s+", " ", headline_norm)
+        if headline_norm in GENERIC_NON_NEWS_TERMS or headline_norm.replace(" ", "-") in GENERIC_NON_NEWS_TERMS:
+            continue
 
         # Extract publication date from article metadata — NEVER fall back to TODAY
         pub_date = None

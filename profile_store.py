@@ -9,9 +9,22 @@ from __future__ import annotations
 import json
 import os
 import threading
-from datetime import datetime, timezone, timedelta
-from typing import Optional, List
+from datetime import datetime, timezone, timedelta, date
+from typing import Optional, List, Any
 from pathlib import Path
+# Timezone resolution for Norway (Europe/Oslo):
+# Python 3.9+ zoneinfo accesses the system tz database or the official 'tzdata' package.
+# Both winter time (CET, UTC+1) and summer daylight saving time (CEST, UTC+2) are observed.
+try:
+    import zoneinfo
+    try:
+        NORWAY_TZ = zoneinfo.ZoneInfo("Europe/Oslo")
+    except Exception:
+        # If system database missing, attempt importing tzdata directly to populate zoneinfo
+        import tzdata  # type: ignore # noqa: F401
+        NORWAY_TZ = zoneinfo.ZoneInfo("Europe/Oslo")
+except Exception:
+    NORWAY_TZ = None
 from models import CompanyProfile, EvidenceItem
 
 PROFILES_DIR = Path("profiles")
@@ -22,6 +35,108 @@ PROFILES_DIR.mkdir(exist_ok=True)
 # Set to 1 day so the evaluator always gets data checked within the last 24 h.
 # Override via env: CACHE_TTL_DAYS=0 to disable caching (always fresh).
 CACHE_TTL_DAYS: float = float(os.getenv("CACHE_TTL_DAYS", "1"))
+
+
+def _get_norway_timezone(dt_utc: Optional[datetime] = None) -> timezone:
+    """
+    Return the appropriate timezone object for Norway at dt_utc.
+    If zoneinfo is available, returns ZoneInfo('Europe/Oslo').
+    Otherwise calculates standard Central European Time (CET, UTC+1) or
+    Daylight Saving Time (CEST, UTC+2) based on European Union/Norwegian DST rules:
+      - Starts: last Sunday of March at 01:00 UTC (advances to UTC+2)
+      - Ends: last Sunday of October at 01:00 UTC (returns to UTC+1)
+    """
+    if NORWAY_TZ:
+        return NORWAY_TZ
+
+    now_utc = dt_utc or datetime.now(timezone.utc)
+    if now_utc.tzinfo is None:
+        now_utc = now_utc.replace(tzinfo=timezone.utc)
+
+    year = now_utc.year
+    # Last Sunday of March (01:00 UTC)
+    march_31 = datetime(year, 3, 31, 1, 0, tzinfo=timezone.utc)
+    dst_start = march_31 - timedelta(days=(march_31.weekday() + 1) % 7)
+    # Last Sunday of October (01:00 UTC)
+    oct_31 = datetime(year, 10, 31, 1, 0, tzinfo=timezone.utc)
+    dst_end = oct_31 - timedelta(days=(oct_31.weekday() + 1) % 7)
+
+    offset_hours = 2 if dst_start <= now_utc < dst_end else 1
+    return timezone(timedelta(hours=offset_hours))
+
+
+def _get_norway_today() -> str:
+    """Return today's date in Norwegian local time (Europe/Oslo) formatted as YYYY-MM-DD."""
+    tz = _get_norway_timezone()
+    return datetime.now(tz).date().isoformat()
+
+
+def is_job_expired(ev_data: Any, today_str: Optional[str] = None) -> bool:
+    """
+    Check if a job_posting evidence item is expired.
+    - A deadline earlier than today is expired (< today).
+    - A deadline equal to today is NOT expired (matches today).
+    - If deadline is missing or unparseable, it is NOT treated as expired.
+    - Validates deadline using Python's actual date/datetime parsing.
+    """
+    if isinstance(ev_data, EvidenceItem):
+        val = ev_data.fact_value
+        key = ev_data.fact_key
+    elif isinstance(ev_data, dict):
+        val = ev_data.get("fact_value")
+        key = ev_data.get("fact_key")
+    else:
+        return False
+
+    if key != "job_posting" or not isinstance(val, dict):
+        return False
+
+    deadline_raw = val.get("deadline")
+    if not deadline_raw or not isinstance(deadline_raw, str):
+        return False
+
+    deadline_clean = deadline_raw.strip()
+    deadline_date_obj: Optional[date] = None
+
+    # Validate entire string: first check if it is an exact ISO date (YYYY-MM-DD)
+    try:
+        deadline_date_obj = date.fromisoformat(deadline_clean)
+    except Exception:
+        # Otherwise check if it is a valid full ISO datetime
+        try:
+            deadline_date_obj = datetime.fromisoformat(deadline_clean).date()
+        except Exception:
+            return False
+
+    if deadline_date_obj is None:
+        return False
+
+    # Validate today_date_obj: if today_str is explicitly provided, validate it strictly.
+    # If today_str is invalid, safely treat as unexpired (return False).
+    if today_str is not None:
+        try:
+            today_date_obj = date.fromisoformat(today_str.strip())
+        except Exception:
+            try:
+                today_date_obj = datetime.fromisoformat(today_str.strip()).date()
+            except Exception:
+                return False
+    else:
+        try:
+            today_date_obj = date.fromisoformat(_get_norway_today())
+        except Exception:
+            return False
+
+    return deadline_date_obj < today_date_obj
+
+
+def filter_expired_jobs(profile: CompanyProfile) -> CompanyProfile:
+    """Filter out any expired job_posting evidence from a profile."""
+    today_str = _get_norway_today()
+    active_ev = [ev for ev in profile.meta.evidence if not is_job_expired(ev, today_str)]
+    if len(active_ev) != len(profile.meta.evidence):
+        profile.meta.evidence = active_ev
+    return profile
 
 
 def is_profile_stale(profile: CompanyProfile) -> bool:
@@ -80,7 +195,7 @@ def load_profile(org_number: str) -> Optional[CompanyProfile]:
         profile = CompanyProfile(**data)
         if is_profile_stale(profile):
             return None
-        return profile
+        return filter_expired_jobs(profile)
     except Exception:
         return None
 
@@ -194,6 +309,10 @@ def merge_profile(existing: CompanyProfile, updates: dict, new_evidence: List[Ev
         if fp not in existing_fps:
             existing_evidence.append(ev_dict)
             existing_fps.add(fp)
+
+    # Filter out expired job postings
+    today_norway = _get_norway_today()
+    existing_evidence = [e for e in existing_evidence if not is_job_expired(e, today_norway)]
 
     existing_flat["evidence"] = existing_evidence
     existing_flat["profile_updated_at"] = datetime.utcnow().isoformat()
