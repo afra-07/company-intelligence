@@ -273,7 +273,10 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
                     sources_used.append("Proff.no")
 
         # â”€â”€ STEP 5: Official Website Discovery & Verification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        known_website = merged_data.get("website")
+        contact_data = merged_data.get("contact")
+        nested_website = contact_data.get("website") if isinstance(contact_data, dict) else None
+        cached_website = existing.website if existing is not None else None
+        known_website = merged_data.get("website") or nested_website or cached_website
         steps.append("website_discovery")
         increment_request("website_http")
         web_result = await discover_company_website(org_number, company_name, known_website, proff_website_hint)
