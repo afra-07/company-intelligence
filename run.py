@@ -40,6 +40,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 from agent import run_batch, run_pipeline
+import diagnostics as diag
 from models import (
     AgentRunResult,
     CompanyProfile,
@@ -239,11 +240,17 @@ async def run(
     total_violations = 0
 
     # Run batch with controlled concurrency and exception isolation
-    results = await run_batch(
-        org_numbers,
-        concurrency=concurrency,
-        force_refresh=force_refresh,
-    )
+    try:
+        results = await run_batch(
+            org_numbers,
+            concurrency=concurrency,
+            force_refresh=force_refresh,
+        )
+    finally:
+        try:
+            diag.dump_all("diagnostics.jsonl")
+        except Exception:
+            pass
 
     # Write results in strictly preserved input order
     output_path.parent.mkdir(parents=True, exist_ok=True)

@@ -21,6 +21,7 @@ from datetime import date
 from typing import Optional, Dict, Any, List, Tuple
 from bs4 import BeautifulSoup
 from models import EvidenceItem
+import diagnostics as diag
 
 SERPAPI_KEY = os.getenv("SERPAPI_KEY", "")
 TODAY = date.today().isoformat()
@@ -247,14 +248,34 @@ async def serp_search(query: str, num: int = 5) -> List[Dict[str, Any]]:
 
 # ─── Webpage scraper ──────────────────────────────────────────────────────────
 
-async def scrape_page_soup(url: str, max_chars: int = 15000) -> Tuple[Optional[str], Optional[BeautifulSoup], Optional[str]]:
+async def scrape_page_soup(
+    url: str,
+    max_chars: int = 15000,
+    *,
+    _diag_kind: Optional[str] = None,
+) -> Tuple[Optional[str], Optional[BeautifulSoup], Optional[str]]:
     """
     Fetch a webpage and return (clean_text, BeautifulSoup, final_url).
     Follows redirects and strips non-content tags.
     """
+    resp = None
     try:
         async with httpx.AsyncClient(timeout=8, follow_redirects=True, headers=HEADERS) as client:
-            resp = await client.get(url)
+            try:
+                resp = await client.get(url)
+                if _diag_kind:
+                    try:
+                        diag.end_request(_diag_kind, url, status=resp.status_code)
+                    except Exception:
+                        pass
+            except Exception as _get_exc:
+                if _diag_kind:
+                    try:
+                        diag.end_request(_diag_kind, url, exception=_get_exc)
+                    except Exception:
+                        pass
+                return None, None, None
+
             if resp.status_code != 200:
                 return None, None, None
             final_url = str(resp.url)
@@ -268,9 +289,14 @@ async def scrape_page_soup(url: str, max_chars: int = 15000) -> Tuple[Optional[s
         return None, None, None
 
 
-async def scrape_page(url: str, max_chars: int = 8000) -> Optional[str]:
+async def scrape_page(
+    url: str,
+    max_chars: int = 8000,
+    *,
+    _diag_kind: Optional[str] = None,
+) -> Optional[str]:
     """Fetch webpage and return clean text content."""
-    text, _, _ = await scrape_page_soup(url, max_chars=max_chars)
+    text, _, _ = await scrape_page_soup(url, max_chars=max_chars, _diag_kind=_diag_kind)
     return text
 
 
@@ -378,12 +404,19 @@ async def discover_company_website(
     if not website.startswith("http"):
         website = "https://" + website
 
-    text, soup, final_url = await scrape_page_soup(website, max_chars=8000)
+    diag.start_request("website", website)
+    text, soup, final_url = await scrape_page_soup(website, max_chars=8000, _diag_kind="website")
     actual_url = final_url or website
 
     if not is_brreg_authoritative and text:
         is_verified, conf, reason = verify_company_identity(text, org_number, company_name, actual_url, is_official_website=True)
         if not is_verified or conf < 0.7:
+            try:
+                _d = diag._current_diag()
+                if _d:
+                    _d["flags"]["website_identity_rejected"] = True
+            except Exception:
+                pass
             return {"evidence": []}
 
     result["website"] = actual_url
@@ -425,10 +458,17 @@ async def extract_company_news(
     if not website_url:
         return []
 
-    text, soup, final_url = await scrape_page_soup(website_url, max_chars=12000)
+    diag.start_request("news", website_url)
+    text, soup, final_url = await scrape_page_soup(website_url, max_chars=12000, _diag_kind="news")
     base_url = final_url or website_url
 
     if not soup:
+        try:
+            _d = diag._current_diag()
+            if _d:
+                _d["counters"]["news_fetch_failed"] += 1
+        except Exception:
+            pass
         return []
 
     candidate_article_links: List[Tuple[str, str, Optional[str]]] = []
@@ -446,11 +486,18 @@ async def extract_company_news(
                 date_hint = parse_iso_date(link_text)
                 candidate_article_links.append((link_text, full_url, date_hint))
                 seen_urls.add(full_url)
+                try:
+                    _d = diag._current_diag()
+                    if _d:
+                        _d["counters"]["article_links_discovered"] += 1
+                except Exception:
+                    pass
 
     if len(candidate_article_links) < 2:
         for subpath in ["/news", "/nyheter", "/presse", "/aktuelt", "/media", "/press-releases", "/pressemeldinger", "/investor-relations"]:
             sub_url = urllib.parse.urljoin(base_url, subpath)
-            sub_text, sub_soup, sub_final = await scrape_page_soup(sub_url, max_chars=12000)
+            diag.start_request("news", sub_url)
+            sub_text, sub_soup, sub_final = await scrape_page_soup(sub_url, max_chars=12000, _diag_kind="news")
             if not sub_soup:
                 continue
             for a in sub_soup.find_all("a", href=True):
@@ -464,6 +511,12 @@ async def extract_company_news(
                     date_hint = parse_iso_date(link_text)
                     candidate_article_links.append((link_text, full_url, date_hint))
                     seen_urls.add(full_url)
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["article_links_discovered"] += 1
+                    except Exception:
+                        pass
                 if len(candidate_article_links) >= 5:
                     break
             if len(candidate_article_links) >= 3:
@@ -490,8 +543,22 @@ async def extract_company_news(
         if any(seg in GENERIC_NON_NEWS_TERMS or seg.replace("-", " ") in GENERIC_NON_NEWS_TERMS for seg in art_path_segments):
             continue
 
-        art_text, art_soup, _ = await scrape_page_soup(art_url, max_chars=6000)
-        if not art_soup:
+        try:
+            _d = diag._current_diag()
+            if _d:
+                _d["counters"]["news_links_attempted"] += 1
+        except Exception:
+            pass
+
+        diag.start_request("news", art_url)
+        art_text, art_soup, _ = await scrape_page_soup(art_url, max_chars=6000, _diag_kind="news")
+        if not art_soup or not art_text:
+            try:
+                _d = diag._current_diag()
+                if _d:
+                    _d["counters"]["news_fetch_failed"] += 1
+            except Exception:
+                pass
             continue
 
         h1 = art_soup.find("h1")
@@ -554,7 +621,14 @@ async def extract_company_news(
                 "company": company_name,
                 "source_name": f"{company_name} Official News" if is_same_domain else f"Independent News ({art_domain})",
             })
+            try:
+                _d = diag._current_diag()
+                if _d:
+                    _d["counters"]["news_items_extracted"] += 1
+            except Exception:
+                pass
 
+    serpapi_links_discovered = 0
     if not news_items and SERPAPI_KEY:
         external_results = await serp_search(f'"{company_name}" news OR pressemelding', num=3)
         for r in external_results:
@@ -564,7 +638,17 @@ async def extract_company_news(
             if not link or any(skip in link for skip in ["google.", "bing.", "proff.no"]):
                 continue
 
-            art_text = await scrape_page(link, max_chars=4000)
+            serpapi_links_discovered += 1
+
+            try:
+                _d = diag._current_diag()
+                if _d:
+                    _d["counters"]["news_links_attempted"] += 1
+            except Exception:
+                pass
+
+            diag.start_request("news", link)
+            art_text = await scrape_page(link, max_chars=4000, _diag_kind="news")
             if art_text:
                 is_ver, c, _ = verify_company_identity(
                     art_text, org_number, company_name, link,
@@ -582,7 +666,21 @@ async def extract_company_news(
                         "company": company_name,
                         "source_name": f"Independent News ({source_label})",
                     })
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["news_items_extracted"] += 1
+                    except Exception:
+                        pass
                     break
+
+    if not news_items:
+        try:
+            _d = diag._current_diag()
+            if _d and _d["counters"]["article_links_discovered"] == 0 and serpapi_links_discovered == 0:
+                _d["flags"]["no_news_links"] = True
+        except Exception:
+            pass
 
     return news_items
 
@@ -608,24 +706,49 @@ async def extract_company_jobs(
     if not website_url:
         return []
 
-    text, soup, final_url = await scrape_page_soup(website_url, max_chars=12000)
+    diag.start_request("jobs_homepage", website_url)
+    text, soup, final_url = await scrape_page_soup(website_url, max_chars=12000, _diag_kind="jobs_homepage")
     base_url = final_url or website_url
 
     if not soup:
+        try:
+            _d = diag._current_diag()
+            if _d:
+                _d["counters"]["jobs_homepage_failed"] += 1
+        except Exception:
+            pass
         return []
 
     careers_links = []
+    discovered_career_links = []
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
-        link_text = a.get_text(separator=" ", strip=True).lower()
+        raw_label = a.get_text(separator=" ", strip=True)
+        link_text = raw_label.lower()
         if any(k in href.lower() or k in link_text for k in ["career", "karriere", "jobb", "stillinger", "work-with-us", "vacancies"]):
             full_url = urllib.parse.urljoin(base_url, href)
             if full_url not in careers_links:
                 careers_links.append(full_url)
+                discovered_career_links.append({"url": full_url, "label": raw_label})
+
+    try:
+        _d = diag._current_diag()
+        if _d:
+            _d["counters"]["career_links_discovered"] = len(careers_links)
+            _d["career_links"] = discovered_career_links
+    except Exception:
+        pass
 
     if not careers_links:
         for p in ["/careers", "/karriere", "/jobb", "/stillinger"]:
             careers_links.append(urllib.parse.urljoin(base_url, p))
+
+    try:
+        _d = diag._current_diag()
+        if _d:
+            _d["counters"]["career_links_skipped"] = max(0, len(careers_links) - 3)
+    except Exception:
+        pass
 
     for car_url in careers_links[:3]:
         if "myworkdayjobs.com" in car_url:
@@ -634,8 +757,15 @@ async def extract_company_jobs(
                 job_postings.extend(workday_jobs)
                 break
 
-        car_text, car_soup, car_final = await scrape_page_soup(car_url, max_chars=12000)
+        diag.start_request("jobs_homepage", car_url)
+        car_text, car_soup, car_final = await scrape_page_soup(car_url, max_chars=12000, _diag_kind="jobs_homepage")
         if not car_soup or not car_text:
+            try:
+                _d = diag._current_diag()
+                if _d:
+                    _d["counters"]["jobs_homepage_failed"] += 1
+            except Exception:
+                pass
             continue
 
         # Verify careers page itself
@@ -666,8 +796,15 @@ async def extract_company_jobs(
                 parsed_path = urllib.parse.urlparse(job_url).path.strip("/")
                 if "/" in parsed_path and len(job_text) > 8 and not any(skip in job_text.lower() for skip in ["cookie", "privacy", "search"]):
                     seen_urls.add(job_url)
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["job_links_attempted"] += 1
+                    except Exception:
+                        pass
                     # Visit the individual job page to verify it is active and belongs to target company
-                    job_page_text, job_soup, job_final_url = await scrape_page_soup(job_url, max_chars=4000)
+                    diag.start_request("job_page", job_url)
+                    job_page_text, job_soup, job_final_url = await scrape_page_soup(job_url, max_chars=4000, _diag_kind="job_page")
                     if not job_page_text or not job_soup:
                         continue  # Unreachable / non-200 — skip unverifiable vacancy
 
@@ -686,6 +823,12 @@ async def extract_company_jobs(
                         "utgått", "ikke lenger tilgjengelig", "this position has been filled",
                         "job is no longer available",
                     ]):
+                        try:
+                            _d = diag._current_diag()
+                            if _d:
+                                _d["counters"]["expired_postings_detected"] += 1
+                        except Exception:
+                            pass
                         continue  # Expired or closed — exclude
 
                     # Extract employment type, deadline, location without inventing
@@ -709,6 +852,12 @@ async def extract_company_jobs(
                         "company": company_name,
                         "source_name": f"{company_name} Career Portal",
                     })
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["job_postings_extracted"] += 1
+                    except Exception:
+                        pass
                     if len(job_postings) >= 4:
                         break
 
@@ -773,10 +922,34 @@ async def _query_workday_jobs(workday_url: str, company_name: str, org_number: s
         tenant_path = parsed.path.strip("/").split("/")[0]
         api_url = f"https://{host}/wday/cxs/{host.split('.')[0]}/{tenant_path}/jobs"
 
+        diag.start_request("workday_api", api_url, method="POST")
         async with httpx.AsyncClient(timeout=8, headers=HEADERS) as client:
-            resp = await client.post(api_url, json={"appliedFacets": {}, "limit": 4, "offset": 0, "searchText": ""})
+            try:
+                resp = await client.post(api_url, json={"appliedFacets": {}, "limit": 4, "offset": 0, "searchText": ""})
+                try:
+                    diag.end_request("workday_api", api_url, status=resp.status_code)
+                except Exception:
+                    pass
+            except Exception as _post_exc:
+                try:
+                    diag.end_request("workday_api", api_url, exception=_post_exc)
+                except Exception:
+                    pass
+                raise
             if resp.status_code == 200:
                 data = resp.json()
+                job_postings_raw = data.get("jobPostings")
+                if isinstance(job_postings_raw, list):
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["workday_listings_returned"] += len(job_postings_raw)
+                            if len(job_postings_raw) == 0 and _d["counters"]["workday_listings_returned"] == 0:
+                                _d["flags"]["workday_empty_listings"] = True
+                            elif _d["counters"]["workday_listings_returned"] > 0:
+                                _d["flags"]["workday_empty_listings"] = False
+                    except Exception:
+                        pass
                 for j in data.get("jobPostings", [])[:4]:
                     title = j.get("title")
                     ext_path = j.get("externalPath", "")
@@ -799,11 +972,24 @@ async def _query_workday_jobs(workday_url: str, company_name: str, org_number: s
 
                     # STRICT REQUIREMENT: Individual-page verification MUST succeed
                     # If verification fails or raises an exception, do NOT include the vacancy.
+                    diag.start_request("workday_job_get", job_url)
                     try:
                         verify_resp = await client.get(job_url, follow_redirects=True)
-                        if verify_resp.status_code != 200:
-                            continue  # Individual page not accessible (non-200) -> exclude!
-                        
+                        try:
+                            diag.end_request("workday_job_get", job_url, status=verify_resp.status_code)
+                        except Exception:
+                            pass
+                    except Exception as _get_exc:
+                        try:
+                            diag.end_request("workday_job_get", job_url, exception=_get_exc)
+                        except Exception:
+                            pass
+                        continue
+
+                    if verify_resp.status_code != 200:
+                        continue  # Individual page not accessible (non-200) -> exclude!
+
+                    try:
                         page_text = verify_resp.text
                         if org_number:
                             is_v, c_conf, _ = verify_company_identity(
@@ -862,6 +1048,12 @@ async def _query_workday_jobs(workday_url: str, company_name: str, org_number: s
                         if any(closed in page_lower for closed in [
                             "expired", "closed", "no longer", "utgått", "position has been filled", "ikke lenger"
                         ]):
+                            try:
+                                _d = diag._current_diag()
+                                if _d:
+                                    _d["counters"]["expired_postings_detected"] += 1
+                            except Exception:
+                                pass
                             continue  # Expired vacancy -> exclude!
                     except Exception:
                         # Exclude vacancy if individual verification fails or raises exception
@@ -877,6 +1069,12 @@ async def _query_workday_jobs(workday_url: str, company_name: str, org_number: s
                         "company": company_name,
                         "source_name": f"{company_name} Official Workday Portal",
                     })
+                    try:
+                        _d = diag._current_diag()
+                        if _d:
+                            _d["counters"]["job_postings_extracted"] += 1
+                    except Exception:
+                        pass
     except Exception:
         pass
     return jobs

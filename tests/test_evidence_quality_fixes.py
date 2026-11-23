@@ -43,7 +43,7 @@ async def test_follow_us_and_utility_pages_rejected_as_news():
     </body></html>
     """
 
-    async def mock_scrape_page_soup(url, max_chars=12000):
+    async def mock_scrape_page_soup(url, max_chars=12000, _diag_kind=None):
         from bs4 import BeautifulSoup
         if url.endswith("/follow-us"):
             return follow_us_html, BeautifulSoup(follow_us_html, "lxml"), url

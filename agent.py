@@ -30,6 +30,7 @@ from datetime import datetime, date
 from typing import List, Optional, Dict, Any
 
 from models import CompanyProfile, EvidenceItem, AgentRunResult
+import diagnostics as diag
 from brreg_fetcher import fetch_brreg_entity, fetch_brreg_roles, fetch_regnskap
 from web_searcher import (
     scrape_proff,
@@ -185,28 +186,41 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
     # â”€â”€ Input validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     org_str = str(org_number).strip().replace(" ", "")
-    if not (org_str.isdigit() and len(org_str) == 9):
-        steps.append("input_validation_failed")
-        return AgentRunResult(
-            organization_number=str(org_number),
-            success=False,
-            profile=None,
-            error=f"Invalid organization number '{org_number}': must be exactly 9 digits",
-            duration_seconds=round(time.time() - start_time, 2),
-            steps_executed=steps,
-        )
-
-    org_number = org_str
-    all_evidence: List[EvidenceItem] = []
-    merged_data: dict = {"organization_number": org_number}
-    sources_used: List[str] = []
+    is_valid_org = org_str.isdigit() and len(org_str) == 9
+    clean_org = org_str if is_valid_org else str(org_number)
+    _diag, _token = diag.new_diag(clean_org)
 
     try:
+        if not is_valid_org:
+            try:
+                if _diag:
+                    _diag["flags"]["invalid_input"] = True
+            except Exception:
+                pass
+            steps.append("input_validation_failed")
+            return AgentRunResult(
+                organization_number=str(org_number),
+                success=False,
+                profile=None,
+                error=f"Invalid organization number '{org_number}': must be exactly 9 digits",
+                duration_seconds=round(time.time() - start_time, 2),
+                steps_executed=steps,
+            )
+
+        org_number = org_str
+        all_evidence: List[EvidenceItem] = []
+        merged_data: dict = {"organization_number": org_number}
+        sources_used: List[str] = []
         # â”€â”€ STEP 0: Check cache â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         existing = load_profile_any_age(org_number)
         if not force_refresh:
             fresh_existing = load_profile(org_number)
             if fresh_existing:
+                try:
+                    if _diag:
+                        _diag["flags"]["cache_hit"] = True
+                except Exception:
+                    pass
                 steps.append("cache_hit")
                 return AgentRunResult(
                     organization_number=org_number,
@@ -222,6 +236,11 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         brreg_result = await fetch_brreg_entity(org_number)
 
         if "error" in brreg_result and "company_name" not in brreg_result:
+            try:
+                if _diag:
+                    _diag["flags"]["company_not_found"] = True
+            except Exception:
+                pass
             return AgentRunResult(
                 organization_number=org_number,
                 success=False,
@@ -433,6 +452,16 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
 
         save_profile(profile)
 
+        try:
+            _d = diag.DIAG_CTX.get()
+            if _d is not None:
+                has_news = any(e.fact_key == "company_news" for e in cleaned_evidence)
+                has_jobs = any(e.fact_key == "job_posting" for e in cleaned_evidence)
+                if has_news or has_jobs:
+                    _d["counters"]["successful_extraction"] = 1
+        except Exception:
+            pass
+
         return AgentRunResult(
             organization_number=org_number,
             success=True,
@@ -442,6 +471,11 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
         )
 
     except Exception as e:
+        try:
+            if _diag:
+                _diag["flags"]["pipeline_error"] = True
+        except Exception:
+            pass
         steps.append("unhandled_pipeline_error")
         return AgentRunResult(
             organization_number=org_number,
@@ -451,6 +485,19 @@ async def run_pipeline(org_number: str, force_refresh: bool = False) -> AgentRun
             duration_seconds=round(time.time() - start_time, 2),
             steps_executed=steps,
         )
+    finally:
+        try:
+            _d = diag.DIAG_CTX.get()
+            if _d is not None:
+                _d["final_reason"] = diag.final_reason(_d)
+                diag.store(_d)
+        except Exception:
+            pass
+        try:
+            if _token is not None:
+                diag.DIAG_CTX.reset(_token)
+        except Exception:
+            pass
 
 
 async def run_batch(
