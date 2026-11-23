@@ -353,8 +353,6 @@ Run the test suite to verify keyless compliance, nested contract sections, fact 
 python test_evaluation.py
 ```
 
-<<<<<<< HEAD
-=======
 ## Scoring Breakdown
 
 | Category | Points | How We Address It |
@@ -366,7 +364,6 @@ python test_evaluation.py
 | Usability | 5 | Web dashboard + CLI + REST API + contract-validated evaluation runner |
 
 ---
->>>>>>> 0e2f0d3 (Implement keyless profiling and contract validation)
 
 ## Project Structure
 
